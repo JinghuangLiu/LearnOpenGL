@@ -8,8 +8,7 @@
 #import <UIKit/UIKit.h>
 #import <GLKit/GLKit.h>
 
-@interface ViewController : UIViewController <GLKViewDelegate>
-
+@interface ViewController : UIViewController <GLKViewDelegate>  //也可以直接继承GLKViewController
 
 @end
 
