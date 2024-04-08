@@ -74,13 +74,14 @@
     //把顶点数据从cpu内存复制到gpu内存
     glBufferData(GL_ARRAY_BUFFER, sizeof(squareVertexData), squareVertexData, GL_STATIC_DRAW);
     
-    ///开启对应的顶点属性
+    //开启对应的顶点属性（默认关闭）
     glEnableVertexAttribArray(GLKVertexAttribPosition);
-    //设置合适的格式从buffer里面读取数据
+    //从buffer里面读取顶点数据
     glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) *5, (GLfloat *)NULL + 0);
     
-    ///纹理
+    //开启纹理属性（默认关闭）
     glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
+    //从buffer里面读取纹理坐标数据
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) *5, (GLfloat *)NULL + 3);
 }
 
