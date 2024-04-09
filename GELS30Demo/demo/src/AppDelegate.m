@@ -7,6 +7,7 @@
 
 #import "AppDelegate.h"
 #import "RootViewController.h"
+#import "GLESDemoController.h"
 
 @interface AppDelegate ()
 
@@ -21,7 +22,7 @@
     CGRect screenBounds = [[UIScreen mainScreen] bounds] ;
     self.window = [[UIWindow alloc] initWithFrame: screenBounds]; //window的大小始终是垂直方向。
     
-    RootViewController* rootPage = [[RootViewController alloc] init];
+    GLESDemoController* rootPage = [[GLESDemoController alloc] init];
     UINavigationController* navigator = [[UINavigationController alloc] initWithRootViewController:rootPage];
     [navigator setNavigationBarHidden:true];
     
