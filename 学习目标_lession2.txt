@@ -1,0 +1,53 @@
+一、使用OpenGL ES3.0 完成一个demo，不使用引擎。
+学习目的：
+1、掌握3D渲染的基本封装。
+
+实现需求：
+1、定义3D世界的物体基类Object3D，并实现下列函数。
+class Object3D
+{
+	//返回当前这一级模型的变换矩阵。
+	XSMatrix mObjMatrix;
+
+	//子节点数组
+	std::vector<std::shared_ptr<Object3D>>  mChildren;
+	
+	//每一帧的调用入口，递归调用所有子类的LoopOnce。
+	void LoopOnce()
+}
+
+2、定义球形模型
+class Sphere : public Object3D
+{
+	//顶点信息字段
+	std::vector<VertexData> mVertex;
+
+	//索引信息字段
+	std::vector<int>	mVertices;
+
+	//材质
+	std::shared_ptr<Material> mMaterial
+}
+
+3、定义材质对象
+class Material
+{
+	//shader
+	//texture
+}
+
+4、定义相机
+class Camera  : public Object3D
+{
+
+}
+
+5、创建世界
+使用一个Object3D作为3D世界的根节点，添加其他节点。
+然后渲染相机所处的位置的画面。
+场景中构造太阳，地球，月亮三个球体，并实现各球体的自转，公转效果。
+屏幕控制自由切换视角，就像玩FPS一样，前进后退，左移右移，左转右转即可。
+
+知识点问题列表：
+理解基本的3D世界封装的术语：World，Camera，Viewport，fps，Model Tree，Material，
+

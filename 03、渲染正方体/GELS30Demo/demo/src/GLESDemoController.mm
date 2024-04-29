@@ -57,11 +57,22 @@
     [self setupCubeTexture];
     
     //开始渲染
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.034
-                                               target:self
-                                             selector:@selector(tick:)
-                                             userInfo:nil
-                                              repeats:YES];
+//    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.034
+//                                               target:self
+//                                             selector:@selector(tick:)
+//                                             userInfo:nil
+//                                              repeats:YES];
+    
+    //添加手势
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self
+                                                                          action:@selector(gesture:)];
+    [self.view addGestureRecognizer:pan];
+    
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 120, 80, 45)];
+    [btn setTitle:@"自动旋转" forState:UIControlStateNormal];
+    [btn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(click:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
 }
 
 - (void)tick:(id)sender {
@@ -71,6 +82,37 @@
     _zDegree +=  speed;
     
     [self renderLayer];
+}
+
+- (void) gesture:(UIPanGestureRecognizer *)pan {
+    
+    if (pan.state == UIGestureRecognizerStateBegan) {
+        [self stopTime];
+    }
+    
+    CGPoint point = [pan translationInView:self.view];
+    
+    _xDegree -= point.y / 100;
+    _yDegree -= point.x / 100;
+    
+    [self renderLayer];
+}
+
+- (void)click:(UIButton *)sender {
+    if (!myTimer) {
+        myTimer = [NSTimer scheduledTimerWithTimeInterval:0.034
+                                                   target:self
+                                                 selector:@selector(tick:)
+                                                 userInfo:nil
+                                                  repeats:YES];
+    } else {
+        [self stopTime];
+    }
+}
+
+- (void) stopTime {
+    [myTimer invalidate];
+    myTimer = nil;
 }
 
 - (void)setupContextAndRenderView {
@@ -137,9 +179,7 @@
     glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    
-    //绑定纹理到默认的纹理ID
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
 }
 
 - (void)setupVectex {
@@ -320,7 +360,8 @@
     glLinkProgram(self.myProgram);
     GLint linkSuccess;
     glGetProgramiv(self.myProgram, GL_LINK_STATUS, &linkSuccess);
-    if (linkSuccess == GL_FALSE) { //连接错误
+    if (linkSuccess == GL_FALSE) { 
+        //连接错误
         GLchar messages[256];
         glGetProgramInfoLog(self.myProgram, sizeof(messages), 0, &messages[0]);
         NSString *messageString = [NSString stringWithUTF8String:messages];
