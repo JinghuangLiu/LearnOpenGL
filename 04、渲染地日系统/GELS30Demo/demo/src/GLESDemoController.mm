@@ -56,7 +56,7 @@
     [self setupVectex];
     
     //设置纹理
-    [self setupCubeTexture];
+//    [self setupCubeTexture];
     
     //开始渲染
     myTimer = [NSTimer scheduledTimerWithTimeInterval:0.034
@@ -67,10 +67,10 @@
 }
 
 - (void)tick:(id)sender {
-    int speed = 5;
-    _xDegree += speed;
-    _yDegree +=  speed;
-    _zDegree +=  speed;
+//    int speed = 5;
+//    _xDegree += speed;
+//    _yDegree +=  speed;
+//    _zDegree +=  speed;
     
     [self renderLayer];
 }
@@ -148,6 +148,16 @@
     glGenBuffers(1, &attrBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(sphereVerts), sphereVerts, GL_DYNAMIC_DRAW);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(testVerts), testVerts, GL_DYNAMIC_DRAW);
+    
+//    glGenBuffers(1, &attrBuffer);
+//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereNormals), sphereNormals, GL_DYNAMIC_DRAW);
+//    
+//    glGenBuffers(1, &attrBuffer);
+//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
+//    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
+    
 }
 
 - (void)renderLayer {
@@ -157,15 +167,15 @@
     
     GLuint position = glGetAttribLocation(self.myProgram, "position");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 9, NULL);
+    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
     
-    GLuint positionColor = glGetAttribLocation(self.myProgram, "positionColor");
-    glEnableVertexAttribArray(positionColor);
-    glVertexAttribPointer(positionColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 9, (GLvoid *)(sizeof(GLfloat) * 3));
-    
-    GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
-    glEnableVertexAttribArray(textCoor);
-    glVertexAttribPointer(textCoor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 9, (GLvoid *)(sizeof(GLfloat) * 6));
+//    GLuint positionColor = glGetAttribLocation(self.myProgram, "positionColor");
+//    glEnableVertexAttribArray(positionColor);
+//    glVertexAttribPointer(positionColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
+//    
+//    GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
+//    glEnableVertexAttribArray(textCoor);
+//    glVertexAttribPointer(textCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
     
     GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
     GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
@@ -210,29 +220,8 @@
     //2.3、传递给着色器程序
     glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
     
-    GLuint indices[] = {
-        // 前面
-        0, 1, 2,
-        0, 2, 3,
-        // 后面
-        4, 6, 5,
-        4, 7, 6,
-        // 左面
-        8, 9, 11,
-        8, 11, 10,
-        // 右面
-        12, 13, 14,
-        12, 14, 15,
-        // 上面
-        16, 17, 18,
-        16, 18, 19,
-        // 下面
-        20, 22, 23,
-        20, 23, 21,
-    };
-    
-    glDrawElements(GL_TRIANGLES, sizeof(indices) / sizeof(indices[0]), GL_UNSIGNED_INT, indices);
-    
+    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+//    glDrawArrays(GL_TRIANGLES, 0, sizeof(testVerts) / sizeof(testVerts[0]));
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
@@ -271,6 +260,17 @@
     *shader = glCreateShader(type);
     glShaderSource(*shader, 1, &source, NULL);
     glCompileShader(*shader);
+    GLint compileSuccess;
+    glGetProgramiv(self.myProgram, GL_COMPILE_STATUS, &compileSuccess);
+    
+    if (compileSuccess == GL_FALSE) {
+        GLchar messages[256];
+        glGetProgramInfoLog(self.myProgram, sizeof(messages), 0, &messages[0]);
+        NSString *messageString = [NSString stringWithUTF8String:messages];
+        NSLog(@"compile error : %@", messageString);
+    } else {
+        NSLog(@"compile successfully.");
+    }
 }
 
 - (void)compileAndLinkShader {

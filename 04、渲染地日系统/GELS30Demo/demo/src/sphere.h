@@ -11,6 +11,26 @@ texture coords : 390
 
 unsigned int sphereNumVerts = 1944;
 
+float testVerts [] = {
+    //右下
+    0.8f, -0.25f, -1.00f,
+    
+    //右上
+    0.8f, 0.25f, -1.00f,
+    
+    //左上
+    -0.8f, 0.25f, -1.00f,
+    
+    //右下
+    0.8f, -0.25f, -1.00f,
+    
+    //左上
+    -0.8f, 0.25f, -1.00f,
+    
+    //左下
+    -0.8f, -0.25f, -1.00f,
+};
+
 #pragma mark - 顶点
 float sphereVerts [] = {
   // f 28/1/1 1/2/2 21/3/3
