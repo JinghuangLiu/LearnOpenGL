@@ -34,11 +34,14 @@
 @property (nonatomic, assign) float xDegree;
 @property (nonatomic, assign) float yDegree;
 @property (nonatomic, assign) float zDegree;
-@property (nonatomic, assign) BOOL bX;
-@property (nonatomic, assign) BOOL bY;
-@property (nonatomic, assign) BOOL bZ;
 
 //@property (nonatomic, assign) GLuint texture;
+
+//地球旋转角度
+@property (nonatomic) GLfloat earthRotationAngleDegrees;
+
+//月球旋转角度
+@property (nonatomic) GLfloat moonRotationAngleDegrees;
 
 @end
 
@@ -47,6 +50,17 @@
     GLuint attrBuffer;
     GLuint vertexNormalBuffer;
 }
+
+//地球倾斜角度
+static const GLfloat  SceneEarthAxialTiltDeg = 23.5f;
+//月球绕地球一周的周期
+static const GLfloat  SceneDaysPerMoonOrbit = 3.0f;
+//static const GLfloat  SceneDaysPerMoonOrbit = 28.0f;
+//月球的缩放
+static const GLfloat  SceneMoonRadiusFractionOfEarth = 0.25;
+//地球和月球的距离
+static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -65,7 +79,7 @@
     [self setTexture];
     
     //开始渲染
-    myTimer = [NSTimer scheduledTimerWithTimeInterval:0.034
+    myTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
                                                target:self
                                              selector:@selector(tick:)
                                              userInfo:nil
@@ -77,6 +91,11 @@
     _xDegree += speed;
     _yDegree +=  speed;
     _zDegree +=  speed;
+    
+    //2秒旋转360度
+    self.earthRotationAngleDegrees += 360.0f / 60.0f;
+    //2秒旋转360度/除以28天
+    self.moonRotationAngleDegrees += (360.0f / 60.0f) / SceneDaysPerMoonOrbit;
     
     [self renderLayer];
 }
@@ -203,12 +222,6 @@
     glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
     
-    
-//    GLuint EBO;
-//    glGenBuffers(1, &EBO);
-//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-    
 }
 
 - (void) setTexture {
@@ -271,57 +284,47 @@
     //长宽比
     float aspect = width / height;
     //1.2、透视变换，视角30°
-    ksPerspective(&_projectionMatrix, 30.0, aspect, 5.0f, 20.0f);
+//    ksPerspective(&_projectionMatrix, 30.0, aspect, 5.0f, 20.0f);
+    ksPerspective(&_projectionMatrix, 50, aspect, 5.0f, 20.0f);
     
     //1.3、传递给着色器程序
     glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
     
     //启用面剔除
     glEnable(GL_CULL_FACE);
+    glEnable(GL_DEPTH_TEST);
     
     KSMatrix4 _viewMatrix;
     ksMatrixLoadIdentity(&_viewMatrix);
     ksTranslate(&_viewMatrix, 0.0, 0.0, -6);
-    ksRotate(&_viewMatrix, _yDegree, 1.0, 0.0, 0.0);
+//    ksRotate(&_viewMatrix, _yDegree, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
     
+    //地球
     KSMatrix4 _modelMatrix;
     ksMatrixLoadIdentity(&_modelMatrix);
-    ksScale(&_modelMatrix, 0.5, 0.5, 0.5);
-    ksTranslate(&_modelMatrix, 0, 0, 0);
+    //倾斜旋转：SceneEarthAxialTiltDeg是固定值
+//    ksRotate(&_modelMatrix, SceneEarthAxialTiltDeg, 0.0, 1.0, 0.0);
+//    ksScale(&_modelMatrix, 0.5, 0.5, 0.5);
+//    ksTranslate(&_modelMatrix, 0, 0, 0);
+    //自转
+    ksRotate(&_modelMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelMatrix.m[0][0]);
-    
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
+    //月球
     KSMatrix4 _modelMatrix2;
     ksMatrixLoadIdentity(&_modelMatrix2);
-    ksTranslate(&_modelMatrix2, 0, 0.5, -1.0);
+    //自转，月球自转和公转周期非常接近
+    ksRotate(&_modelMatrix2, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+//    ksTranslate(&_modelMatrix2, 0, 0.5, -1.0);
+    ksTranslate(&_modelMatrix2, 0, 0.0, 1.0);
     ksScale(&_modelMatrix2, 0.3, 0.3, 0.3);
-    ksRotate(&_modelMatrix2, _xDegree, 1.0, 0.0, 0.0); //绕X轴
+    //公转
+    ksRotate(&_modelMatrix2, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelMatrix2.m[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
-    //2、模型视图矩阵
-    //2.1、模型视图矩阵的构造
-//    KSMatrix4 _modelViewMatrix;
-//    ksMatrixLoadIdentity(&_modelViewMatrix);
-//
-//    //平移
-//    ksTranslate(&_modelViewMatrix, 0.0, 0.0, -6.0);
-//
-//    //旋转
-//    KSMatrix4 _rotationMatrix;
-//    ksMatrixLoadIdentity(&_rotationMatrix);
-//    ksRotate(&_rotationMatrix, _xDegree, 1.0, 0.0, 0.0); //绕X轴
-//    ksRotate(&_rotationMatrix, _yDegree, 0.0, 1.0, 0.0); //绕Y轴
-//    ksRotate(&_rotationMatrix, _zDegree, 0.0, 0.0, 1.0); //绕Z轴
-//
-//    //2.2、变换矩阵相乘
-//    ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
-//
-//    //2.3、传递给着色器程序
-//    glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
-    
-//    glDrawArrays(GL_TRIANGLES, 0, sizeof(testVerts) / sizeof(testVerts[0]));
+
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
