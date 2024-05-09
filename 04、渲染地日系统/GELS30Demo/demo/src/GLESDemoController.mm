@@ -315,12 +315,12 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //月球
     KSMatrix4 _modelMatrix2;
     ksMatrixLoadIdentity(&_modelMatrix2);
-    //自转，月球自转和公转周期非常接近
+    //公转
     ksRotate(&_modelMatrix2, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
 //    ksTranslate(&_modelMatrix2, 0, 0.5, -1.0);
     ksTranslate(&_modelMatrix2, 0, 0.0, 1.0);
     ksScale(&_modelMatrix2, 0.3, 0.3, 0.3);
-    //公转
+    //自转，月球自转和公转周期非常接近
     ksRotate(&_modelMatrix2, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelMatrix2.m[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
