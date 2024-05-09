@@ -56,7 +56,7 @@
     [self setupVectex];
     
     //设置纹理
-//    [self setupCubeTexture];
+    [self setupCubeTexture];
     
     //开始渲染
     myTimer = [NSTimer scheduledTimerWithTimeInterval:0.034
@@ -105,34 +105,37 @@
     NSString *fileName;
     
     //绑定纹理到默认的纹理ID
-    glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+    //Generation, bind, and copy data into a new texture buffer
+    GLuint      textureBufferID;
+    glGenTextures(1, &textureBufferID);
+    glBindTexture(GL_TEXTURE_2D, textureBufferID);
     
-    for (int i = 0; i < 6; i++) {
+//    for (int i = 0; i < 6; i++) {
         
-        fileName = [NSString stringWithFormat:@"texture0%@.png",@(i)];
-        
-        //1、获取图片的CGImageRef
-        CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-        if (!spriteImage) {
-            NSLog(@"Failed to load image %@", fileName);
-            exit(1);
-        }
-        
-        //2、读取图片的大小
-        size_t width = 512;
-        size_t height = 512;
-        GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
-        CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4, CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
-        
-        //3、在CGContextRef上绘图
-        CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
-        CGContextRelease(spriteContext);
-        
-        float fw = width, fh = height;
-        glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-        
-        free(spriteData);
+    fileName = [NSString stringWithFormat:@"Moon256x128.png"];
+    
+    //1、获取图片的CGImageRef
+    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
+    if (!spriteImage) {
+        NSLog(@"Failed to load image %@", fileName);
+        exit(1);
     }
+    
+    //2、读取图片的大小
+    size_t width = 256;
+    size_t height = 128;
+    GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
+    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4, CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
+    
+    //3、在CGContextRef上绘图
+    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
+    CGContextRelease(spriteContext);
+    
+    float fw = width, fh = height;
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    
+    free(spriteData);
+//    }
     
     //设置纹理属性
     glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
@@ -153,10 +156,11 @@
 //    glGenBuffers(1, &attrBuffer);
 //    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
 //    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereNormals), sphereNormals, GL_DYNAMIC_DRAW);
-//    
-//    glGenBuffers(1, &attrBuffer);
-//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
+    
+    GLuint attrTextureBuffer;
+    glGenBuffers(1, &attrTextureBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
     
 }
 
@@ -165,17 +169,20 @@
     glClearColor(1, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
+    glBindBuffer(GL_ARRAY_BUFFER, 1);
     GLuint position = glGetAttribLocation(self.myProgram, "position");
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
+
     
 //    GLuint positionColor = glGetAttribLocation(self.myProgram, "positionColor");
 //    glEnableVertexAttribArray(positionColor);
 //    glVertexAttribPointer(positionColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
-//    
-//    GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
-//    glEnableVertexAttribArray(textCoor);
-//    glVertexAttribPointer(textCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
+//
+    glBindBuffer(GL_ARRAY_BUFFER, 1);
+    GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
+    glEnableVertexAttribArray(textCoor);
+    glVertexAttribPointer(textCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
     
     GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
     GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
