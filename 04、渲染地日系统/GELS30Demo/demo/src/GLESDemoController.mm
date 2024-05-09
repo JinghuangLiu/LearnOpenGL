@@ -38,9 +38,15 @@
 @property (nonatomic, assign) BOOL bY;
 @property (nonatomic, assign) BOOL bZ;
 
+//@property (nonatomic, assign) GLuint texture;
+
 @end
 
-@implementation GLESDemoController
+@implementation GLESDemoController {
+    GLuint attrTextureBuffer;
+    GLuint attrBuffer;
+    GLuint vertexNormalBuffer;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -56,7 +62,7 @@
     [self setupVectex];
     
     //设置纹理
-    [self setupCubeTexture];
+    [self setTexture];
     
     //开始渲染
     myTimer = [NSTimer scheduledTimerWithTimeInterval:0.034
@@ -67,10 +73,10 @@
 }
 
 - (void)tick:(id)sender {
-//    int speed = 5;
-//    _xDegree += speed;
-//    _yDegree +=  speed;
-//    _zDegree +=  speed;
+    int speed = 5;
+    _xDegree += speed;
+    _yDegree +=  speed;
+    _zDegree +=  speed;
     
     [self renderLayer];
 }
@@ -112,7 +118,7 @@
     
 //    for (int i = 0; i < 6; i++) {
         
-    fileName = [NSString stringWithFormat:@"Moon256x128.png"];
+    fileName = [NSString stringWithFormat:@"Earth512x256.jpg"];
     
     //1、获取图片的CGImageRef
     CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
@@ -122,8 +128,8 @@
     }
     
     //2、读取图片的大小
-    size_t width = 256;
-    size_t height = 128;
+    size_t width = 512;
+    size_t height = 256;
     GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
     CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4, CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
     
@@ -145,47 +151,115 @@
 
 }
 
+- (void) updateTexture {
+    NSString *fileName = @"Earth512x256.jpg";
+//    if (_times > 0) {
+//       fileName = @"pic2.jpeg";
+//    }else {
+//        fileName = @"texture0.png";
+//    }
+    CGImageRef imageRef = [UIImage imageNamed:fileName].CGImage;
+    if (!imageRef) {
+        NSLog(@"Failed to load image %@", fileName);
+        exit(1);
+    }
+
+    // 2 读取图片的大小
+    size_t width = 512;
+    size_t height = 512;
+
+    GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
+
+    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
+                                                       CGImageGetColorSpace(imageRef), kCGImageAlphaPremultipliedLast);
+
+    // 3在CGContextRef上绘图
+    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), imageRef);
+
+    CGContextRelease(spriteContext);
+
+    float fw = width, fh = height;
+        
+    // 生成图片纹理
+    //        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, fw, fh, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    free(spriteData);
+}
+
 - (void)setupVectex {
     
-    GLuint attrBuffer;
+    
     glGenBuffers(1, &attrBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(sphereVerts), sphereVerts, GL_DYNAMIC_DRAW);
 //    glBufferData(GL_ARRAY_BUFFER, sizeof(testVerts), testVerts, GL_DYNAMIC_DRAW);
     
-//    glGenBuffers(1, &attrBuffer);
-//    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereNormals), sphereNormals, GL_DYNAMIC_DRAW);
+    glGenBuffers(1, &vertexNormalBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexNormalBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereNormals), sphereNormals, GL_DYNAMIC_DRAW);
     
-    GLuint attrTextureBuffer;
+
     glGenBuffers(1, &attrTextureBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
     
+    
+//    GLuint EBO;
+//    glGenBuffers(1, &EBO);
+//    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+    
+}
+
+- (void) setTexture {
+    glActiveTexture(GL_TEXTURE0);
+    // 生成纹理ID
+    GLuint texture;
+    glGenTextures(1, &texture);
+    // 绑定纹理
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    //
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    glUniform1i(glGetUniformLocation(_myProgram, "ourTexture"), 0);
+//    self.texture = texture;
 }
 
 - (void)renderLayer {
     
     glClearColor(1, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    
-    glBindBuffer(GL_ARRAY_BUFFER, 1);
+    [self updateTexture];
+
+    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
     GLuint position = glGetAttribLocation(self.myProgram, "position");
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
 
     
-//    GLuint positionColor = glGetAttribLocation(self.myProgram, "positionColor");
-//    glEnableVertexAttribArray(positionColor);
-//    glVertexAttribPointer(positionColor, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
-//
-    glBindBuffer(GL_ARRAY_BUFFER, 1);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexNormalBuffer);
+    GLuint vertexNormal = glGetAttribLocation(self.myProgram, "vertexNormal");
+    glEnableVertexAttribArray(vertexNormal);
+    glVertexAttribPointer(vertexNormal, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
+
+    glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
     GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
     glEnableVertexAttribArray(textCoor);
     glVertexAttribPointer(textCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
     
     GLuint projectionMatrixSlot = glGetUniformLocation(self.myProgram, "projectionMatrix");
     GLuint modelViewMatrixSlot = glGetUniformLocation(self.myProgram, "modelViewMatrix");
+    
+    GLuint modelMatrixSlot = glGetUniformLocation(self.myProgram, "model");
+    GLuint viewMatrixSlot = glGetUniformLocation(self.myProgram, "view");
     
     float width = self.view.frame.size.width;
     float height = self.view.frame.size.height;
@@ -205,29 +279,48 @@
     //启用面剔除
     glEnable(GL_CULL_FACE);
     
+    KSMatrix4 _viewMatrix;
+    ksMatrixLoadIdentity(&_viewMatrix);
+    ksTranslate(&_viewMatrix, 0.0, 0.0, -6);
+    ksRotate(&_viewMatrix, _yDegree, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
     
-    //2、模型视图矩阵
-    //2.1、模型视图矩阵的构造
-    KSMatrix4 _modelViewMatrix;
-    ksMatrixLoadIdentity(&_modelViewMatrix);
-    
-    //平移
-    ksTranslate(&_modelViewMatrix, 0.0, 0.0, -10.0);
-    
-    //旋转
-    KSMatrix4 _rotationMatrix;
-    ksMatrixLoadIdentity(&_rotationMatrix);
-    ksRotate(&_rotationMatrix, _xDegree, 1.0, 0.0, 0.0); //绕X轴
-    ksRotate(&_rotationMatrix, _yDegree, 0.0, 1.0, 0.0); //绕Y轴
-    ksRotate(&_rotationMatrix, _zDegree, 0.0, 0.0, 1.0); //绕Z轴
-    
-    //2.2、变换矩阵相乘
-    ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
-    
-    //2.3、传递给着色器程序
-    glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
+    KSMatrix4 _modelMatrix;
+    ksMatrixLoadIdentity(&_modelMatrix);
+    ksScale(&_modelMatrix, 0.5, 0.5, 0.5);
+    ksTranslate(&_modelMatrix, 0, 0, 0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelMatrix.m[0][0]);
     
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+    
+    KSMatrix4 _modelMatrix2;
+    ksMatrixLoadIdentity(&_modelMatrix2);
+    ksTranslate(&_modelMatrix2, 0, 0.5, -1.0);
+    ksScale(&_modelMatrix2, 0.3, 0.3, 0.3);
+    ksRotate(&_modelMatrix2, _xDegree, 1.0, 0.0, 0.0); //绕X轴
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelMatrix2.m[0][0]);
+    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+    //2、模型视图矩阵
+    //2.1、模型视图矩阵的构造
+//    KSMatrix4 _modelViewMatrix;
+//    ksMatrixLoadIdentity(&_modelViewMatrix);
+//
+//    //平移
+//    ksTranslate(&_modelViewMatrix, 0.0, 0.0, -6.0);
+//
+//    //旋转
+//    KSMatrix4 _rotationMatrix;
+//    ksMatrixLoadIdentity(&_rotationMatrix);
+//    ksRotate(&_rotationMatrix, _xDegree, 1.0, 0.0, 0.0); //绕X轴
+//    ksRotate(&_rotationMatrix, _yDegree, 0.0, 1.0, 0.0); //绕Y轴
+//    ksRotate(&_rotationMatrix, _zDegree, 0.0, 0.0, 1.0); //绕Z轴
+//
+//    //2.2、变换矩阵相乘
+//    ksMatrixMultiply(&_modelViewMatrix, &_rotationMatrix, &_modelViewMatrix);
+//
+//    //2.3、传递给着色器程序
+//    glUniformMatrix4fv(modelViewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelViewMatrix.m[0][0]);
+    
 //    glDrawArrays(GL_TRIANGLES, 0, sizeof(testVerts) / sizeof(testVerts[0]));
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
 }
@@ -293,7 +386,7 @@
     glLinkProgram(self.myProgram);
     GLint linkSuccess;
     glGetProgramiv(self.myProgram, GL_LINK_STATUS, &linkSuccess);
-    if (linkSuccess == GL_FALSE) { 
+    if (linkSuccess == GL_FALSE) {
         //连接错误
         GLchar messages[256];
         glGetProgramInfoLog(self.myProgram, sizeof(messages), 0, &messages[0]);
