@@ -17,6 +17,7 @@
 		483C4BDB2BC4E3A4008A6C47 /* GLESUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 483C4BD82BC4E3A4008A6C47 /* GLESUtils.m */; };
 		489130D12BE0BFB800012736 /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 489130CF2BE0BFB700012736 /* Earth512x256.jpg */; };
 		489130D22BE0BFB800012736 /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 489130D02BE0BFB800012736 /* Moon256x128.png */; };
+		48B7C9312BEDC1D000B3E21E /* sun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48B7C9302BEDC1D000B3E21E /* sun.jpg */; };
 		48E6EE622BBBB5AF001DBE3A /* texture00.png in Resources */ = {isa = PBXBuildFile; fileRef = 48E6EE602BBBB5AF001DBE3A /* texture00.png */; };
 		48E6EE632BBBB5AF001DBE3A /* texture01.png in Resources */ = {isa = PBXBuildFile; fileRef = 48E6EE612BBBB5AF001DBE3A /* texture01.png */; };
 		BAAB56C528B84EE200AE50B5 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAB56C428B84EE200AE50B5 /* GLKit.framework */; };
@@ -64,6 +65,7 @@
 		489130CE2BE0BE0600012736 /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
 		489130CF2BE0BFB700012736 /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
 		489130D02BE0BFB800012736 /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
+		48B7C9302BEDC1D000B3E21E /* sun.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = sun.jpg; path = "../../../../../AR-solar-system-main/ARSolarPlay/art.scnassets/earth/sun.jpg"; sourceTree = "<group>"; };
 		48E6EE602BBBB5AF001DBE3A /* texture00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture00.png; sourceTree = "<group>"; };
 		48E6EE612BBBB5AF001DBE3A /* texture01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture01.png; sourceTree = "<group>"; };
 		BAAB563928B84DE700AE50B5 /* demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -133,6 +135,7 @@
 		489130CD2BE0BDA700012736 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				48B7C9302BEDC1D000B3E21E /* sun.jpg */,
 				489130CF2BE0BFB700012736 /* Earth512x256.jpg */,
 				489130D02BE0BFB800012736 /* Moon256x128.png */,
 			);
@@ -313,6 +316,7 @@
 				48E6EE632BBBB5AF001DBE3A /* texture01.png in Resources */,
 				4837EF6E2BC54B000070DAA1 /* texture03.png in Resources */,
 				489130D22BE0BFB800012736 /* Moon256x128.png in Resources */,
+				48B7C9312BEDC1D000B3E21E /* sun.jpg in Resources */,
 				483C4BD22BC4D613008A6C47 /* shaderf.fsh in Resources */,
 				BAE685522BBA97EB00A42F42 /* LaunchScreen.storyboard in Resources */,
 				48E6EE622BBBB5AF001DBE3A /* texture00.png in Resources */,

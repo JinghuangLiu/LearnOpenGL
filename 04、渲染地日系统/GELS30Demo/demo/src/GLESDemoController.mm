@@ -76,7 +76,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     [self setupVectex];
     
     //设置纹理
-    [self setTexture];
+    [self setupTexture];
     
     //开始渲染
     myTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
@@ -87,10 +87,6 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
 }
 
 - (void)tick:(id)sender {
-    int speed = 5;
-    _xDegree += speed;
-    _yDegree +=  speed;
-    _zDegree +=  speed;
     
     //2秒旋转360度
     self.earthRotationAngleDegrees += 360.0f / 60.0f;
@@ -125,132 +121,86 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
                self.view.frame.size.height * scale);
 }
 
-- (void)setupCubeTexture {
+- (void)setupVectex {
+    //顶点
+    glGenBuffers(1, &attrBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereVerts), sphereVerts, GL_DYNAMIC_DRAW);
     
-    NSString *fileName;
+    //法向量
+    glGenBuffers(1, &vertexNormalBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, vertexNormalBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereNormals), sphereNormals, GL_DYNAMIC_DRAW);
     
-    //绑定纹理到默认的纹理ID
-    //Generation, bind, and copy data into a new texture buffer
-    GLuint      textureBufferID;
-    glGenTextures(1, &textureBufferID);
-    glBindTexture(GL_TEXTURE_2D, textureBufferID);
-    
-//    for (int i = 0; i < 6; i++) {
-        
-    fileName = [NSString stringWithFormat:@"Earth512x256.jpg"];
-    
-    //1、获取图片的CGImageRef
-    CGImageRef spriteImage = [UIImage imageNamed:fileName].CGImage;
-    if (!spriteImage) {
-        NSLog(@"Failed to load image %@", fileName);
-        exit(1);
-    }
-    
-    //2、读取图片的大小
-    size_t width = 512;
-    size_t height = 256;
-    GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
-    CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4, CGImageGetColorSpace(spriteImage), kCGImageAlphaPremultipliedLast);
-    
-    //3、在CGContextRef上绘图
-    CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), spriteImage);
-    CGContextRelease(spriteContext);
-    
-    float fw = width, fh = height;
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    
-    free(spriteData);
-//    }
-    
-    //设置纹理属性
-    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri( GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
+    //纹理坐标
+    glGenBuffers(1, &attrTextureBuffer);
+    glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
 }
 
-- (void) updateTexture {
+- (void)setTexture {
+    
+    glActiveTexture(GL_TEXTURE0);
+    //生成纹理ID
+    GLuint texture;
+    glGenTextures(1, &texture);
+    //绑定纹理
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    
+    glUniform1i(glGetUniformLocation(_myProgram, "ourTexture"), 0);
+}
+
+- (void)setupTexture {
+    
+    //加载图片
     NSString *fileName = @"Earth512x256.jpg";
-//    if (_times > 0) {
-//       fileName = @"pic2.jpeg";
-//    }else {
-//        fileName = @"texture0.png";
-//    }
     CGImageRef imageRef = [UIImage imageNamed:fileName].CGImage;
     if (!imageRef) {
         NSLog(@"Failed to load image %@", fileName);
         exit(1);
     }
-
-    // 2 读取图片的大小
     size_t width = 512;
-    size_t height = 512;
-
+    size_t height = 256;
     GLubyte * spriteData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte)); //rgba共4个byte
-
     CGContextRef spriteContext = CGBitmapContextCreate(spriteData, width, height, 8, width*4,
                                                        CGImageGetColorSpace(imageRef), kCGImageAlphaPremultipliedLast);
-
-    // 3在CGContextRef上绘图
+    //在CGContextRef上绘图
     CGContextDrawImage(spriteContext, CGRectMake(0, 0, width, height), imageRef);
-
     CGContextRelease(spriteContext);
-
-    float fw = width, fh = height;
-        
-    // 生成图片纹理
-    //        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, fw, fh, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
-    glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, fw, fh, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    
+    //纹理（参考：https://learnopengl-cn.github.io/01%20Getting%20started/06%20Textures/）
+    //生成纹理ID
+    GLuint texture;
+    glGenTextures(1, &texture);
+    //绑定纹理
+    glBindTexture(GL_TEXTURE_2D, texture);
+    
+    //为当前绑定的纹理对象设置环绕、过滤方式
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    
+    //生成图片纹理
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
+    glGenerateMipmap(GL_TEXTURE_2D);
+    
+    //把纹理数据传给着色器
+    glUniform1i(glGetUniformLocation(_myProgram, "ourTexture"), 0);
+    
+    //释放图片数据
     free(spriteData);
 }
 
-- (void)setupVectex {
-    
-    
-    glGenBuffers(1, &attrBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereVerts), sphereVerts, GL_DYNAMIC_DRAW);
-//    glBufferData(GL_ARRAY_BUFFER, sizeof(testVerts), testVerts, GL_DYNAMIC_DRAW);
-    
-    glGenBuffers(1, &vertexNormalBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, vertexNormalBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereNormals), sphereNormals, GL_DYNAMIC_DRAW);
-    
-
-    glGenBuffers(1, &attrTextureBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
-    
-}
-
-- (void) setTexture {
-    glActiveTexture(GL_TEXTURE0);
-    // 生成纹理ID
-    GLuint texture;
-    glGenTextures(1, &texture);
-    // 绑定纹理
-    glBindTexture(GL_TEXTURE_2D, texture);
-    
-    //
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 512, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    glUniform1i(glGetUniformLocation(_myProgram, "ourTexture"), 0);
-//    self.texture = texture;
-}
 
 - (void)renderLayer {
     
     glClearColor(1, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-    [self updateTexture];
+    
 
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
     GLuint position = glGetAttribLocation(self.myProgram, "position");
@@ -283,8 +233,9 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     ksMatrixLoadIdentity(&_projectionMatrix);
     //长宽比
     float aspect = width / height;
+//    float aspect = height / width;
     //1.2、透视变换，视角30°
-//    ksPerspective(&_projectionMatrix, 30.0, aspect, 5.0f, 20.0f);
+//    ksPerspective(&_projectionMatrix, 60.0, aspect, 5.0f, 20.0f);
     ksPerspective(&_projectionMatrix, 50, aspect, 5.0f, 20.0f);
     
     //1.3、传递给着色器程序
@@ -292,33 +243,45 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     
     //启用面剔除
     glEnable(GL_CULL_FACE);
+    //深度测试
     glEnable(GL_DEPTH_TEST);
+//    glDepthFunc(GL_LESS);
     
     KSMatrix4 _viewMatrix;
     ksMatrixLoadIdentity(&_viewMatrix);
-    ksTranslate(&_viewMatrix, 0.0, 0.0, -6);
-//    ksRotate(&_viewMatrix, _yDegree, 1.0, 0.0, 0.0);
+    ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
+    //换个视角看
+//    ksRotate(&_viewMatrix, 15, 0.0, 1.0, 0.0);
     glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
     
-    //地球
+    //🌞太阳
+//    KSMatrix4 _sunMatrix;
+//    ksMatrixLoadIdentity(&_sunMatrix);
+//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
+//    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+    
+    
+    
+    
+    //🌍地球
     KSMatrix4 _modelMatrix;
     ksMatrixLoadIdentity(&_modelMatrix);
     //倾斜旋转：SceneEarthAxialTiltDeg是固定值
 //    ksRotate(&_modelMatrix, SceneEarthAxialTiltDeg, 0.0, 1.0, 0.0);
+//    ksTranslate(&_modelMatrix, 0, 0, -3.0);
 //    ksScale(&_modelMatrix, 0.5, 0.5, 0.5);
-//    ksTranslate(&_modelMatrix, 0, 0, 0);
     //自转
     ksRotate(&_modelMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelMatrix.m[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
-    //月球
+    //🌕月球
     KSMatrix4 _modelMatrix2;
     ksMatrixLoadIdentity(&_modelMatrix2);
     //公转
     ksRotate(&_modelMatrix2, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
 //    ksTranslate(&_modelMatrix2, 0, 0.5, -1.0);
-    ksTranslate(&_modelMatrix2, 0, 0.0, 1.0);
+    ksTranslate(&_modelMatrix2, 0, 0.0, -2.0);
     ksScale(&_modelMatrix2, 0.3, 0.3, 0.3);
     //自转，月球自转和公转周期非常接近
     ksRotate(&_modelMatrix2, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);

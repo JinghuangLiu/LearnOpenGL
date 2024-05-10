@@ -1,5 +1,4 @@
 varying mediump vec2 varyTextCoord; //顶点着色器传递过来的纹理坐标
-//uniform samplerCube ourTexture;
 uniform sampler2D ourTexture;
 void main()
 {
