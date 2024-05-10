@@ -82,10 +82,11 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
 
 - (void)tick:(id)sender {
     
-    //2秒旋转360度
-    self.earthRotationAngleDegrees += 360.0f / 60.0f;
+    float degress = 360.0f / 180.0f;
+    //6秒旋转360度
+    self.earthRotationAngleDegrees += degress;
     //2秒旋转360度/除以28天
-    self.moonRotationAngleDegrees += (360.0f / 60.0f) / SceneDaysPerMoonOrbit;
+    self.moonRotationAngleDegrees += degress / SceneDaysPerMoonOrbit;
     
     [self renderLayer];
 }
@@ -239,34 +240,33 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     
     //3.模型矩阵
     //🌞太阳
-//    KSMatrix4 _sunMatrix;
-//    ksMatrixLoadIdentity(&_sunMatrix);
-//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
-//    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+    KSMatrix4 _sunMatrix;
+    ksMatrixLoadIdentity(&_sunMatrix);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
+    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌍地球
-    KSMatrix4 _modelMatrix;
-    ksMatrixLoadIdentity(&_modelMatrix);
-    //倾斜旋转：SceneEarthAxialTiltDeg是固定值
-//    ksRotate(&_modelMatrix, SceneEarthAxialTiltDeg, 0.0, 1.0, 0.0);
-//    ksTranslate(&_modelMatrix, 0, 0, -3.0);
-//    ksScale(&_modelMatrix, 0.5, 0.5, 0.5);
+    KSMatrix4 _earthMatrix;
+    ksMatrixLoadIdentity(&_earthMatrix);
+    //公转
+    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+    ksTranslate(&_earthMatrix, 0, 0, -2.0);
+    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
     //自转
-    ksRotate(&_modelMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
-    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelMatrix.m[0][0]);
+    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_earthMatrix.m[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌕月球
-    KSMatrix4 _modelMatrix2;
-    ksMatrixLoadIdentity(&_modelMatrix2);
+    KSMatrix4 _moonMatrix = _earthMatrix;
     //公转
-    ksRotate(&_modelMatrix2, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
 //    ksTranslate(&_modelMatrix2, 0, 0.5, -1.0);
-    ksTranslate(&_modelMatrix2, 0, 0.0, -2.0);
-    ksScale(&_modelMatrix2, 0.3, 0.3, 0.3);
+    ksTranslate(&_moonMatrix, 0, 0.0, -1.0);
+    ksScale(&_moonMatrix, 0.3, 0.3, 0.3);
     //自转，月球自转和公转周期非常接近
-    ksRotate(&_modelMatrix2, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_modelMatrix2.m[0][0]);
+    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_moonMatrix.m[0][0]);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
 
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
