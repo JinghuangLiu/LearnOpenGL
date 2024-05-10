@@ -101,6 +101,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     
     renderView = [[GLKView alloc] initWithFrame:self.view.bounds context:self.mContext];
     renderView.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888; //颜色缓冲区格式
+    renderView.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     renderView.delegate = self;
     [self.view addSubview:renderView];
     renderView.context = self.mContext;
