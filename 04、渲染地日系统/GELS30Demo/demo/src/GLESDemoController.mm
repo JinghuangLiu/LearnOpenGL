@@ -152,10 +152,10 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     
     //纹理（参考：https://learnopengl-cn.github.io/01%20Getting%20started/06%20Textures/）
     //生成纹理ID
-    GLuint texture;
-    glGenTextures(1, &texture);
+    GLuint earthTexture;
+    glGenTextures(1, &earthTexture);
     //绑定纹理
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, earthTexture);
     
     //为当前绑定的纹理对象设置环绕、过滤方式
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -167,7 +167,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, spriteData);
     glGenerateMipmap(GL_TEXTURE_2D);
     
-    //把纹理数据传给着色器
+    //通过统一采样器变量，把纹理数据传给着色器
     glUniform1i(glGetUniformLocation(_myProgram, "ourTexture"), 0);
     
     //释放图片数据
@@ -225,22 +225,23 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //深度测试
     glEnable(GL_DEPTH_TEST);
 //    glDepthFunc(GL_LESS);
+    glDisable(GL_BLEND);
     
+    //2.视图矩阵
     KSMatrix4 _viewMatrix;
     ksMatrixLoadIdentity(&_viewMatrix);
     ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
     //换个视角看
-//    ksRotate(&_viewMatrix, 15, 0.0, 1.0, 0.0);
+//    ksRotate(&_viewMatrix, 90, 0.0, 1.0, 0.0);
     glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
     
+    
+    //3.模型矩阵
     //🌞太阳
 //    KSMatrix4 _sunMatrix;
 //    ksMatrixLoadIdentity(&_sunMatrix);
 //    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
 //    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
-    
-    
-    
     
     //🌍地球
     KSMatrix4 _modelMatrix;
