@@ -31,12 +31,6 @@
 @property (nonatomic, strong) CAEAGLLayer* myEagLayer;
 @property (nonatomic, assign) GLuint myProgram;
 
-@property (nonatomic, assign) float xDegree;
-@property (nonatomic, assign) float yDegree;
-@property (nonatomic, assign) float zDegree;
-
-//@property (nonatomic, assign) GLuint texture;
-
 //地球旋转角度
 @property (nonatomic) GLfloat earthRotationAngleDegrees;
 
@@ -136,21 +130,6 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glGenBuffers(1, &attrTextureBuffer);
     glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
     glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
-}
-
-- (void)setTexture {
-    
-    glActiveTexture(GL_TEXTURE0);
-    //生成纹理ID
-    GLuint texture;
-    glGenTextures(1, &texture);
-    //绑定纹理
-    glBindTexture(GL_TEXTURE_2D, texture);
-    
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 512, 256, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glGenerateMipmap(GL_TEXTURE_2D);
-    
-    glUniform1i(glGetUniformLocation(_myProgram, "ourTexture"), 0);
 }
 
 - (void)setupTexture {
