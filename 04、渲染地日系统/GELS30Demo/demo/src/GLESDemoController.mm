@@ -208,19 +208,27 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
     
+    //以下代码说明：
+    //1、为了定义顶点数据该如何管理，我们使用location这一元数据指定输入变量，这样我们才可以在CPU上配置顶点属性。
+    //2、顶点着色器需要为它的输入提供一个额外的layout标识，这样我们才能把它链接到顶点数据。
+    //3、也可以通过在OpenGL代码中使用glGetAttribLocation查询属性位置值(Location)
+    
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
     GLuint position = glGetAttribLocation(self.myProgram, "position");
+//    GLuint position = 0; //配合顶点着色器layout标识使用
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
 
     
     glBindBuffer(GL_ARRAY_BUFFER, vertexNormalBuffer);
     GLuint vertexNormal = glGetAttribLocation(self.myProgram, "vertexNormal");
+//    GLuint vertexNormal = 1;//配合顶点着色器layout标识使用
     glEnableVertexAttribArray(vertexNormal);
     glVertexAttribPointer(vertexNormal, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
     GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
+//    GLuint textCoor = 2;//配合顶点着色器layout标识使用
     glEnableVertexAttribArray(textCoor);
     glVertexAttribPointer(textCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
     

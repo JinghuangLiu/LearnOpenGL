@@ -1,11 +1,13 @@
 
 
+//2.0写法
 //attribute vec4 position;
 //attribute vec4 vertexNormal; // 法线
 //attribute mediump vec2 textCoordinate; //纹理坐标
 //varying mediump vec4 varyVertexNormal;
 //varying mediump vec2 varyTextCoord; //传递给片元着色器纹理坐标
 
+//3.0写法
 #version 300 core
 layout (location = 0) in vec4 position;
 layout (location = 1) in vec4 vertexNormal; // 法线
