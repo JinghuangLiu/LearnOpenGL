@@ -13,12 +13,16 @@
 #import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/ES3/gl.h>
 #import <OpenGLES/ES3/glext.h>
+
 #import <GLKit/GLKit.h>
+
+#include "NativeRender.h"
+#import "GLESUtils.h"
+#import "GLESMath.h"
 
 #include "XSMatrix.h"
 using namespace xscore;
 
-#include "NativeRender.h"
 #import "sphere.h"
 
 @interface GLESDemoController()<NXTimerDelegate, GLKViewDelegate> {
@@ -240,21 +244,40 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     float width = self.view.frame.size.width;
     float height = self.view.frame.size.height;
     
+    //长宽比
+    float aspect = width / height;
+    
+    //1、投影矩阵
+    //1.1、投影矩阵的构造
+//    KSMatrix4 _projectionMatrix;
+//    ksMatrixLoadIdentity(&_projectionMatrix);
+    
+//    //1.2、透视变换，视角30°
+//    ksPerspective(&_projectionMatrix, 30, aspect, 5.0f, 20.0f);
+//    //1.3、传递给着色器程序
+//    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
+    
     //1、投影矩阵
     //1.1、投影矩阵的构造
     XSMatrix projectionMatrix = XSMatrix::identity();
-    //长宽比
-    float aspect = width / height;
     //1.2、透视变换，视角30°
-    projectionMatrix.makePerspective(30, aspect, 5.0f, 20.0f);
-    
+    projectionMatrix.makePerspective(GLKMathDegreesToRadians(30), aspect, 5.0f, 20.0f);
     //1.3、传递给着色器程序
     glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, &projectionMatrix.m[0]);
+    
     
     //启用面剔除
     glEnable(GL_CULL_FACE);
     //深度测试
     glEnable(GL_DEPTH_TEST);
+    
+    //2.视图矩阵
+    KSMatrix4 _viewMatrix;
+    ksMatrixLoadIdentity(&_viewMatrix);
+    ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
+    //换个视角看
+//    ksRotate(&_viewMatrix, 90, 0.0, 1.0, 0.0);
+    glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
     
     //2.视图矩阵
     XSMatrix viewMatrix = XSMatrix::identity();
@@ -266,36 +289,71 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     
     //3.模型矩阵
     //🌞太阳
+    KSMatrix4 _sunMatrix;
+    ksMatrixLoadIdentity(&_sunMatrix);
+    ksScale(&_sunMatrix, 1.5, 1.5, 1.5);
+    ksRotate(&_sunMatrix, self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
+    glBindTexture(GL_TEXTURE_2D, sunTexture);
+    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+    
+    //3.模型矩阵
+    //🌞太阳
     XSMatrix sunMatrix = XSMatrix::identity();
-    sunMatrix.makeScale(1.5, 1.5, 1.5);
-    sunMatrix.makeRotate(self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
+    sunMatrix.applyScaleLeft(1.5, 1.5, 1.5);
+    sunMatrix.applyRotateLeft(GLKMathDegreesToRadians(self.sunRotationAngleDegrees), 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&sunMatrix.m[0]);
     glBindTexture(GL_TEXTURE_2D, sunTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌍地球
-    XSMatrix earthMatrix = XSMatrix::identity();
-    //公转
-    earthMatrix.makeRotate(self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
-    earthMatrix.makeTranslate(0.0, 0.0, -2.0);
-    earthMatrix.makeScale(0.5, 0.5, 0.5);
-    //自转
-    earthMatrix.makeRotate(self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
-    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&earthMatrix.m[0]);
-    glBindTexture(GL_TEXTURE_2D, earthTexture);
-    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+//    KSMatrix4 _earthMatrix;
+//    ksMatrixLoadIdentity(&_earthMatrix);
+//    //公转
+//    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+//    ksTranslate(&_earthMatrix, 0, 0, -2.0);
+//    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
+//    //自转
+//    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_earthMatrix.m[0][0]);
+//    glBindTexture(GL_TEXTURE_2D, earthTexture);
+//    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
+    //🌍地球
+//    XSMatrix earthMatrix = XSMatrix::identity();
+//    //公转
+//    earthMatrix.applyRotateLeft(GLKMathDegreesToRadians(self.earthRotationAngleDegrees), 1.0, 0.0, 0.0);
+//    earthMatrix.applyTranslateLeft(0.0, 0.0, -2.0);
+//    earthMatrix.applyScaleLeft(0.5, 0.5, 0.5);
+//    //自转
+//    earthMatrix.applyRotateLeft(GLKMathDegreesToRadians(self.earthRotationAngleDegrees), 1.0, 0.0, 0.0);
+//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&earthMatrix.m[0]);
+//    glBindTexture(GL_TEXTURE_2D, earthTexture);
+//    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+
     //🌕月球
-    XSMatrix moonMatrix = earthMatrix;
-    //公转
-    moonMatrix.makeRotate(self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-    moonMatrix.makeTranslate(0.0, 0.0, -1.0);
-    moonMatrix.makeScale(0.3, 0.3, 0.3);
-    //自转，月球自转和公转周期非常接近
-    moonMatrix.makeRotate(self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&moonMatrix.m[0]);
-    glBindTexture(GL_TEXTURE_2D, moonTexture);
-    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+//    KSMatrix4 _moonMatrix = _earthMatrix;
+//    //公转
+//    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+//    ksTranslate(&_moonMatrix, 0, 0.0, -1.0);
+//    ksScale(&_moonMatrix, 0.3, 0.3, 0.3);
+//    //自转，月球自转和公转周期非常接近
+//    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_moonMatrix.m[0][0]);
+//    glBindTexture(GL_TEXTURE_2D, moonTexture);
+//    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+    
+//    //🌕月球
+//    XSMatrix moonMatrix = earthMatrix;
+//    //公转
+//    moonMatrix.applyRotateLeft(GLKMathDegreesToRadians(self.moonRotationAngleDegrees), 1.0, 0.0, 0.0);
+//    moonMatrix.applyTranslateLeft(0.0, 0.0, -1.0);
+//    moonMatrix.applyScaleLeft(0.3, 0.3, 0.3);
+//    //自转，月球自转和公转周期非常接近
+//    moonMatrix.applyRotateLeft(GLKMathDegreesToRadians(self.moonRotationAngleDegrees), 1.0, 0.0, 0.0);
+//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&moonMatrix.m[0]);
+//    glBindTexture(GL_TEXTURE_2D, moonTexture);
+//    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
 
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
 }
