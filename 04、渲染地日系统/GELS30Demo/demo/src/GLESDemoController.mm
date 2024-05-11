@@ -13,13 +13,12 @@
 #import <OpenGLES/ES2/glext.h>
 #import <OpenGLES/ES3/gl.h>
 #import <OpenGLES/ES3/glext.h>
-
 #import <GLKit/GLKit.h>
 
-#include "NativeRender.h"
-#import "GLESUtils.h"
-#import "GLESMath.h"
+#include "XSMatrix.h"
+using namespace xscore;
 
+#include "NativeRender.h"
 #import "sphere.h"
 
 @interface GLESDemoController()<NXTimerDelegate, GLKViewDelegate> {
@@ -243,16 +242,14 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     
     //1、投影矩阵
     //1.1、投影矩阵的构造
-    KSMatrix4 _projectionMatrix;
-    ksMatrixLoadIdentity(&_projectionMatrix);
+    XSMatrix projectionMatrix = XSMatrix::identity();
     //长宽比
     float aspect = width / height;
     //1.2、透视变换，视角30°
-//    ksPerspective(&_projectionMatrix, 60.0, aspect, 5.0f, 20.0f);
-    ksPerspective(&_projectionMatrix, 30, aspect, 5.0f, 20.0f);
+    projectionMatrix.makePerspective(30, aspect, 5.0f, 20.0f);
     
     //1.3、传递给着色器程序
-    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
+    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, &projectionMatrix.m[0]);
     
     //启用面剔除
     glEnable(GL_CULL_FACE);
@@ -260,46 +257,43 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glEnable(GL_DEPTH_TEST);
     
     //2.视图矩阵
-    KSMatrix4 _viewMatrix;
-    ksMatrixLoadIdentity(&_viewMatrix);
-    ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
+    XSMatrix viewMatrix = XSMatrix::identity();
+    viewMatrix.makeTranslate(0.0, 0.0, -10);
     //换个视角看
-//    ksRotate(&_viewMatrix, 90, 0.0, 1.0, 0.0);
-    glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
+//    viewMatrix.makeRotate(90, 0.0, 1.0, 0.0);
+    glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&viewMatrix.m[0]);
     
     
     //3.模型矩阵
     //🌞太阳
-    KSMatrix4 _sunMatrix;
-    ksMatrixLoadIdentity(&_sunMatrix);
-    ksScale(&_sunMatrix, 1.5, 1.5, 1.5);
-    ksRotate(&_sunMatrix, self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
-    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
+    XSMatrix sunMatrix = XSMatrix::identity();
+    sunMatrix.makeScale(1.5, 1.5, 1.5);
+    sunMatrix.makeRotate(self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&sunMatrix.m[0]);
     glBindTexture(GL_TEXTURE_2D, sunTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌍地球
-    KSMatrix4 _earthMatrix;
-    ksMatrixLoadIdentity(&_earthMatrix);
+    XSMatrix earthMatrix = XSMatrix::identity();
     //公转
-    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
-    ksTranslate(&_earthMatrix, 0, 0, -2.0);
-    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
+    earthMatrix.makeRotate(self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+    earthMatrix.makeTranslate(0.0, 0.0, -2.0);
+    earthMatrix.makeScale(0.5, 0.5, 0.5);
     //自转
-    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
-    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_earthMatrix.m[0][0]);
+    earthMatrix.makeRotate(self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&earthMatrix.m[0]);
     glBindTexture(GL_TEXTURE_2D, earthTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌕月球
-    KSMatrix4 _moonMatrix = _earthMatrix;
+    XSMatrix moonMatrix = earthMatrix;
     //公转
-    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-    ksTranslate(&_moonMatrix, 0, 0.0, -1.0);
-    ksScale(&_moonMatrix, 0.3, 0.3, 0.3);
+    moonMatrix.makeRotate(self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+    moonMatrix.makeTranslate(0.0, 0.0, -1.0);
+    moonMatrix.makeScale(0.3, 0.3, 0.3);
     //自转，月球自转和公转周期非常接近
-    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_moonMatrix.m[0][0]);
+    moonMatrix.makeRotate(self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&moonMatrix.m[0]);
     glBindTexture(GL_TEXTURE_2D, moonTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
 

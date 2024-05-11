@@ -13,9 +13,12 @@
 		4837EF712BC54B7F0070DAA1 /* texture05.png in Resources */ = {isa = PBXBuildFile; fileRef = 4837EF702BC54B7F0070DAA1 /* texture05.png */; };
 		483C4BD12BC4D613008A6C47 /* shaderv.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 483C4BCF2BC4D613008A6C47 /* shaderv.vsh */; };
 		483C4BD22BC4D613008A6C47 /* shaderf.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 483C4BD02BC4D613008A6C47 /* shaderf.fsh */; };
-		483C4BDA2BC4E3A4008A6C47 /* GLESMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 483C4BD62BC4E3A4008A6C47 /* GLESMath.c */; };
-		483C4BDB2BC4E3A4008A6C47 /* GLESUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 483C4BD82BC4E3A4008A6C47 /* GLESUtils.m */; };
 		487D428B2BEF215200E55574 /* moon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 487D428A2BEF215200E55574 /* moon.jpg */; };
+		487D42972BEF43A300E55574 /* XSMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D428C2BEF43A300E55574 /* XSMatrix.cpp */; };
+		487D42982BEF43A300E55574 /* XSQuaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D428E2BEF43A300E55574 /* XSQuaternion.cpp */; };
+		487D42992BEF43A300E55574 /* XSVector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D42902BEF43A300E55574 /* XSVector2.cpp */; };
+		487D429A2BEF43A300E55574 /* XSVector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D42922BEF43A300E55574 /* XSVector3.cpp */; };
+		487D429B2BEF43A300E55574 /* XSVector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 487D42942BEF43A300E55574 /* XSVector4.cpp */; };
 		489130D12BE0BFB800012736 /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 489130CF2BE0BFB700012736 /* Earth512x256.jpg */; };
 		489130D22BE0BFB800012736 /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 489130D02BE0BFB800012736 /* Moon256x128.png */; };
 		48B7C9362BEE22C300B3E21E /* sun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48B7C9352BEE22C300B3E21E /* sun.jpg */; };
@@ -57,13 +60,17 @@
 		4837EF702BC54B7F0070DAA1 /* texture05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture05.png; sourceTree = "<group>"; };
 		483C4BCF2BC4D613008A6C47 /* shaderv.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderv.vsh; sourceTree = "<group>"; };
 		483C4BD02BC4D613008A6C47 /* shaderf.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderf.fsh; sourceTree = "<group>"; };
-		483C4BD42BC4E3A4008A6C47 /* GLESMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESMath.h; sourceTree = "<group>"; };
-		483C4BD52BC4E3A4008A6C47 /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
-		483C4BD62BC4E3A4008A6C47 /* GLESMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GLESMath.c; sourceTree = "<group>"; };
-		483C4BD72BC4E3A4008A6C47 /* GLESUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESUtils.h; sourceTree = "<group>"; };
-		483C4BD82BC4E3A4008A6C47 /* GLESUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLESUtils.m; sourceTree = "<group>"; };
-		483C4BD92BC4E3A4008A6C47 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		487D428A2BEF215200E55574 /* moon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = moon.jpg; sourceTree = "<group>"; };
+		487D428C2BEF43A300E55574 /* XSMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XSMatrix.cpp; sourceTree = "<group>"; };
+		487D428D2BEF43A300E55574 /* XSMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSMatrix.h; sourceTree = "<group>"; };
+		487D428E2BEF43A300E55574 /* XSQuaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XSQuaternion.cpp; sourceTree = "<group>"; };
+		487D428F2BEF43A300E55574 /* XSQuaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSQuaternion.h; sourceTree = "<group>"; };
+		487D42902BEF43A300E55574 /* XSVector2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XSVector2.cpp; sourceTree = "<group>"; };
+		487D42912BEF43A300E55574 /* XSVector2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSVector2.h; sourceTree = "<group>"; };
+		487D42922BEF43A300E55574 /* XSVector3.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XSVector3.cpp; sourceTree = "<group>"; };
+		487D42932BEF43A300E55574 /* XSVector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSVector3.h; sourceTree = "<group>"; };
+		487D42942BEF43A300E55574 /* XSVector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XSVector4.cpp; sourceTree = "<group>"; };
+		487D42952BEF43A300E55574 /* XSVector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSVector4.h; sourceTree = "<group>"; };
 		489130CE2BE0BE0600012736 /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
 		489130CF2BE0BFB700012736 /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
 		489130D02BE0BFB800012736 /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
@@ -112,17 +119,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		483C4BD32BC4E39C008A6C47 /* Math */ = {
+		487D42962BEF43A300E55574 /* math */ = {
 			isa = PBXGroup;
 			children = (
-				483C4BD62BC4E3A4008A6C47 /* GLESMath.c */,
-				483C4BD42BC4E3A4008A6C47 /* GLESMath.h */,
-				483C4BD72BC4E3A4008A6C47 /* GLESUtils.h */,
-				483C4BD82BC4E3A4008A6C47 /* GLESUtils.m */,
-				483C4BD52BC4E3A4008A6C47 /* Quaternion.h */,
-				483C4BD92BC4E3A4008A6C47 /* Vector.h */,
+				487D428C2BEF43A300E55574 /* XSMatrix.cpp */,
+				487D428D2BEF43A300E55574 /* XSMatrix.h */,
+				487D428E2BEF43A300E55574 /* XSQuaternion.cpp */,
+				487D428F2BEF43A300E55574 /* XSQuaternion.h */,
+				487D42902BEF43A300E55574 /* XSVector2.cpp */,
+				487D42912BEF43A300E55574 /* XSVector2.h */,
+				487D42922BEF43A300E55574 /* XSVector3.cpp */,
+				487D42932BEF43A300E55574 /* XSVector3.h */,
+				487D42942BEF43A300E55574 /* XSVector4.cpp */,
+				487D42952BEF43A300E55574 /* XSVector4.h */,
 			);
-			path = Math;
+			path = math;
 			sourceTree = "<group>";
 		};
 		488659B32BBAAB83005741CF /* Shader */ = {
@@ -240,7 +251,7 @@
 		BAE685742BBA9C6100A42F42 /* utility */ = {
 			isa = PBXGroup;
 			children = (
-				483C4BD32BC4E39C008A6C47 /* Math */,
+				487D42962BEF43A300E55574 /* math */,
 				BAE6857B2BBA9C6100A42F42 /* NXRunLoop.h */,
 				BAE685752BBA9C6100A42F42 /* NXRunloop.m */,
 				BAE685762BBA9C6100A42F42 /* NXSignal.h */,
@@ -335,18 +346,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				487D429B2BEF43A300E55574 /* XSVector4.cpp in Sources */,
 				BAE6857F2BBA9C6100A42F42 /* NXThread.m in Sources */,
 				BAE685582BBA97EB00A42F42 /* main.m in Sources */,
-				483C4BDB2BC4E3A4008A6C47 /* GLESUtils.m in Sources */,
 				BAE685552BBA97EB00A42F42 /* RootViewController.m in Sources */,
+				487D42982BEF43A300E55574 /* XSQuaternion.cpp in Sources */,
 				BAE685802BBA9C6100A42F42 /* NXSignal.m in Sources */,
-				483C4BDA2BC4E3A4008A6C47 /* GLESMath.c in Sources */,
 				BAE685592BBA97EB00A42F42 /* AppDelegate.m in Sources */,
+				487D429A2BEF43A300E55574 /* XSVector3.cpp in Sources */,
 				BAE6857E2BBA9C6100A42F42 /* NXTimer.m in Sources */,
 				BAE6857D2BBA9C6100A42F42 /* NXRunloop.m in Sources */,
 				BAE685562BBA97EB00A42F42 /* BaseViewController.m in Sources */,
 				BAE685542BBA97EB00A42F42 /* IOSVideoReader.m in Sources */,
+				487D42972BEF43A300E55574 /* XSMatrix.cpp in Sources */,
 				BAE685832BBA9DDE00A42F42 /* NativeRender.cpp in Sources */,
+				487D42992BEF43A300E55574 /* XSVector2.cpp in Sources */,
 				BAE685572BBA97EB00A42F42 /* GLESDemoController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
