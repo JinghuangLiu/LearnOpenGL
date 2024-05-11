@@ -1,6 +1,6 @@
 //varying mediump vec2 varyTextCoord; //顶点着色器传递过来的纹理坐标
 
-#version 300 es
+#version 300 core
 in mediump vec2 varyTextCoord; //顶点着色器传递过来的纹理坐标
 out mediump vec4 FragColor;
 

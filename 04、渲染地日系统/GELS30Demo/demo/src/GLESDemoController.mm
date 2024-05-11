@@ -32,6 +32,9 @@
 @property (nonatomic, assign) GLuint myProgram;
 
 //地球旋转角度
+@property (nonatomic) GLfloat sunRotationAngleDegrees;
+
+//地球旋转角度
 @property (nonatomic) GLfloat earthRotationAngleDegrees;
 
 //月球旋转角度
@@ -51,8 +54,7 @@
 //地球倾斜角度
 static const GLfloat  SceneEarthAxialTiltDeg = 23.5f;
 //月球绕地球一周的周期
-static const GLfloat  SceneDaysPerMoonOrbit = 3.0f;
-//static const GLfloat  SceneDaysPerMoonOrbit = 28.0f;
+static const GLfloat  SceneDaysPerMoonOrbit = 28.0f;
 //月球的缩放
 static const GLfloat  SceneMoonRadiusFractionOfEarth = 0.25;
 //地球和月球的距离
@@ -75,9 +77,10 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     [self setupVectex];
     
     //设置纹理
+    [self setupTexture:@"sun.jpg" textTure:&sunTexture];
     [self setupTexture:@"Earth512x256.jpg" textTure:&earthTexture];
     [self setupTexture:@"Moon256x128.png" textTure:&moonTexture];
-    [self setupTexture:@"sun.jpg" textTure:&sunTexture];
+    
     //开始渲染
     myTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
                                                target:self
@@ -88,12 +91,17 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
 
 - (void)tick:(id)sender {
     
-    //1秒（30帧）60度，6秒360度
-    float degress = 360.0f / 180.0f;
+    //1秒（30帧）360度
+    float degress = 360.0f / 30.0f;
+    
+    //太阳自转
+    self.sunRotationAngleDegrees += degress/25;
+    
     //旋转一圈
-    self.earthRotationAngleDegrees += degress;
+    self.earthRotationAngleDegrees += degress/6;
+    
     //旋转一圈/月亮周期
-    self.moonRotationAngleDegrees += degress / SceneDaysPerMoonOrbit;
+    self.moonRotationAngleDegrees += degress / 28;
     
     [self renderLayer];
 }
@@ -231,10 +239,9 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     ksMatrixLoadIdentity(&_projectionMatrix);
     //长宽比
     float aspect = width / height;
-//    float aspect = height / width;
     //1.2、透视变换，视角30°
 //    ksPerspective(&_projectionMatrix, 60.0, aspect, 5.0f, 20.0f);
-    ksPerspective(&_projectionMatrix, 50, aspect, 5.0f, 20.0f);
+    ksPerspective(&_projectionMatrix, 30, aspect, 5.0f, 20.0f);
     
     //1.3、传递给着色器程序
     glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
@@ -257,10 +264,10 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //🌞太阳
     KSMatrix4 _sunMatrix;
     ksMatrixLoadIdentity(&_sunMatrix);
+    ksScale(&_sunMatrix, 1.5, 1.5, 1.5);
+    ksRotate(&_sunMatrix, self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
-    
     glBindTexture(GL_TEXTURE_2D, sunTexture);
-    
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌍地球
@@ -280,13 +287,11 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     KSMatrix4 _moonMatrix = _earthMatrix;
     //公转
     ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-//    ksTranslate(&_modelMatrix2, 0, 0.5, -1.0);
     ksTranslate(&_moonMatrix, 0, 0.0, -1.0);
     ksScale(&_moonMatrix, 0.3, 0.3, 0.3);
     //自转，月球自转和公转周期非常接近
     ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_moonMatrix.m[0][0]);
-    
     glBindTexture(GL_TEXTURE_2D, moonTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
 
