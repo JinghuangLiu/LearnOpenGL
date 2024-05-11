@@ -21,6 +21,8 @@
 		48A1AC6C2BEF6AF7003D4E1F /* XSVector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC632BEF6AF7003D4E1F /* XSVector2.cpp */; };
 		48A1AC6D2BEF6AF7003D4E1F /* XSVector3.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC652BEF6AF7003D4E1F /* XSVector3.cpp */; };
 		48A1AC6E2BEF6AF7003D4E1F /* XSVector4.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC672BEF6AF7003D4E1F /* XSVector4.cpp */; };
+		48A1AC762BEF6B93003D4E1F /* GLESMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC6F2BEF6B93003D4E1F /* GLESMath.c */; };
+		48A1AC772BEF6B93003D4E1F /* GLESUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC722BEF6B93003D4E1F /* GLESUtils.m */; };
 		48B7C9362BEE22C300B3E21E /* sun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48B7C9352BEE22C300B3E21E /* sun.jpg */; };
 		48E6EE622BBBB5AF001DBE3A /* texture00.png in Resources */ = {isa = PBXBuildFile; fileRef = 48E6EE602BBBB5AF001DBE3A /* texture00.png */; };
 		48E6EE632BBBB5AF001DBE3A /* texture01.png in Resources */ = {isa = PBXBuildFile; fileRef = 48E6EE612BBBB5AF001DBE3A /* texture01.png */; };
@@ -74,6 +76,12 @@
 		48A1AC662BEF6AF7003D4E1F /* XSVector3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSVector3.h; sourceTree = "<group>"; };
 		48A1AC672BEF6AF7003D4E1F /* XSVector4.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XSVector4.cpp; sourceTree = "<group>"; };
 		48A1AC682BEF6AF7003D4E1F /* XSVector4.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSVector4.h; sourceTree = "<group>"; };
+		48A1AC6F2BEF6B93003D4E1F /* GLESMath.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GLESMath.c; sourceTree = "<group>"; };
+		48A1AC702BEF6B93003D4E1F /* GLESMath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESMath.h; sourceTree = "<group>"; };
+		48A1AC712BEF6B93003D4E1F /* GLESUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESUtils.h; sourceTree = "<group>"; };
+		48A1AC722BEF6B93003D4E1F /* GLESUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLESUtils.m; sourceTree = "<group>"; };
+		48A1AC732BEF6B93003D4E1F /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
+		48A1AC742BEF6B93003D4E1F /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		48B7C9352BEE22C300B3E21E /* sun.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sun.jpg; sourceTree = "<group>"; };
 		48E6EE602BBBB5AF001DBE3A /* texture00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture00.png; sourceTree = "<group>"; };
 		48E6EE612BBBB5AF001DBE3A /* texture01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture01.png; sourceTree = "<group>"; };
@@ -154,6 +162,19 @@
 				48A1AC682BEF6AF7003D4E1F /* XSVector4.h */,
 			);
 			path = KXMath;
+			sourceTree = "<group>";
+		};
+		48A1AC752BEF6B93003D4E1F /* Math */ = {
+			isa = PBXGroup;
+			children = (
+				48A1AC6F2BEF6B93003D4E1F /* GLESMath.c */,
+				48A1AC702BEF6B93003D4E1F /* GLESMath.h */,
+				48A1AC712BEF6B93003D4E1F /* GLESUtils.h */,
+				48A1AC722BEF6B93003D4E1F /* GLESUtils.m */,
+				48A1AC732BEF6B93003D4E1F /* Quaternion.h */,
+				48A1AC742BEF6B93003D4E1F /* Vector.h */,
+			);
+			path = Math;
 			sourceTree = "<group>";
 		};
 		48E6EE5F2BBBB592001DBE3A /* Images */ = {
@@ -251,6 +272,7 @@
 		BAE685742BBA9C6100A42F42 /* utility */ = {
 			isa = PBXGroup;
 			children = (
+				48A1AC752BEF6B93003D4E1F /* Math */,
 				48A1AC692BEF6AF7003D4E1F /* KXMath */,
 				BAE6857B2BBA9C6100A42F42 /* NXRunLoop.h */,
 				BAE685752BBA9C6100A42F42 /* NXRunloop.m */,
@@ -350,11 +372,13 @@
 				BAE6857F2BBA9C6100A42F42 /* NXThread.m in Sources */,
 				BAE685582BBA97EB00A42F42 /* main.m in Sources */,
 				BAE685552BBA97EB00A42F42 /* RootViewController.m in Sources */,
+				48A1AC762BEF6B93003D4E1F /* GLESMath.c in Sources */,
 				48A1AC6B2BEF6AF7003D4E1F /* XSQuaternion.cpp in Sources */,
 				BAE685802BBA9C6100A42F42 /* NXSignal.m in Sources */,
 				BAE685592BBA97EB00A42F42 /* AppDelegate.m in Sources */,
 				48A1AC6D2BEF6AF7003D4E1F /* XSVector3.cpp in Sources */,
 				BAE6857E2BBA9C6100A42F42 /* NXTimer.m in Sources */,
+				48A1AC772BEF6B93003D4E1F /* GLESUtils.m in Sources */,
 				BAE6857D2BBA9C6100A42F42 /* NXRunloop.m in Sources */,
 				BAE685562BBA97EB00A42F42 /* BaseViewController.m in Sources */,
 				BAE685542BBA97EB00A42F42 /* IOSVideoReader.m in Sources */,
