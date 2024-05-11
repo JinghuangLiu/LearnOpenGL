@@ -43,6 +43,9 @@
     GLuint attrTextureBuffer;
     GLuint attrBuffer;
     GLuint vertexNormalBuffer;
+    GLuint sunTexture;
+    GLuint earthTexture;
+    GLuint moonTexture;
 }
 
 //地球倾斜角度
@@ -72,8 +75,9 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     [self setupVectex];
     
     //设置纹理
-    [self setupTexture];
-    
+    [self setupTexture:@"Earth512x256.jpg" textTure:&earthTexture];
+    [self setupTexture:@"Moon256x128.png" textTure:&moonTexture];
+    [self setupTexture:@"sun.jpg" textTure:&sunTexture];
     //开始渲染
     myTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
                                                target:self
@@ -148,10 +152,9 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glBufferData(GL_ARRAY_BUFFER, sizeof(sphereTexCoords), sphereTexCoords, GL_DYNAMIC_DRAW);
 }
 
-- (void)setupTexture {
+- (void)setupTexture:(NSString *)fileName textTure:(GLuint *) textTure {
     
     //加载图片
-    NSString *fileName = @"Earth512x256.jpg";
     CGImageRef imageRef = [UIImage imageNamed:fileName].CGImage;
     if (!imageRef) {
         NSLog(@"Failed to load image %@", fileName);
@@ -168,10 +171,10 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     
     //纹理（参考：https://learnopengl-cn.github.io/01%20Getting%20started/06%20Textures/）
     //生成纹理ID
-    GLuint earthTexture;
-    glGenTextures(1, &earthTexture);
+//    GLuint earthTexture;
+    glGenTextures(1, textTure);
     //绑定纹理
-    glBindTexture(GL_TEXTURE_2D, earthTexture);
+    glBindTexture(GL_TEXTURE_2D, *textTure);
     
     //为当前绑定的纹理对象设置环绕、过滤方式
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
@@ -184,7 +187,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glGenerateMipmap(GL_TEXTURE_2D);
     
     //通过统一采样器变量，把纹理数据传给着色器
-    glUniform1i(glGetUniformLocation(_myProgram, "ourTexture"), 0);
+//    glUniform1i(glGetUniformLocation(_myProgram, "ourTexture"), 0);
     
     //释放图片数据
     free(spriteData);
@@ -196,7 +199,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glClearColor(1, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
-
+    
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
     GLuint position = glGetAttribLocation(self.myProgram, "position");
     glEnableVertexAttribArray(position);
@@ -255,6 +258,9 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     KSMatrix4 _sunMatrix;
     ksMatrixLoadIdentity(&_sunMatrix);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
+    
+    glBindTexture(GL_TEXTURE_2D, sunTexture);
+    
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌍地球
@@ -267,6 +273,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //自转
     ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_earthMatrix.m[0][0]);
+    glBindTexture(GL_TEXTURE_2D, earthTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌕月球
@@ -279,6 +286,8 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //自转，月球自转和公转周期非常接近
     ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_moonMatrix.m[0][0]);
+    
+    glBindTexture(GL_TEXTURE_2D, moonTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
 
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
