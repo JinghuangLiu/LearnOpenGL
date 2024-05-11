@@ -60,6 +60,8 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
+    [self metaData];
+    
     //初始化上下文和视图
     [self setupContextAndRenderView];
     
@@ -82,19 +84,31 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
 
 - (void)tick:(id)sender {
     
+    //1秒（30帧）60度，6秒360度
     float degress = 360.0f / 180.0f;
-    //6秒旋转360度
+    //旋转一圈
     self.earthRotationAngleDegrees += degress;
-    //2秒旋转360度/除以28天
+    //旋转一圈/月亮周期
     self.moonRotationAngleDegrees += degress / SceneDaysPerMoonOrbit;
     
     [self renderLayer];
 }
 
+- (void)metaData {
+    
+    //当我们特别谈论到顶点着色器的时候，每个输入变量也叫顶点属性(Vertex Attribute)。
+    //我们能声明的顶点属性是有上限的，它一般由硬件来决定。
+    //OpenGL确保至少有16个包含4分量的顶点属性可用，但是有些硬件或许允许更多的顶点属性，你可以查询GL_MAX_VERTEX_ATTRIBS来获取具体的上限：
+    int nrAttributes;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
+    printf("Maximum nr of vertex attributes supported: %i \n",nrAttributes);
+
+}
+
 - (void)setupContextAndRenderView {
     
     //新建OpenGLES上下文
-    self.mContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    self.mContext = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES3];
     if (!self.mContext) {
         NSLog(@"Failed to create ES context");
     }
@@ -226,8 +240,6 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glEnable(GL_CULL_FACE);
     //深度测试
     glEnable(GL_DEPTH_TEST);
-//    glDepthFunc(GL_LESS);
-    glDisable(GL_BLEND);
     
     //2.视图矩阵
     KSMatrix4 _viewMatrix;
