@@ -15,6 +15,7 @@
 		483C4BD22BC4D613008A6C47 /* shaderf.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 483C4BD02BC4D613008A6C47 /* shaderf.fsh */; };
 		483C4BDA2BC4E3A4008A6C47 /* GLESMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 483C4BD62BC4E3A4008A6C47 /* GLESMath.c */; };
 		483C4BDB2BC4E3A4008A6C47 /* GLESUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 483C4BD82BC4E3A4008A6C47 /* GLESUtils.m */; };
+		487D428B2BEF215200E55574 /* moon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 487D428A2BEF215200E55574 /* moon.jpg */; };
 		489130D12BE0BFB800012736 /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 489130CF2BE0BFB700012736 /* Earth512x256.jpg */; };
 		489130D22BE0BFB800012736 /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 489130D02BE0BFB800012736 /* Moon256x128.png */; };
 		48B7C9362BEE22C300B3E21E /* sun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48B7C9352BEE22C300B3E21E /* sun.jpg */; };
@@ -62,6 +63,7 @@
 		483C4BD72BC4E3A4008A6C47 /* GLESUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLESUtils.h; sourceTree = "<group>"; };
 		483C4BD82BC4E3A4008A6C47 /* GLESUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GLESUtils.m; sourceTree = "<group>"; };
 		483C4BD92BC4E3A4008A6C47 /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
+		487D428A2BEF215200E55574 /* moon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = moon.jpg; sourceTree = "<group>"; };
 		489130CE2BE0BE0600012736 /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
 		489130CF2BE0BFB700012736 /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
 		489130D02BE0BFB800012736 /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 		489130CD2BE0BDA700012736 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
+				487D428A2BEF215200E55574 /* moon.jpg */,
 				48B7C9352BEE22C300B3E21E /* sun.jpg */,
 				489130CF2BE0BFB700012736 /* Earth512x256.jpg */,
 				489130D02BE0BFB800012736 /* Moon256x128.png */,
@@ -310,6 +313,7 @@
 			files = (
 				483C4BD12BC4D613008A6C47 /* shaderv.vsh in Resources */,
 				4837EF6B2BC54A980070DAA1 /* texture02.png in Resources */,
+				487D428B2BEF215200E55574 /* moon.jpg in Resources */,
 				489130D12BE0BFB800012736 /* Earth512x256.jpg in Resources */,
 				4837EF712BC54B7F0070DAA1 /* texture05.png in Resources */,
 				BAE685512BBA97EB00A42F42 /* Assets.xcassets in Resources */,

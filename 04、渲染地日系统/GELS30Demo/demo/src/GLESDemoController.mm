@@ -79,7 +79,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //设置纹理
     [self setupTexture:@"sun.jpg" textTure:&sunTexture];
     [self setupTexture:@"Earth512x256.jpg" textTure:&earthTexture];
-    [self setupTexture:@"Moon256x128.png" textTure:&moonTexture];
+    [self setupTexture:@"moon.jpg" textTure:&moonTexture];
     
     //开始渲染
     myTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
@@ -214,21 +214,21 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //3、也可以通过在OpenGL代码中使用glGetAttribLocation查询属性位置值(Location)
     
     glBindBuffer(GL_ARRAY_BUFFER, attrBuffer);
-    GLuint position = glGetAttribLocation(self.myProgram, "position");
-//    GLuint position = 0; //配合顶点着色器layout标识使用
+//    GLuint position = glGetAttribLocation(self.myProgram, "position");
+    GLuint position = 0; //配合顶点着色器layout标识使用
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
 
     
     glBindBuffer(GL_ARRAY_BUFFER, vertexNormalBuffer);
-    GLuint vertexNormal = glGetAttribLocation(self.myProgram, "vertexNormal");
-//    GLuint vertexNormal = 1;//配合顶点着色器layout标识使用
+//    GLuint vertexNormal = glGetAttribLocation(self.myProgram, "vertexNormal");
+    GLuint vertexNormal = 1;//配合顶点着色器layout标识使用
     glEnableVertexAttribArray(vertexNormal);
     glVertexAttribPointer(vertexNormal, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 3, 0);
 
     glBindBuffer(GL_ARRAY_BUFFER, attrTextureBuffer);
-    GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
-//    GLuint textCoor = 2;//配合顶点着色器layout标识使用
+//    GLuint textCoor = glGetAttribLocation(self.myProgram, "textCoordinate");
+    GLuint textCoor = 2;//配合顶点着色器layout标识使用
     glEnableVertexAttribArray(textCoor);
     glVertexAttribPointer(textCoor, 2, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 2, 0);
     
