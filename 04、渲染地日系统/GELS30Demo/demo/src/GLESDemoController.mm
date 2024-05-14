@@ -249,21 +249,21 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     
     //1、投影矩阵
     //1.1、投影矩阵的构造
-//    KSMatrix4 _projectionMatrix;
-//    ksMatrixLoadIdentity(&_projectionMatrix);
+    KSMatrix4 _projectionMatrix;
+    ksMatrixLoadIdentity(&_projectionMatrix);
     
-//    //1.2、透视变换，视角30°
-//    ksPerspective(&_projectionMatrix, 30, aspect, 5.0f, 20.0f);
-//    //1.3、传递给着色器程序
-//    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
-    
-    //1、投影矩阵
-    //1.1、投影矩阵的构造
-    XSMatrix projectionMatrix = XSMatrix::identity();
     //1.2、透视变换，视角30°
-    projectionMatrix.makePerspective(GLKMathDegreesToRadians(30), aspect, 5.0f, 20.0f);
+    ksPerspective(&_projectionMatrix, 30, aspect, 5.0f, 20.0f);
     //1.3、传递给着色器程序
-    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, &projectionMatrix.m[0]);
+    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
+    
+//    //1、投影矩阵
+//    //1.1、投影矩阵的构造
+//    XSMatrix projectionMatrix = XSMatrix::identity();
+//    //1.2、透视变换，视角30°
+//    projectionMatrix.makePerspective(GLKMathDegreesToRadians(30), aspect, 5.0f, 20.0f);
+//    //1.3、传递给着色器程序
+//    glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, &projectionMatrix.m[0]);
     
     
     //启用面剔除
@@ -280,44 +280,44 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
     
     //2.视图矩阵
-    XSMatrix viewMatrix = XSMatrix::identity();
 //    XSMatrix viewMatrix = XSMatrix::identity();
 //    //换个视角看
 //    viewMatrix.applyRotateLeft(GLKMathDegreesToRadians(60), 0.0, 1.0, 0.0);
 //    viewMatrix.applyTranslateLeft(0.0, 0.0, -10);
+//    glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&viewMatrix.m[0]);
     
     
     //3.模型矩阵
     //🌞太阳
-//    KSMatrix4 _sunMatrix;
-//    ksMatrixLoadIdentity(&_sunMatrix);
-//    ksScale(&_sunMatrix, 1.5, 1.5, 1.5);
-//    ksRotate(&_sunMatrix, self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
-//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
-//    glBindTexture(GL_TEXTURE_2D, earthTexture);
-//    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
-    
-    //3.模型矩阵
-    //🌞太阳
-    XSMatrix sunMatrix = XSMatrix::identity();
-    sunMatrix.applyScaleLeft(1.5, 1.5, 1.5);
-    sunMatrix.applyRotateLeft(GLKMathDegreesToRadians(self.sunRotationAngleDegrees), 1.0, 0.0, 0.0);
-    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&sunMatrix.m[0]);
+    KSMatrix4 _sunMatrix;
+    ksMatrixLoadIdentity(&_sunMatrix);
+    ksScale(&_sunMatrix, 1.5, 1.5, 1.5);
+    ksRotate(&_sunMatrix, self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
     glBindTexture(GL_TEXTURE_2D, sunTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
-    //🌍地球
-//    KSMatrix4 _earthMatrix;
-//    ksMatrixLoadIdentity(&_earthMatrix);
-//    //公转
-//    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
-//    ksTranslate(&_earthMatrix, 0, 0, -0.0);
-//    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
-//    //自转
-//    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
-//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_earthMatrix.m[0][0]);
-//    glBindTexture(GL_TEXTURE_2D, earthTexture);
+    //3.模型矩阵
+    //🌞太阳
+//    XSMatrix sunMatrix = XSMatrix::identity();
+//    sunMatrix.applyScaleLeft(1.5, 1.5, 1.5);
+//    sunMatrix.applyRotateLeft(GLKMathDegreesToRadians(self.sunRotationAngleDegrees), 1.0, 0.0, 0.0);
+//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&sunMatrix.m[0]);
+//    glBindTexture(GL_TEXTURE_2D, sunTexture);
 //    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+    
+    //🌍地球
+    KSMatrix4 _earthMatrix;
+    ksMatrixLoadIdentity(&_earthMatrix);
+    //公转
+    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+    ksTranslate(&_earthMatrix, 0, 0, -2.0);
+    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
+    //自转
+    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_earthMatrix.m[0][0]);
+    glBindTexture(GL_TEXTURE_2D, earthTexture);
+    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌍地球
 //    XSMatrix earthMatrix = XSMatrix::identity();
@@ -332,16 +332,16 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
 //    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
 
     //🌕月球
-//    KSMatrix4 _moonMatrix = _earthMatrix;
-//    //公转
-//    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-//    ksTranslate(&_moonMatrix, 0, 0.0, -1.0);
-//    ksScale(&_moonMatrix, 0.3, 0.3, 0.3);
-//    //自转，月球自转和公转周期非常接近
-//    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-//    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_moonMatrix.m[0][0]);
-//    glBindTexture(GL_TEXTURE_2D, moonTexture);
-//    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
+    KSMatrix4 _moonMatrix = _earthMatrix;
+    //公转
+    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+    ksTranslate(&_moonMatrix, 0, 0.0, -1.0);
+    ksScale(&_moonMatrix, 0.3, 0.3, 0.3);
+    //自转，月球自转和公转周期非常接近
+    ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
+    glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_moonMatrix.m[0][0]);
+    glBindTexture(GL_TEXTURE_2D, moonTexture);
+    glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
     
     //🌕月球
 //    XSMatrix moonMatrix = earthMatrix;
