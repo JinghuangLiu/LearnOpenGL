@@ -101,7 +101,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     self.sunRotationAngleDegrees += degress/25;
     
     //旋转一圈
-    self.earthRotationAngleDegrees += degress/6;
+    self.earthRotationAngleDegrees += degress/30;
     
     //旋转一圈/月亮周期
     self.moonRotationAngleDegrees += degress / 28;
@@ -335,7 +335,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     KSMatrix4 _moonMatrix = _earthMatrix;
     //公转
     ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
-    ksTranslate(&_moonMatrix, 0, 0.0, -1.0);
+    ksTranslate(&_moonMatrix, 0, 0.0, -0.7);
     ksScale(&_moonMatrix, 0.3, 0.3, 0.3);
     //自转，月球自转和公转周期非常接近
     ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);

@@ -16,6 +16,10 @@
 		487D428B2BEF215200E55574 /* moon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 487D428A2BEF215200E55574 /* moon.jpg */; };
 		489130D12BE0BFB800012736 /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 489130CF2BE0BFB700012736 /* Earth512x256.jpg */; };
 		489130D22BE0BFB800012736 /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 489130D02BE0BFB800012736 /* Moon256x128.png */; };
+		489CD30C2BF3664A00B24226 /* Object3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489CD30A2BF3664A00B24226 /* Object3D.cpp */; };
+		489CD30F2BF366FC00B24226 /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489CD30D2BF366FC00B24226 /* Sphere.cpp */; };
+		489CD3122BF3685F00B24226 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489CD3102BF3685F00B24226 /* Material.cpp */; };
+		489CD3152BF368B800B24226 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489CD3132BF368B800B24226 /* Camera.cpp */; };
 		48A1AC6A2BEF6AF7003D4E1F /* XSMatrix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC5F2BEF6AF7003D4E1F /* XSMatrix.cpp */; };
 		48A1AC6B2BEF6AF7003D4E1F /* XSQuaternion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC612BEF6AF7003D4E1F /* XSQuaternion.cpp */; };
 		48A1AC6C2BEF6AF7003D4E1F /* XSVector2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC632BEF6AF7003D4E1F /* XSVector2.cpp */; };
@@ -66,6 +70,14 @@
 		489130CE2BE0BE0600012736 /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
 		489130CF2BE0BFB700012736 /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
 		489130D02BE0BFB800012736 /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
+		489CD30A2BF3664A00B24226 /* Object3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Object3D.cpp; sourceTree = "<group>"; };
+		489CD30B2BF3664A00B24226 /* Object3D.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Object3D.hpp; sourceTree = "<group>"; };
+		489CD30D2BF366FC00B24226 /* Sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sphere.cpp; sourceTree = "<group>"; };
+		489CD30E2BF366FC00B24226 /* Sphere.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Sphere.hpp; sourceTree = "<group>"; };
+		489CD3102BF3685F00B24226 /* Material.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Material.cpp; sourceTree = "<group>"; };
+		489CD3112BF3685F00B24226 /* Material.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Material.hpp; sourceTree = "<group>"; };
+		489CD3132BF368B800B24226 /* Camera.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		489CD3142BF368B800B24226 /* Camera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Camera.hpp; sourceTree = "<group>"; };
 		48A1AC5F2BEF6AF7003D4E1F /* XSMatrix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XSMatrix.cpp; sourceTree = "<group>"; };
 		48A1AC602BEF6AF7003D4E1F /* XSMatrix.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XSMatrix.h; sourceTree = "<group>"; };
 		48A1AC612BEF6AF7003D4E1F /* XSQuaternion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = XSQuaternion.cpp; sourceTree = "<group>"; };
@@ -145,6 +157,21 @@
 				489130D02BE0BFB800012736 /* Moon256x128.png */,
 			);
 			path = Textures;
+			sourceTree = "<group>";
+		};
+		489CD3092BF35E1F00B24226 /* Objects */ = {
+			isa = PBXGroup;
+			children = (
+				489CD30B2BF3664A00B24226 /* Object3D.hpp */,
+				489CD30A2BF3664A00B24226 /* Object3D.cpp */,
+				489CD30E2BF366FC00B24226 /* Sphere.hpp */,
+				489CD30D2BF366FC00B24226 /* Sphere.cpp */,
+				489CD3112BF3685F00B24226 /* Material.hpp */,
+				489CD3102BF3685F00B24226 /* Material.cpp */,
+				489CD3132BF368B800B24226 /* Camera.cpp */,
+				489CD3142BF368B800B24226 /* Camera.hpp */,
+			);
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		48A1AC692BEF6AF7003D4E1F /* KXMath */ = {
@@ -238,6 +265,7 @@
 		BAE685172BBA97EA00A42F42 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				489CD3092BF35E1F00B24226 /* Objects */,
 				489130CE2BE0BE0600012736 /* sphere.h */,
 				489130CD2BE0BDA700012736 /* Textures */,
 				48E6EE5F2BBBB592001DBE3A /* Images */,
@@ -372,10 +400,12 @@
 				BAE6857F2BBA9C6100A42F42 /* NXThread.m in Sources */,
 				BAE685582BBA97EB00A42F42 /* main.m in Sources */,
 				BAE685552BBA97EB00A42F42 /* RootViewController.m in Sources */,
+				489CD3152BF368B800B24226 /* Camera.cpp in Sources */,
 				48A1AC762BEF6B93003D4E1F /* GLESMath.c in Sources */,
 				48A1AC6B2BEF6AF7003D4E1F /* XSQuaternion.cpp in Sources */,
 				BAE685802BBA9C6100A42F42 /* NXSignal.m in Sources */,
 				BAE685592BBA97EB00A42F42 /* AppDelegate.m in Sources */,
+				489CD3122BF3685F00B24226 /* Material.cpp in Sources */,
 				48A1AC6D2BEF6AF7003D4E1F /* XSVector3.cpp in Sources */,
 				BAE6857E2BBA9C6100A42F42 /* NXTimer.m in Sources */,
 				48A1AC772BEF6B93003D4E1F /* GLESUtils.m in Sources */,
@@ -385,6 +415,8 @@
 				48A1AC6A2BEF6AF7003D4E1F /* XSMatrix.cpp in Sources */,
 				BAE685832BBA9DDE00A42F42 /* NativeRender.cpp in Sources */,
 				48A1AC6C2BEF6AF7003D4E1F /* XSVector2.cpp in Sources */,
+				489CD30C2BF3664A00B24226 /* Object3D.cpp in Sources */,
+				489CD30F2BF366FC00B24226 /* Sphere.cpp in Sources */,
 				BAE685572BBA97EB00A42F42 /* GLESDemoController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
