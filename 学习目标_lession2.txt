@@ -13,7 +13,12 @@ class Object3D
 	std::vector<std::shared_ptr<Object3D>>  mChildren;
 	
 	//每一帧的调用入口，递归调用所有子类的LoopOnce。
-	void LoopOnce()
+	void LoopOnce();
+
+	//缓存当前位置，缩放，旋转，渲染之前要更新这些数据到mObjMatrix。
+	Vector3f mPosition; //Get Set
+	Vector3f mRotation; //Get Set
+	Vector3f mScale; //Get Set
 }
 
 2、定义球形模型
@@ -39,7 +44,9 @@ class Material
 4、定义相机
 class Camera  : public Object3D
 {
-
+	float  mFov;
+	float  mNear;
+	float  mFar;
 }
 
 5、创建世界
@@ -47,6 +54,7 @@ class Camera  : public Object3D
 然后渲染相机所处的位置的画面。
 场景中构造太阳，地球，月亮三个球体，并实现各球体的自转，公转效果。
 屏幕控制自由切换视角，就像玩FPS一样，前进后退，左移右移，左转右转即可。
+一个世界中可以有多个相机，但是只有一个是Active状态，用来绘制当前画面，切换相机应该是低开销的动作。
 
 知识点问题列表：
 理解基本的3D世界封装的术语：World，Camera，Viewport，fps，Model Tree，Material，
