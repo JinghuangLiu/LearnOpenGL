@@ -33,8 +33,8 @@ GLubyte* NewWorld::loadImage(NSString *fileName) {
 
 void NewWorld::Begin() {
     
-    int width = this->width;
-    int height = this->height;
+//    int width = this->width;
+//    int height = this->height;
     
     string engineV = [[[NSBundle mainBundle] pathForResource:@"engine.vsh" ofType:nil] UTF8String];
     

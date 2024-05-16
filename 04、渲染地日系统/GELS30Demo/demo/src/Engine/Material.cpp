@@ -27,7 +27,7 @@ Material::Material(const std::string &vertexShaderPath,
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     
     if (textureData) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, textureW, textureH, 0, GL_RGB, GL_UNSIGNED_BYTE, textureData);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, textureW, textureH, 0, GL_RGBA, GL_UNSIGNED_BYTE, textureData);
         glGenerateMipmap(GL_TEXTURE_2D);
     } else {
     }
