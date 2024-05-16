@@ -30,13 +30,13 @@ void NativeRender::destroy()
 
 int NativeRender::drawFrame(int texture, double interval)
 {
-    glClearColor(0.2f, 0.2f, 0.2f, 0.5f);
+    glClearColor(1, 1.0, 0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
     glEnable(GL_DEPTH_TEST);
     //启用面剔除
-    //    glEnable(GL_CULL_FACE);
-    //    glCullFace(GL_FRONT);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
 
     auto proj = this->camera->getProjectionPerspectiveMatrix();
     auto view = this->camera->getViewMatrix();
