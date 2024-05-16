@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		480C63C82BF5E86E005223DC /* engine.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 480C63C62BF5E86E005223DC /* engine.vsh */; };
+		480C63C92BF5E86E005223DC /* engine.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 480C63C72BF5E86E005223DC /* engine.fsh */; };
 		4837EF6B2BC54A980070DAA1 /* texture02.png in Resources */ = {isa = PBXBuildFile; fileRef = 4837EF6A2BC54A980070DAA1 /* texture02.png */; };
 		4837EF6E2BC54B000070DAA1 /* texture03.png in Resources */ = {isa = PBXBuildFile; fileRef = 4837EF6C2BC54B000070DAA1 /* texture03.png */; };
 		4837EF6F2BC54B000070DAA1 /* texture04.png in Resources */ = {isa = PBXBuildFile; fileRef = 4837EF6D2BC54B000070DAA1 /* texture04.png */; };
@@ -48,7 +50,7 @@
 		BAE6857E2BBA9C6100A42F42 /* NXTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE685772BBA9C6100A42F42 /* NXTimer.m */; };
 		BAE6857F2BBA9C6100A42F42 /* NXThread.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE685782BBA9C6100A42F42 /* NXThread.m */; };
 		BAE685802BBA9C6100A42F42 /* NXSignal.m in Sources */ = {isa = PBXBuildFile; fileRef = BAE6857A2BBA9C6100A42F42 /* NXSignal.m */; };
-		BAE685832BBA9DDE00A42F42 /* NativeRender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BAE685822BBA9DDE00A42F42 /* NativeRender.cpp */; };
+		BAE685832BBA9DDE00A42F42 /* NativeRender.mm in Sources */ = {isa = PBXBuildFile; fileRef = BAE685822BBA9DDE00A42F42 /* NativeRender.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -65,6 +67,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		480C63C62BF5E86E005223DC /* engine.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = engine.vsh; sourceTree = "<group>"; };
+		480C63C72BF5E86E005223DC /* engine.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = engine.fsh; sourceTree = "<group>"; };
 		4837EF6A2BC54A980070DAA1 /* texture02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture02.png; sourceTree = "<group>"; };
 		4837EF6C2BC54B000070DAA1 /* texture03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture03.png; sourceTree = "<group>"; };
 		4837EF6D2BC54B000070DAA1 /* texture04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture04.png; sourceTree = "<group>"; };
@@ -141,7 +145,7 @@
 		BAE6857B2BBA9C6100A42F42 /* NXRunLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXRunLoop.h; sourceTree = "<group>"; };
 		BAE6857C2BBA9C6100A42F42 /* NXThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NXThread.h; sourceTree = "<group>"; };
 		BAE685812BBA9DDE00A42F42 /* NativeRender.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NativeRender.h; sourceTree = "<group>"; };
-		BAE685822BBA9DDE00A42F42 /* NativeRender.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NativeRender.cpp; sourceTree = "<group>"; };
+		BAE685822BBA9DDE00A42F42 /* NativeRender.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = NativeRender.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -170,6 +174,8 @@
 		488659B32BBAAB83005741CF /* Shader */ = {
 			isa = PBXGroup;
 			children = (
+				480C63C72BF5E86E005223DC /* engine.fsh */,
+				480C63C62BF5E86E005223DC /* engine.vsh */,
 				483C4BCF2BC4D613008A6C47 /* shaderv.vsh */,
 				483C4BD02BC4D613008A6C47 /* shaderf.fsh */,
 			);
@@ -313,7 +319,7 @@
 				BAE685202BBA97EA00A42F42 /* GLESDemoController.mm */,
 				BAE685232BBA97EA00A42F42 /* RootViewController.h */,
 				BAE6851C2BBA97EA00A42F42 /* RootViewController.m */,
-				BAE685822BBA9DDE00A42F42 /* NativeRender.cpp */,
+				BAE685822BBA9DDE00A42F42 /* NativeRender.mm */,
 				BAE685812BBA9DDE00A42F42 /* NativeRender.h */,
 				BAE685212BBA97EA00A42F42 /* main.m */,
 				48FF9C502BF4C415002F35D2 /* NewWorld.h */,
@@ -420,9 +426,11 @@
 				489130D22BE0BFB800012736 /* Moon256x128.png in Resources */,
 				48B7C9362BEE22C300B3E21E /* sun.jpg in Resources */,
 				483C4BD22BC4D613008A6C47 /* shaderf.fsh in Resources */,
+				480C63C82BF5E86E005223DC /* engine.vsh in Resources */,
 				BAE685522BBA97EB00A42F42 /* LaunchScreen.storyboard in Resources */,
 				48E6EE622BBBB5AF001DBE3A /* texture00.png in Resources */,
 				4837EF6F2BC54B000070DAA1 /* texture04.png in Resources */,
+				480C63C92BF5E86E005223DC /* engine.fsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -455,7 +463,7 @@
 				BAE685562BBA97EB00A42F42 /* BaseViewController.m in Sources */,
 				BAE685542BBA97EB00A42F42 /* IOSVideoReader.m in Sources */,
 				48A1AC6A2BEF6AF7003D4E1F /* XSMatrix.cpp in Sources */,
-				BAE685832BBA9DDE00A42F42 /* NativeRender.cpp in Sources */,
+				BAE685832BBA9DDE00A42F42 /* NativeRender.mm in Sources */,
 				48A1AC6C2BEF6AF7003D4E1F /* XSVector2.cpp in Sources */,
 				489CD30C2BF3664A00B24226 /* Object3D.cpp in Sources */,
 				489CD30F2BF366FC00B24226 /* Sphere.cpp in Sources */,

@@ -276,7 +276,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //2.视图矩阵
     KSMatrix4 _viewMatrix;
     ksMatrixLoadIdentity(&_viewMatrix);
-    ksTranslate(&_viewMatrix, 0.0, 0.0, -15);
+    ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
     //换个视角看
 //    ksRotate(&_viewMatrix, 90, 0.0, 1.0, 0.0);
     glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);

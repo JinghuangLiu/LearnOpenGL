@@ -37,19 +37,17 @@ void NewWorld::Begin() {
     int height = this->height;
     
     //创建一个地球纹理材质
-    auto earthMaterial = std::make_shared<Material>("shaderv.vsh","shaderf.fsh",loadImage(@"Earth512x256.jpg"),width,height);
+    auto earthMaterial = std::make_shared<Material>("engine.vsh","engine.fsh",loadImage(@"Earth512x256.jpg"),width,height);
     
     //创建一个太阳纹理材质
     auto sunMaterial = std::make_shared<Material>(
-            "shaderv.vsh",
-            "shaderf.fsh",
-                                                  loadImage(@"sun.jpg"),width,height);
+            "engine.vsh",
+            "engine.fsh",loadImage(@"sun.jpg"),width,height);
 
     //创建一个月球纹理材质
     auto moonMaterial = std::make_shared<Material>(
-            "shaderv.vsh",
-            "shaderf.fsh",
-                                                   loadImage(@"Moon256x128.jpg"),width,height);
+            "engine.vsh",
+            "engine.fsh",loadImage(@"Moon256x128.jpg"),width,height);
 
     sunObj = std::make_shared<Sphere>(0.5f, sunMaterial);
     earthObj = std::make_shared<Sphere>(0.2f, earthMaterial);

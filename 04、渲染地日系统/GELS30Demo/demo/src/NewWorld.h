@@ -17,8 +17,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-//static Object3D *world;
-
 class NewWorld : Object3D {
     
 private:

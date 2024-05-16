@@ -9,16 +9,22 @@
 #include <list>
 #include <vector>
 
-#import <OpenGLES/ES2/gl.h>
-#import <OpenGLES/ES2/glext.h>
-#import <OpenGLES/ES3/gl.h>
-#import <OpenGLES/ES3/glext.h>
+#include "Engine/Engine.h"
+#include "Engine/OpenGLES.h"
+#include "NewWorld.h"
+
+#include <GLKit/GLKit.h>
 
 class NativeRender
 {
 public:
-    void create(int width, int height);
+    void create(EAGLContext *mContext,int width, int height);
+    void resize(int width, int height);
     void destroy();
     int drawFrame(int texture, double interval);
+    
+private:
+    shared_ptr<NewWorld> worldObj;
+    shared_ptr<Camera> camera;
 };
 
