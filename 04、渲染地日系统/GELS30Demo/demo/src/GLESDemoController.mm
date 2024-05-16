@@ -21,6 +21,8 @@
 #import "GLESMath.h"
 
 #include "XSMatrix.h"
+#include "ShaderTools.h"
+#import "ShaderUtils.h"
 using namespace xscore;
 
 #import "sphere.h"
@@ -274,7 +276,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //2.视图矩阵
     KSMatrix4 _viewMatrix;
     ksMatrixLoadIdentity(&_viewMatrix);
-    ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
+    ksTranslate(&_viewMatrix, 0.0, 0.0, -15);
     //换个视角看
 //    ksRotate(&_viewMatrix, 90, 0.0, 1.0, 0.0);
     glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
@@ -336,6 +338,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //公转
     ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
     ksTranslate(&_moonMatrix, 0, 0.0, -0.7);
+
     ksScale(&_moonMatrix, 0.3, 0.3, 0.3);
     //自转，月球自转和公转周期非常接近
     ksRotate(&_moonMatrix, self.moonRotationAngleDegrees, 1.0, 0.0, 0.0);
@@ -358,54 +361,6 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
 }
 
-/**
- *  c语言编译流程：预编译、编译、汇编、链接
- *  glsl的编译过程主要有glCompileShader、glAttachShader、glLinkProgram三步；
- *  @param vert 顶点着色器
- *  @param frag 片元着色器
- *
- *  @return 编译成功的shaders
- */
-- (GLuint)loadShaders:(NSString *)vert frag:(NSString *)frag {
-    GLuint verShader, fragShader;
-    GLint program = glCreateProgram();
-    
-    //编译
-    [self compileShader:&verShader type:GL_VERTEX_SHADER file:vert];
-    [self compileShader:&fragShader type:GL_FRAGMENT_SHADER file:frag];
-    
-    glAttachShader(program, verShader);
-    glAttachShader(program, fragShader);
-    
-    
-    //释放不需要的shader
-    glDeleteShader(verShader);
-    glDeleteShader(fragShader);
-    
-    return program;
-}
-
-- (void)compileShader:(GLuint *)shader type:(GLenum)type file:(NSString *)file {
-    //读取字符串
-    NSString* content = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:nil];
-    const GLchar* source = (GLchar *)[content UTF8String];
-    
-    *shader = glCreateShader(type);
-    glShaderSource(*shader, 1, &source, NULL);
-    glCompileShader(*shader);
-    GLint compileSuccess;
-    glGetProgramiv(self.myProgram, GL_COMPILE_STATUS, &compileSuccess);
-    
-    if (compileSuccess == GL_FALSE) {
-        GLchar messages[256];
-        glGetProgramInfoLog(self.myProgram, sizeof(messages), 0, &messages[0]);
-        NSString *messageString = [NSString stringWithUTF8String:messages];
-        NSLog(@"compile error : %@", messageString);
-    } else {
-        NSLog(@"compile successfully.");
-    }
-}
-
 - (void)compileAndLinkShader {
     
     //读取文件路径
@@ -413,24 +368,20 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     NSString* fragFile = [[NSBundle mainBundle] pathForResource:@"shaderf" ofType:@"fsh"];
     
     //加载shader
-    self.myProgram = [self loadShaders:vertFile frag:fragFile];
+    self.myProgram = [[ShaderUtils sharedInstance] loadShaders:vertFile frag:fragFile];
     
-    //链接
-    glLinkProgram(self.myProgram);
-    GLint linkSuccess;
-    glGetProgramiv(self.myProgram, GL_LINK_STATUS, &linkSuccess);
-    if (linkSuccess == GL_FALSE) {
-        //连接错误
-        GLchar messages[256];
-        glGetProgramInfoLog(self.myProgram, sizeof(messages), 0, &messages[0]);
-        NSString *messageString = [NSString stringWithUTF8String:messages];
-        NSLog(@"error%@", messageString);
-        return ;
-    } else {
-        NSLog(@"link successfully.");
-        glUseProgram(self.myProgram);
-    }
 }
+
+//- (void)compileAndLinkShader {
+//    
+//    //读取文件路径
+//    NSString* vertFile = [[NSBundle mainBundle] pathForResource:@"shaderv" ofType:@"vsh"];
+//    NSString* fragFile = [[NSBundle mainBundle] pathForResource:@"shaderf" ofType:@"fsh"];
+//    
+//    //加载shader
+//    self.myProgram = ShaderTools::createShaderProgram([vertFile UTF8String], [fragFile UTF8String]);
+//    glUseProgram(self.myProgram);
+//}
 
 - (void)dealloc {
     [myTimer invalidate];

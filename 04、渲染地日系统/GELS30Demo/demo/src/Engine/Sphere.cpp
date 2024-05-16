@@ -1,0 +1,149 @@
+//
+//  Sphere.cpp
+//  demo
+//
+//  Created by 刘靖煌 on 2024/5/14.
+//
+
+#include "Sphere.h"
+
+const std::shared_ptr<Material> &Sphere::getMaterial() const {
+    return mMaterial;
+}
+
+void Sphere::setMaterial(const std::shared_ptr<Material> &material) {
+    this->mMaterial = material;
+}
+
+Sphere::Sphere(float radius, std::shared_ptr<Material> &mMaterial) {
+    
+    this->setMaterial(mMaterial);
+    this->mScale.set(1.0f, 1.0f, 1.0f);
+    int stacks = 15;
+    int slices = 33;
+
+    // 生成顶点
+    for (int i = 0; i <= stacks; ++i) {
+        float phi = PI * (i / (float) (stacks - 1) - 0.5f); // 纬度角，从-PI/2到PI/2
+        float sinPhi = sinf(phi);
+        float cosPhi = cosf(phi);
+
+        for (int j = 0; j <= slices; ++j) {
+            float theta = 2.0f * PI * j / (float) slices; // 经度角，从0到2PI
+            float sinTheta = sinf(theta);
+            float cosTheta = cosf(theta);
+
+            // 计算顶点坐标
+            VertexData v;
+            v.position[0] = radius * cosPhi * sinTheta;
+            v.position[1] = radius * sinPhi;
+            v.position[2] = radius * cosPhi * cosTheta;
+
+            // 计算纹理坐标 (s, t)，s对应经度，t对应纬度
+            v.texCoord[0] = j / (float) slices; // 范围从0到1
+            v.texCoord[1] = 1.0f - i / (float) stacks; // 反转纬度以匹配常见的纹理映射（北极在上）
+
+            this->mVertex.push_back(v);
+        }
+    }
+
+    //生成索引
+    for (int i = 0; i < stacks - 1; ++i) {
+        for (int j = 0; j < slices; ++j) {
+            // 第一个三角形
+            mVertices.push_back(i * (slices + 1) + j);
+            mVertices.push_back((i + 1) * (slices + 1) + j);
+            mVertices.push_back(i * (slices + 1) + j + 1);
+
+            // 第二个三角形
+            mVertices.push_back((i + 1) * (slices + 1) + j);
+            mVertices.push_back((i + 1) * (slices + 1) + j + 1);
+            mVertices.push_back(i * (slices + 1) + j + 1);
+        }
+    }
+//    for (int i = 0; i < mVertex.size(); ++i) {
+//
+//        native_logd("sphere mVertex %f,%f,%f",mVertex[i].position[0],mVertex[i].position[1],mVertex[i].position[2]);
+//    }
+//
+
+}
+void Sphere::Begin() {
+
+    // 创建VAO和VBO
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+    glGenBuffers(1, &EBO); // 如果使用索引绘制，则需要EBO
+
+// 绑定VAO和VBO，并上传顶点数据
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    // 填充mVertex...
+    GLsizeiptr dataSize = mVertex.size() * sizeof(VertexData); // 计算数据总大小（字节）
+
+    glBufferData(GL_ARRAY_BUFFER, dataSize, this->mVertex.data(), GL_STATIC_DRAW);
+//    glBufferData(GL_ARRAY_BUFFER,  sizeof(cubeVertices) , cubeVertices, GL_STATIC_DRAW);
+
+// 如果使用索引绘制，则上传索引数据
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->mVertices.size(),
+                 this->mVertices.data(), GL_STATIC_DRAW);
+//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) , indices, GL_STATIC_DRAW);
+//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+//                          (void *) (0 * sizeof(float)));
+//    glEnableVertexAttribArray(0);
+//    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
+//                          (void *) (3 * sizeof(float)));
+//    glEnableVertexAttribArray(2);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData),
+                          (void *) (0 * sizeof(float)));
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData),
+                          (void *) (3 * sizeof(float)));
+    glEnableVertexAttribArray(2);
+
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    Object3D::Begin();
+}
+
+
+//void Sphere::LoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+void Sphere::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+{
+    if (!this->getMaterial()) {
+        return;
+    }
+    int shaderProgram = this->getMaterial()->use();
+    GLuint modelMatrixLoc = glGetUniformLocation(shaderProgram, "u_model");
+    GLuint viewMatrixLoc = glGetUniformLocation(shaderProgram, "u_view");
+    GLuint projectionMatrixLoc = glGetUniformLocation(shaderProgram, "u_projection");
+    GLuint ourTextureLoc = glGetUniformLocation(shaderProgram, "ourTexture");
+
+    glUniform1i(ourTextureLoc, 0);
+    glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, parent.m);
+    glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, cam.m);
+    glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, proj.m);
+
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, this->getMaterial()->getTextureId());
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
+    glDrawElements(GL_TRIANGLES, this->mVertices.size(), GL_UNSIGNED_INT, nullptr);
+//    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+}
+
+void Sphere::End() {
+    Object3D::End();
+    if (mMaterial) {
+        glDeleteProgram(mMaterial->getProgramId());
+    }
+}
