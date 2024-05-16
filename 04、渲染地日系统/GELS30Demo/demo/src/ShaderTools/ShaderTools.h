@@ -27,6 +27,9 @@ public:
     static void printShaderLog(GLuint shader);
     
     static void printProgramLog(int prog);
+    
+private:
+    static std::string readShader(const std::string &path);
 };
 
 

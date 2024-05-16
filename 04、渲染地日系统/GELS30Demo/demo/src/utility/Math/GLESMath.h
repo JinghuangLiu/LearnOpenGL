@@ -128,6 +128,10 @@ void ksOrtho(KSMatrix4 *result, float left, float right, float bottom, float top
 //
 void ksFrustum(KSMatrix4 *result, float left, float right, float bottom, float top, float nearZ, float farZ);
 
+void ksLookAt(KSMatrix4 *result, float eyeX, float eyeY, float eyeZ,
+              float centerX, float centerY, float centerZ,
+              float upX, float upY, float upZ);
+
 #ifdef __cplusplus
 }
 #endif

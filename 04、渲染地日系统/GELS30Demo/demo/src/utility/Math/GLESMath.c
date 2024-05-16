@@ -211,3 +211,59 @@ void ksOrtho(KSMatrix4 *result, float left, float right, float bottom, float top
     
     ksMatrixMultiply(result, &ortho, result);
 }
+
+
+void ksLookAt(KSMatrix4 *result, float eyeX, float eyeY, float eyeZ,
+              float centerX, float centerY, float centerZ,
+              float upX, float upY, float upZ) {
+    float fx, fy, fz, rlf, sx, sy, sz, rls, ux, uy, uz;
+    fx = centerX - eyeX;
+    fy = centerY - eyeY;
+    fz = centerZ - eyeZ;
+
+    rlf = 1.0f / sqrtf(fx * fx + fy * fy + fz * fz);
+    fx *= rlf;
+    fy *= rlf;
+    fz *= rlf;
+
+    sx = fy * upZ - fz * upY;
+    sy = fz * upX - fx * upZ;
+    sz = fx * upY - fy * upX;
+
+    rls = 1.0f / sqrtf(sx * sx + sy * sy + sz * sz);
+    sx *= rls;
+    sy *= rls;
+    sz *= rls;
+
+    ux = sy * fz - sz * fy;
+    uy = sz * fx - sx * fz;
+    uz = sx * fy - sy * fx;
+
+    result->m[0][0] = sx;
+    result->m[0][1] = ux;
+    result->m[0][2] = -fx;
+    result->m[0][3] = 0.0f;
+
+    result->m[1][0] = sy;
+    result->m[1][1] = uy;
+    result->m[1][2] = -fy;
+    result->m[1][3] = 0.0f;
+
+    result->m[2][0] = sz;
+    result->m[2][1] = uz;
+    result->m[2][2] = -fz;
+    result->m[2][3] = 0.0f;
+
+    result->m[3][0] = 0.0f;
+    result->m[3][1] = 0.0f;
+    result->m[3][2] = 0.0f;
+    result->m[3][3] = 1.0f;
+
+    KSMatrix4 translation;
+    ksMatrixLoadIdentity(&translation);
+    translation.m[3][0] = -eyeX;
+    translation.m[3][1] = -eyeY;
+    translation.m[3][2] = -eyeZ;
+
+    ksMatrixMultiply(result, result, &translation);
+}

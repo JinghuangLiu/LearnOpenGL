@@ -45,6 +45,11 @@ using namespace xscore;
 //月球旋转角度
 @property (nonatomic) GLfloat moonRotationAngleDegrees;
 
+
+@property (nonatomic) GLfloat camerDegrees;
+
+@property (nonatomic) GLfloat camerYDegrees;
+
 @end
 
 @implementation GLESDemoController {
@@ -92,6 +97,74 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
                                              selector:@selector(tick:)
                                              userInfo:nil
                                               repeats:YES];
+    
+    UIButton *leftBtn = [[UIButton alloc] init];
+    leftBtn.tag = 1;
+    [leftBtn setTitle:@"左" forState:UIControlStateNormal];
+    [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *rightBtn = [[UIButton alloc] init];
+    rightBtn.tag = 2;
+    [rightBtn setTitle:@"右" forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [rightBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *topBtn = [[UIButton alloc] init];
+    topBtn.tag = 0;
+    [topBtn setTitle:@"上" forState:UIControlStateNormal];
+    [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [topBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *bottomBtn = [[UIButton alloc] init];
+    bottomBtn.tag = 3;
+    [bottomBtn setTitle:@"下" forState:UIControlStateNormal];
+    [bottomBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [bottomBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:leftBtn];
+    [self.view addSubview:rightBtn];
+    [self.view addSubview:topBtn];
+    [self.view addSubview:bottomBtn];
+    
+    leftBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    rightBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    topBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    bottomBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [[bottomBtn.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-60] setActive:YES];
+    [[bottomBtn.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor] setActive:YES];
+    [[bottomBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
+    [[bottomBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
+    
+    
+    [[topBtn.bottomAnchor constraintEqualToAnchor:bottomBtn.topAnchor constant:-60] setActive:YES];
+    [[topBtn.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor] setActive:YES];
+    [[topBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
+    [[topBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
+    
+    
+    [[leftBtn.topAnchor constraintEqualToAnchor:topBtn.bottomAnchor constant:10] setActive:YES];
+    [[leftBtn.rightAnchor constraintEqualToAnchor:topBtn.leftAnchor constant:20] setActive:YES];
+    [[leftBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
+    [[leftBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
+    
+    
+    [[rightBtn.topAnchor constraintEqualToAnchor:topBtn.bottomAnchor constant:10] setActive:YES];
+    [[rightBtn.leftAnchor constraintEqualToAnchor:topBtn.rightAnchor constant:-20] setActive:YES];
+    [[rightBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
+    [[rightBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
+    
+    
+}
+
+- (void) changeCamer:(UIButton *)sender {
+    if (sender.tag == 0) { 
+        _camerYDegrees += 1;
+    }else if (sender.tag == 1) {
+        _camerDegrees += 1;
+    }else if (sender.tag == 2) {
+        _camerDegrees -= 1;
+    }else if (sender.tag == 3) {
+        _camerYDegrees -= 1;
+    }
+    
 }
 
 - (void)tick:(id)sender {
@@ -255,7 +328,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     ksMatrixLoadIdentity(&_projectionMatrix);
     
     //1.2、透视变换，视角30°
-    ksPerspective(&_projectionMatrix, 30, aspect, 5.0f, 20.0f);
+    ksPerspective(&_projectionMatrix, 30, aspect, 1.0f, 120.0f);
     //1.3、传递给着色器程序
     glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
     
@@ -274,11 +347,24 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     glEnable(GL_DEPTH_TEST);
     
     //2.视图矩阵
+//    KSMatrix4 _viewMatrix;
+//    ksMatrixLoadIdentity(&_viewMatrix);
+//    ksTranslate(&_viewMatrix, 0.0, 0.0, -15);
+//    //换个视角看
+//    ksRotate(&_viewMatrix, _camerYDegrees, 0.0, 1.0, 0.0);
+    
+    
+    float eyeX = sin(_camerYDegrees), eyeY = 0.0, eyeZ = -cos(_camerYDegrees) + 1;
+    float centerX = 0.0f, centerY = 0, centerZ = 0.0f;
+    float upX = 0.0f, upY = 1.0, upZ = 0.0f;
+
     KSMatrix4 _viewMatrix;
     ksMatrixLoadIdentity(&_viewMatrix);
-    ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
+//    ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
     //换个视角看
 //    ksRotate(&_viewMatrix, 90, 0.0, 1.0, 0.0);
+
+    ksLookAt(&_viewMatrix, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
     glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
     
     //2.视图矩阵
@@ -293,8 +379,8 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //🌞太阳
     KSMatrix4 _sunMatrix;
     ksMatrixLoadIdentity(&_sunMatrix);
-    ksScale(&_sunMatrix, 1.5, 1.5, 1.5);
-    ksRotate(&_sunMatrix, self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
+//    ksScale(&_sunMatrix, 1.5, 1.5, 1.5);
+//    ksRotate(&_sunMatrix, self.sunRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_sunMatrix.m[0][0]);
     glBindTexture(GL_TEXTURE_2D, sunTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);
@@ -312,9 +398,9 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     KSMatrix4 _earthMatrix;
     ksMatrixLoadIdentity(&_earthMatrix);
     //公转
-    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+//    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
     ksTranslate(&_earthMatrix, 0, 0, -2.0);
-    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
+//    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
     //自转
     ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_earthMatrix.m[0][0]);

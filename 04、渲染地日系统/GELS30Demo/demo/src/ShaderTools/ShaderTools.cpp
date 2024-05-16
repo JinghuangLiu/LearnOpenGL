@@ -6,11 +6,13 @@
 //
 
 #include "ShaderTools.h"
-
+#include <fstream>
+#include <sstream>
 GLuint ShaderTools::buildProgram(const std::string &vertexShaderText,const std::string &fragmentShaderText) {
-    
-    const char *vst = vertexShaderText.c_str();
-    const char *fst = fragmentShaderText.c_str();
+    std::string v = ShaderTools::readShader(vertexShaderText);
+    std::string f = ShaderTools::readShader(fragmentShaderText);
+    const char *vst = v.c_str();
+    const char *fst = f.c_str();
     
     GLuint vertexShaderHandle = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShaderHandle,1, &vst, NULL);
@@ -57,6 +59,33 @@ GLuint ShaderTools::buildProgram(const std::string &vertexShaderText,const std::
     glDeleteShader(vertexShaderHandle);
     glDeleteShader(fragmentShaderHandle);
     return programHandle;
+}
+
+std::string ShaderTools::readShader(const std::string &path) {
+    // 1. 从文件路径中获取顶点/片段着色器
+    std::string source;
+    std::ifstream shaderFile;
+    // 保证ifstream对象可以抛出异常
+    shaderFile.exceptions(std::ifstream::badbit);
+    try
+    {
+        // 打开文件
+        shaderFile.open(path);
+        // 读取文件的缓冲内容到流中
+        std::stringstream shaderStream;
+        shaderStream << shaderFile.rdbuf();
+        // 关闭文件
+        shaderFile.close();
+        // 转换流到GLchar数组
+        source = shaderStream.str();
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ"<< std::endl;
+        return "";
+    }
+    
+    return source;
 }
 
 void ShaderTools::printShaderLog(GLuint shader)
