@@ -14,7 +14,7 @@
 
 #include "NativeRender.h"
 
-@interface NewWorldViewController() <GLKViewDelegate> {
+@interface NewWorldViewController() {
     GLKView *renderView;
     NSTimer *myTimer;
     NativeRender mNativeRender;
@@ -34,9 +34,6 @@
     
     //初始化上下文和视图
     [self setupContextAndRenderView];
-    
-    mNativeRender = NativeRender();
-    mNativeRender.create(self.mContext, self.view.frame.size.width, self.view.frame.size.height);
     
     //开始渲染
     myTimer = [NSTimer scheduledTimerWithTimeInterval:1/30
@@ -58,33 +55,21 @@
     renderView = [[GLKView alloc] initWithFrame:self.view.bounds context:self.mContext];
     renderView.drawableColorFormat = GLKViewDrawableColorFormatRGBA8888; //颜色缓冲区格式
     renderView.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    renderView.delegate = self;
     [self.view addSubview:renderView];
     renderView.context = self.mContext;
 //    self.myEagLayer = (CAEAGLLayer*)renderView.layer;
     
-    
+    //初始化
+    mNativeRender = NativeRender();
     CGFloat scale = [[UIScreen mainScreen] scale];
-    //设置视口大小
-    glViewport(self.view.frame.origin.x * scale,
-               self.view.frame.origin.y * scale,
-               self.view.frame.size.width * scale,
-               self.view.frame.size.height * scale);
+    mNativeRender.create(self.view.frame.size.width*scale, self.view.frame.size.height*scale);
 }
 
 - (void)tick:(id)sender {
-    [self renderLayer];
-}
-
-- (void)renderLayer {
-    
-    
-    mNativeRender.drawFrame(0,1/30);
-    
+    //绘制
+    mNativeRender.drawFrame();
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
 }
-
-
 
 - (void)dealloc {
     [myTimer invalidate];

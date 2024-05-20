@@ -7,15 +7,15 @@
 
 #include "Sphere.h"
 
-const std::shared_ptr<Material> &Sphere::getMaterial() const {
+const shared_ptr<Material> &Sphere::getMaterial() const {
     return mMaterial;
 }
 
-void Sphere::setMaterial(const std::shared_ptr<Material> &material) {
+void Sphere::setMaterial(const shared_ptr<Material> &material) {
     this->mMaterial = material;
 }
 
-Sphere::Sphere(float radius, std::shared_ptr<Material> &mMaterial) {
+Sphere::Sphere(float radius, shared_ptr<Material> &mMaterial) {
     
     this->setMaterial(mMaterial);
     this->mScale.set(1.0f, 1.0f, 1.0f);
@@ -86,8 +86,7 @@ void Sphere::Begin() {
 
 // 如果使用索引绘制，则上传索引数据
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->mVertices.size(),
-                 this->mVertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->mVertices.size(), this->mVertices.data(), GL_STATIC_DRAW);
 //    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) , indices, GL_STATIC_DRAW);
 //    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
 //                          (void *) (0 * sizeof(float)));
@@ -95,11 +94,16 @@ void Sphere::Begin() {
 //    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
 //                          (void *) (3 * sizeof(float)));
 //    glEnableVertexAttribArray(2);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData),
-                          (void *) (0 * sizeof(float)));
+    
+    //第一个参数指定要配置的顶点属性
+    //第二个参数指定顶点属性的大小
+    //第三个参数指定数据的类型
+    //第四个参数指定是否数据被标准化
+    //第五个参数叫做步长(Stride)，它告诉我们在连续的顶点属性组之间的间隔
+    //最后一个参数的类型是void*，表示位置数据在缓冲中起始位置的偏移量(Offset)
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(VertexData),(void *) (0 * sizeof(float)));
     glEnableVertexAttribArray(0);
-    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData),
-                          (void *) (3 * sizeof(float)));
+    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData),(void *) (3 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
 
@@ -110,8 +114,6 @@ void Sphere::Begin() {
     Object3D::Begin();
 }
 
-
-//void Sphere::LoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 void Sphere::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     if (!this->getMaterial()) {

@@ -22,7 +22,7 @@ class Material
 public:
     
     Material(const string &vertexShaderPath,
-             const std::string &fragmentShaderPath,
+             const string &fragmentShaderPath,
              unsigned char *textureData, int textureW, int textureH);
 
     Material(unsigned int programId, unsigned int textureId) {

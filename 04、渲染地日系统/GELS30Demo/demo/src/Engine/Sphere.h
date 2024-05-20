@@ -10,39 +10,40 @@
 
 #include <stdio.h>
 #include <iostream>
+#include <vector>
+
 #include "Object3D.h"
 #include "Material.h"
 #include "OpenGLES.h"
-#include <vector>
+
+using namespace std;
 using namespace xscore;
 
 //定义球形模型
-class Sphere : public Object3D
-{
+class Sphere : public Object3D {
+    
 public:
-    Sphere(float radius, std::shared_ptr<Material> &material);
+    Sphere(float radius, shared_ptr<Material> &material);
 
     void Begin() override;
-
-    //void LoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent) override;
-    virtual void OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent);
-
+    virtual void OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent) override;
     void End() override;
 
 //private:
     GLuint VAO, VBO, EBO;
-    //顶点信息字段
-    std::vector<VertexData> mVertex;
+    
+    //顶点数据
+    vector<VertexData> mVertex;
 
-    //索引信息字段
-    std::vector<unsigned int> mVertices;
+    //索引数据
+    vector<unsigned int> mVertices;
 
     //材质
-    std::shared_ptr<Material> mMaterial;
+    shared_ptr<Material> mMaterial;
 public:
-    const std::shared_ptr<Material> &getMaterial() const;
+    const shared_ptr<Material> &getMaterial() const;
 
-    void setMaterial(const std::shared_ptr<Material> &material);
+    void setMaterial(const shared_ptr<Material> &material);
 };
 
 #endif /* Sphere_hpp */

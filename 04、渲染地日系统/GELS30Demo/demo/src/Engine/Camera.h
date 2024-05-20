@@ -10,6 +10,8 @@
 
 #include <stdio.h>
 #include "Object3D.h"
+
+using namespace std;
 using namespace xscore;
 
 enum CameraMovement {
@@ -25,6 +27,7 @@ enum CameraMovement {
 class Camera  : public Object3D
 {
 public:
+    
     Camera(XSVector3 position, float mFov, float aspectRatio, float mNear, float mFar);
 
     XSMatrix getViewMatrix();
@@ -48,10 +51,11 @@ private:
     float mFov;
     float mNear;
     float mFar;
+    
     XSVector3 mPos;
     XSVector3 mFront;
 //        xscore::XSVector3 mTo;
-    xscore::XSVector3 mUp;
+    XSVector3 mUp;
     // 旋转角度
     float yaw = 0.0f;
 };

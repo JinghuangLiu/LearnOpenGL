@@ -44,14 +44,10 @@ void NewWorld::Begin() {
     auto earthMaterial = std::make_shared<Material>(engineV,engineF,loadImage(@"Earth512x256.jpg"),width,height);
     
     //创建一个太阳纹理材质
-    auto sunMaterial = std::make_shared<Material>(
-                                                  engineV,
-                                                  engineF,loadImage(@"sun.jpg"),width,height);
+    auto sunMaterial = std::make_shared<Material>(engineV,engineF,loadImage(@"sun.jpg"),width,height);
 
     //创建一个月球纹理材质
-    auto moonMaterial = std::make_shared<Material>(
-                                                   engineV,
-                                                   engineF,loadImage(@"moon.jpg"),width,height);
+    auto moonMaterial = std::make_shared<Material>(engineV,engineF,loadImage(@"moon.jpg"),width,height);
 
     sunObj = std::make_shared<Sphere>(0.5f, sunMaterial);
     earthObj = std::make_shared<Sphere>(0.2f, earthMaterial);
@@ -71,25 +67,21 @@ void NewWorld::Begin() {
     //设置月球相对地球在X轴的偏移量
     moonObj->setPosition(XSVector3(0.5f, 0.0f, 0.0f));
 
-
     //测试加多个立方体
-
-//    cubeObj = std::make_shared<Cube>(1.0f, sunMaterial);
+//    cubeObj = make_shared<Cube>(1.0f, sunMaterial);
 //    cubeObj->setPosition(XSVector3(0.0f, 3.0f, 0.0f));
 //    addChild(cubeObj);
-//
-//    std::shared_ptr<Object3D> cubeSubObj = std::make_shared<Cube>(0.5f, earthMaterial);
+//    
+//    shared_ptr<Object3D> cubeSubObj = make_shared<Cube>(0.5f, earthMaterial);
 //    cubeSubObj->setPosition(XSVector3(1.0f, 0.0f, 0.0f));
 //    cubeObj->addChild(cubeSubObj);
-
 
     Object3D::Begin();
 }
 
-void NewWorld::LoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+void NewWorld::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     this->cycleAccumulator += 0.01f;
-
 
     //太阳自转 在原点绕着Y轴旋转  速度设置慢一点
     XSVector3 temp = this->sunObj->getRotation();
@@ -109,7 +101,7 @@ void NewWorld::LoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 
     //this->cubeObj->setRotation(this->cycleAccumulator * 360.0f, XSVector3(0.0f, 1.0f, 0.0f));
 
-    Object3D::LoopOnce(proj, cam, parent);
+    Object3D::Loop(proj, cam, parent);
 
 }
 

@@ -11,7 +11,7 @@ Object3D::Object3D() : mScale(1.0f, 1.0f, 1.0f) {
 
 }
 
-void Object3D::LoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+void Object3D::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     //先缩放（Scale），再旋转（Rotate），最后位移（Translate）
     //M = T * R * S
@@ -26,9 +26,9 @@ void Object3D::LoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 
     OnLoopOnce(proj, cam, childParent);
 
-    for (std::shared_ptr<Object3D>& child: mChildren)
+    for (shared_ptr<Object3D>& child: mChildren)
     {
-        child->LoopOnce(proj, cam, childParent);
+        child->Loop(proj, cam, childParent);
     }
 }
 
@@ -36,7 +36,7 @@ const XSMatrix &Object3D::getMatrix() const {
     return mObjMatrix;
 }
 
-void Object3D::addChild(std::shared_ptr<Object3D> childObject3D) {
+void Object3D::addChild(shared_ptr<Object3D> childObject3D) {
     this->mChildren.push_back(childObject3D);
 }
 
@@ -54,10 +54,9 @@ void Object3D::setScale(const XSVector3 &mScale) {
     Object3D::mScale = mScale;
 }
 
-const std::vector<std::shared_ptr<Object3D>> &Object3D::getChildren() const {
+const vector<shared_ptr<Object3D>> &Object3D::getChildren() const {
     return mChildren;
 }
-
 
 void Object3D::Begin() {
     if (mChildren.size() > 0) {
@@ -69,7 +68,7 @@ void Object3D::Begin() {
 
 void Object3D::End() {
     if (mChildren.size() > 0) {
-        for (std::shared_ptr<Object3D> &child: mChildren) {
+        for (shared_ptr<Object3D> &child: mChildren) {
             child->End();
         }
     }

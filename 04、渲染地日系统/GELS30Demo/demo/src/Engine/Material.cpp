@@ -9,14 +9,14 @@
 #include "OpenGLES.h"
 #include "ShaderTools.h"
 
-Material::Material(const std::string &vertexShaderPath,
-                   const std::string &fragmentShaderPath,
+Material::Material(const string &vertexShaderPath,
+                   const string &fragmentShaderPath,
                    unsigned char *textureData, int textureW, int textureH) {
     
     const char *vertexShaderText = vertexShaderPath.c_str();
     const char *fragmentShaderText = fragmentShaderPath.c_str();
     
-    this->programId = ShaderTools::buildProgram(vertexShaderText, fragmentShaderText);
+    this->programId = ShaderTools::createShaderProgram(vertexShaderText, fragmentShaderText);
 
     glGenTextures(1, &this->textureId);
     glBindTexture(GL_TEXTURE_2D, this->textureId);
@@ -40,7 +40,7 @@ int Material::use() const {
     return programId;
 }
 
-void Material::setVec3(const std::string &name, XSVector3 &value) const {
+void Material::setVec3(const string &name, XSVector3 &value) const {
     glUniform3fv(glGetUniformLocation(this->programId, name.c_str()), 1, &value[0]);
 }
 

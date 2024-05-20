@@ -18,10 +18,10 @@
 class NativeRender
 {
 public:
-    void create(EAGLContext *mContext,int width, int height);
+    void create(int width, int height);
     void resize(int width, int height);
+    void drawFrame();
     void destroy();
-    int drawFrame(int texture, double interval);
     
 private:
     shared_ptr<NewWorld> worldObj;

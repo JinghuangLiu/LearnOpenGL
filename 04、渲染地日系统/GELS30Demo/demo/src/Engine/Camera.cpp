@@ -7,7 +7,7 @@
 
 #include "Camera.h"
 
-Camera::Camera(xscore::XSVector3 position, float fov, float aspectRatio, float near,
+Camera::Camera(XSVector3 position, float fov, float aspectRatio, float near,
                float far) : mAspectRatio(
         aspectRatio), mFov(fov), mNear(near), mFar(far) {
     mPos.set(position.x, position.y, position.z);
@@ -15,14 +15,14 @@ Camera::Camera(xscore::XSVector3 position, float fov, float aspectRatio, float n
     mUp.set(0.0f, 1.0f, 0.0f);
 }
 
-xscore::XSMatrix Camera::getViewMatrix() {
+XSMatrix Camera::getViewMatrix() {
 //        mObjMatrix.makeLookAt(mPos, mTo,
 //                              mUp);
     mObjMatrix.makeLookAt(mPos, mPos + mFront,mUp);
     return mObjMatrix;
 }
 
-xscore::XSMatrix Camera::getProjectionPerspectiveMatrix() const {
+XSMatrix Camera::getProjectionPerspectiveMatrix() const {
     xscore::XSMatrix matrix;
     //    用的是弧度。  弧度/π = 角度/180°
     float fov = mFov / 180.0f * PI; // 视场角
@@ -45,7 +45,7 @@ void Camera::zoomOut(float deltaAngle) {
     }
 }
 
-const xscore::XSVector3 &Camera::getPosition() {
+const XSVector3 &Camera::getPosition() {
     return mPos;
 }
 

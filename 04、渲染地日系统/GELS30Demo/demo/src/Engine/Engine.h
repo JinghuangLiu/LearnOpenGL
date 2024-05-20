@@ -10,6 +10,7 @@
 
 #include "Object3D.h"
 #include "Sphere.h"
+#include "Cube.h"
 #include "Material.h"
 #include "Camera.h"
 

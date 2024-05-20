@@ -17,6 +17,7 @@
 		483C4BD22BC4D613008A6C47 /* shaderf.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 483C4BD02BC4D613008A6C47 /* shaderf.fsh */; };
 		4846FD932BF489FF00184471 /* ShaderTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4846FD912BF489FF00184471 /* ShaderTools.cpp */; };
 		4846FD962BF4906900184471 /* ShaderUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4846FD952BF4906900184471 /* ShaderUtils.m */; };
+		4868E0EF2BFAFD8B00290336 /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4868E0ED2BFAFD8B00290336 /* Cube.cpp */; };
 		487D428B2BEF215200E55574 /* moon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 487D428A2BEF215200E55574 /* moon.jpg */; };
 		489130D12BE0BFB800012736 /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 489130CF2BE0BFB700012736 /* Earth512x256.jpg */; };
 		489130D22BE0BFB800012736 /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 489130D02BE0BFB800012736 /* Moon256x128.png */; };
@@ -80,6 +81,8 @@
 		4846FD922BF489FF00184471 /* ShaderTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderTools.h; sourceTree = "<group>"; };
 		4846FD942BF4906900184471 /* ShaderUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShaderUtils.h; sourceTree = "<group>"; };
 		4846FD952BF4906900184471 /* ShaderUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShaderUtils.m; sourceTree = "<group>"; };
+		4868E0ED2BFAFD8B00290336 /* Cube.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
+		4868E0EE2BFAFD8B00290336 /* Cube.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = "<group>"; };
 		487D428A2BEF215200E55574 /* moon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = moon.jpg; sourceTree = "<group>"; };
 		489130CE2BE0BE0600012736 /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
 		489130CF2BE0BFB700012736 /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
@@ -163,8 +166,8 @@
 		4846FD902BF489EB00184471 /* ShaderTools */ = {
 			isa = PBXGroup;
 			children = (
-				4846FD912BF489FF00184471 /* ShaderTools.cpp */,
 				4846FD922BF489FF00184471 /* ShaderTools.h */,
+				4846FD912BF489FF00184471 /* ShaderTools.cpp */,
 				4846FD942BF4906900184471 /* ShaderUtils.h */,
 				4846FD952BF4906900184471 /* ShaderUtils.m */,
 			);
@@ -202,6 +205,8 @@
 				489CD30A2BF3664A00B24226 /* Object3D.cpp */,
 				489CD30E2BF366FC00B24226 /* Sphere.h */,
 				489CD30D2BF366FC00B24226 /* Sphere.cpp */,
+				4868E0EE2BFAFD8B00290336 /* Cube.h */,
+				4868E0ED2BFAFD8B00290336 /* Cube.cpp */,
 				489CD3112BF3685F00B24226 /* Material.h */,
 				489CD3102BF3685F00B24226 /* Material.cpp */,
 				489CD3142BF368B800B24226 /* Camera.h */,
@@ -465,6 +470,7 @@
 				48A1AC6A2BEF6AF7003D4E1F /* XSMatrix.cpp in Sources */,
 				BAE685832BBA9DDE00A42F42 /* NativeRender.mm in Sources */,
 				48A1AC6C2BEF6AF7003D4E1F /* XSVector2.cpp in Sources */,
+				4868E0EF2BFAFD8B00290336 /* Cube.cpp in Sources */,
 				489CD30C2BF3664A00B24226 /* Object3D.cpp in Sources */,
 				489CD30F2BF366FC00B24226 /* Sphere.cpp in Sources */,
 				BAE685572BBA97EB00A42F42 /* GLESDemoController.mm in Sources */,

@@ -30,15 +30,12 @@ private:
     int width;
     int height;
     
+    GLubyte* loadImage(NSString *fileName);
+    
 public:
     void Begin();
-    
-    void LoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent);
-    
+    void Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent);
     void End();
-    
-    
-    GLubyte* loadImage(NSString *fileName);
 };
 
 

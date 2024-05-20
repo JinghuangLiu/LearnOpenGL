@@ -16,17 +16,7 @@
 class ShaderTools
 {
 public:
-    
-    
-    static GLuint createShaderProgram(const char* vertexShaderPath, const char* flagShaderPath);
-    
-    static GLuint buildProgram(const std::string &vertexShaderText,const std::string &fragmentShaderText);
-    
-    static bool checkOpenGLError();
-    
-    static void printShaderLog(GLuint shader);
-    
-    static void printProgramLog(int prog);
+    static GLuint createShaderProgram(const std::string &vertexShaderText,const std::string &fragmentShaderText);
     
 private:
     static std::string readShader(const std::string &path);
