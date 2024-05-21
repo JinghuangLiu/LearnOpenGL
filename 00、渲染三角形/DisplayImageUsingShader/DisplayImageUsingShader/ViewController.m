@@ -86,7 +86,7 @@
     }
     else {
         NSLog(@"link Successfully");
-        glUseProgram(self.myProgram); //成功便使用，避免由于未使用导致的的bug
+        glUseProgram(self.myProgram);
     }
 
     
