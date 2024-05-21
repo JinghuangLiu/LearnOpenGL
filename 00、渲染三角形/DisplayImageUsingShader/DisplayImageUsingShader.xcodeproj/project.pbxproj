@@ -13,8 +13,8 @@
 		485C1C0725FB6C25007C2EEB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 485C1C0625FB6C25007C2EEB /* Assets.xcassets */; };
 		485C1C0A25FB6C25007C2EEB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 485C1C0825FB6C25007C2EEB /* LaunchScreen.storyboard */; };
 		485C1C0D25FB6C25007C2EEB /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 485C1C0C25FB6C25007C2EEB /* main.m */; };
-		485C1C1925FB715B007C2EEB /* shaderf.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 485C1C1825FB715B007C2EEB /* shaderf.fsh */; };
-		48F923F82BC3FB94006AB710 /* shaderv.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 48F923F62BC3FB94006AB710 /* shaderv.vsh */; };
+		48ACA3D52BFC7DBC0006B8C2 /* shaderf.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 48ACA3D32BFC7DBC0006B8C2 /* shaderf.fsh */; };
+		48ACA3D62BFC7DBC0006B8C2 /* shaderv.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 48ACA3D42BFC7DBC0006B8C2 /* shaderv.vsh */; };
 		48F923FB2BC40E35006AB710 /* gene.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48F923FA2BC40E35006AB710 /* gene.jpg */; };
 /* End PBXBuildFile section */
 
@@ -29,10 +29,8 @@
 		485C1C0925FB6C25007C2EEB /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		485C1C0B25FB6C25007C2EEB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		485C1C0C25FB6C25007C2EEB /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		485C1C1525FB6CA8007C2EEB /* shaderv.vsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shaderv.vsh; sourceTree = "<group>"; };
-		485C1C1825FB715B007C2EEB /* shaderf.fsh */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.glsl; path = shaderf.fsh; sourceTree = "<group>"; };
-		48F923F52BC3FB94006AB710 /* shaderf.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderf.fsh; sourceTree = "<group>"; };
-		48F923F62BC3FB94006AB710 /* shaderv.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderv.vsh; sourceTree = "<group>"; };
+		48ACA3D32BFC7DBC0006B8C2 /* shaderf.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderf.fsh; sourceTree = "<group>"; };
+		48ACA3D42BFC7DBC0006B8C2 /* shaderv.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderv.vsh; sourceTree = "<group>"; };
 		48F923FA2BC40E35006AB710 /* gene.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = gene.jpg; path = "../../../01、DisplayImage/OpenGLDisplayImage/gene.jpg"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -77,8 +75,6 @@
 				485C1C0825FB6C25007C2EEB /* LaunchScreen.storyboard */,
 				485C1C0B25FB6C25007C2EEB /* Info.plist */,
 				485C1C0C25FB6C25007C2EEB /* main.m */,
-				485C1C1525FB6CA8007C2EEB /* shaderv.vsh */,
-				485C1C1825FB715B007C2EEB /* shaderf.fsh */,
 			);
 			path = DisplayImageUsingShader;
 			sourceTree = "<group>";
@@ -86,8 +82,8 @@
 		48F923F12BC3F9D8006AB710 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
-				48F923F62BC3FB94006AB710 /* shaderv.vsh */,
-				48F923F52BC3FB94006AB710 /* shaderf.fsh */,
+				48ACA3D32BFC7DBC0006B8C2 /* shaderf.fsh */,
+				48ACA3D42BFC7DBC0006B8C2 /* shaderv.vsh */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -148,12 +144,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				485C1C1925FB715B007C2EEB /* shaderf.fsh in Resources */,
+				48ACA3D52BFC7DBC0006B8C2 /* shaderf.fsh in Resources */,
 				485C1C0A25FB6C25007C2EEB /* LaunchScreen.storyboard in Resources */,
 				485C1C0725FB6C25007C2EEB /* Assets.xcassets in Resources */,
+				48ACA3D62BFC7DBC0006B8C2 /* shaderv.vsh in Resources */,
 				485C1C0525FB6C24007C2EEB /* Main.storyboard in Resources */,
 				48F923FB2BC40E35006AB710 /* gene.jpg in Resources */,
-				48F923F82BC3FB94006AB710 /* shaderv.vsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
