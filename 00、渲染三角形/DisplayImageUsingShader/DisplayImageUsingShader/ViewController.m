@@ -90,9 +90,9 @@
         glUseProgram(self.myProgram);
     }
 
-    [self vboDemo];
+//    [self vboDemo];
     
-//    [self vaoDemo];
+    [self vaoDemo];
     
     [self.mContext presentRenderbuffer:GL_RENDERBUFFER];
 }
@@ -153,9 +153,19 @@
         0.45f, 0.5f, 0.0f   // top
     };
     
-    unsigned int VBOs[2], VAOs[2];
+    float thirdTriangle[] = {
+        0.0f, 0.2f, 0.0f,  // left
+        0.4f, 0.2f, 0.0f,  // right
+        0.2f, 0.9f, 0.0f   // top
+    };
+    
+    
+    unsigned int VBOs[3], VAOs[2], VAOs2[2]; // VAOs、VAOs2 存放同一类型或场景的顶点纹理等
     glGenVertexArrays(2, VAOs); // we can also generate multiple VAOs or buffers at the same time
-    glGenBuffers(2, VBOs);
+   
+    glGenVertexArrays(2, VAOs2);
+    
+    glGenBuffers(3, VBOs);
     
     // first triangle setup
     // --------------------
@@ -175,6 +185,21 @@
     glEnableVertexAttribArray(0);
     // glBindVertexArray(0); // not really necessary as well, but beware of calls that could affect VAOs while this one is bound (like binding element buffer objects, or enabling/disabling vertex attributes)
 
+    glBindVertexArray(VAOs[1]);    // note that we bind to a different VAO now
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[1]);    // and a different VBO
+    glBufferData(GL_ARRAY_BUFFER, sizeof(secondTriangle), secondTriangle, GL_STATIC_DRAW);
+    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, 0, (void*)0); // because the vertex data is tightly packed we can also specify 0 as the vertex attribute's stride to let OpenGL figure it out
+    glEnableVertexAttribArray(0);
+    
+    
+    
+    glBindVertexArray(VAOs2[0]);
+    
+    glBindBuffer(GL_ARRAY_BUFFER, VBOs[2]);    // and a different VBO
+    glBufferData(GL_ARRAY_BUFFER, sizeof(thirdTriangle), thirdTriangle, GL_STATIC_DRAW);
+    glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+    
+    glEnableVertexAttribArray(0);
     
     // draw first triangle using the data from the first VAO
     glBindVertexArray(VAOs[0]);
@@ -183,10 +208,18 @@
     glBindVertexArray(VAOs[1]);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     
+    glBindVertexArray(VAOs2[0]);
+    glDrawArrays(GL_TRIANGLES, 0, 3);
+    
+    
+//    glBindVertexArray(VAOs[1]);
+//    glDrawArrays(GL_TRIANGLES, 0, 3);
+    
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
     glDeleteVertexArrays(2, VAOs);
     glDeleteBuffers(2, VBOs);
+    glDeleteBuffers(2, VAOs2);
     glDeleteProgram(self.myProgram);
 }
 
