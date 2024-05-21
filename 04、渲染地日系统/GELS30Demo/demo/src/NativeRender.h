@@ -22,9 +22,8 @@ public:
     void resize(int width, int height);
     void drawFrame();
     void destroy();
-    
+    shared_ptr<Camera> camera;
 private:
     shared_ptr<NewWorld> worldObj;
-    shared_ptr<Camera> camera;
 };
 
