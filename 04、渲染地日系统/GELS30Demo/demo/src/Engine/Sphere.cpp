@@ -61,13 +61,8 @@ Sphere::Sphere(float radius, shared_ptr<Material> &mMaterial) {
             mVertexIndices.push_back(i * (slices + 1) + j + 1);
         }
     }
-//    for (int i = 0; i < mVertex.size(); ++i) {
-//
-//        native_logd("sphere mVertex %f,%f,%f",mVertex[i].position[0],mVertex[i].position[1],mVertex[i].position[2]);
-//    }
-//
-
 }
+
 void Sphere::Begin() {
 
     //1、创建VAO和VBO
@@ -106,7 +101,7 @@ void Sphere::Begin() {
     Object3D::Begin();
 }
 
-void Sphere::OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+void Sphere::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     if (!this->getMaterial()) {
         return;
@@ -131,6 +126,7 @@ void Sphere::OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
     glDrawElements(GL_TRIANGLES, this->mVertexIndices.size(), GL_UNSIGNED_INT, nullptr);
 
+    //解绑
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);

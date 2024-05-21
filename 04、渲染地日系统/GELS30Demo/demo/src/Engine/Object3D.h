@@ -31,9 +31,9 @@ public:
     Object3D();
     
     virtual void Begin();
-    //每一帧的调用入口，递归调用所有子类的LoopOnce。
-    virtual void Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent);
-    virtual void OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent){};
+    //每一帧的调用入口，递归调用所有子类的RecursiveLoop
+    virtual void RecursiveLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent);
+    virtual void OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent){};
     virtual void End();
     
     //子对象

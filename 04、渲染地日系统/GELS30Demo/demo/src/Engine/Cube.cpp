@@ -80,7 +80,7 @@ void Cube::Begin() {
     Object3D::Begin();
 }
 
-void Cube::OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+void Cube::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     if (!this->getMaterial()) {
         return;

@@ -28,7 +28,7 @@ public:
     Cube(float edge, shared_ptr<Material> &material);
 
     void Begin() override;
-    virtual void OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent) override;
+    virtual void OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent) override;
     void End() override;
     
 private:

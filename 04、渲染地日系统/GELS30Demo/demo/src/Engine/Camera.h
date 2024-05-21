@@ -23,6 +23,7 @@ enum CameraMovement {
     ROTATE_RIGHT
 };
 
+//参考：https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/
 //定义相机
 class Camera  : public Object3D
 {
@@ -33,15 +34,20 @@ public:
     XSMatrix getViewMatrix();
 
     XSMatrix getProjectionPerspectiveMatrix() const;
-
+    
+    // 摄像头移动
     void move(CameraMovement movement, float delta);
 
+    // 缩小
     void zoomIn(float deltaAngle = 0.5f);
 
+    // 放大
     void zoomOut(float deltaAngle = 0.5f);
 
+    //位置
     const XSVector3 &getPosition();
 
+    // 获取缩放系数
     const float getZoom();
 
     void receiveKeyCommand(char key);
@@ -52,11 +58,13 @@ private:
     float mNear;
     float mFar;
     
-    XSVector3 mPos;
-    XSVector3 mFront;
-//        xscore::XSVector3 mTo;
-    XSVector3 mUp;
-    // 旋转角度
+    //位置
+    XSVector3 cameraPosition;
+    //前向量
+    XSVector3 cameraFront;
+    //上向量
+    XSVector3 cameraUp;
+    //旋转角度
     float yaw = 0.0f;
 };
 

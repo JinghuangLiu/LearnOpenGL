@@ -23,7 +23,9 @@ public:
     
     Material(const string &vertexShaderPath,
              const string &fragmentShaderPath,
-             unsigned char *textureData, int textureW, int textureH);
+             unsigned char *textureData, 
+             int textureW,
+             int textureH);
 
 //    Material(unsigned int programId, unsigned int textureId) {
 //        this->programId = programId;

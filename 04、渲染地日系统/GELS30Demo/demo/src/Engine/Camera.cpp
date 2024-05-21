@@ -8,18 +8,28 @@
 #include "Camera.h"
 
 Camera::Camera(XSVector3 position, float fov, float aspectRatio, float near, float far) : mAspectRatio(aspectRatio), mFov(fov), mNear(near), mFar(far) {
-    mPos.set(position.x, position.y, position.z);
-    mFront.set(0.0f, 0.0f, -1.0f);
-    mUp.set(0.0f, 1.0f, 0.0f);
+    
+    //参考：https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_2
+    //glm::vec3 cameraPos   = glm::vec3(0.0f, 0.0f,  3.0f);
+    //glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
+    //glm::vec3 cameraUp    = glm::vec3(0.0f, 1.0f,  0.0f);
+    
+    cameraPosition.set(position.x, position.y, position.z);
+    cameraFront.set(0.0f, 0.0f, -1.0f);
+    cameraUp.set(0.0f, 1.0f, 0.0f);
 }
 
 XSMatrix Camera::getViewMatrix() {
-    mObjMatrix.makeLookAt(mPos, mPos + mFront,mUp);
+    
+    //参考：https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_2
+    //view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+    
+    mObjMatrix.makeLookAt(cameraPosition, cameraPosition + cameraFront,cameraUp);
     return mObjMatrix;
 }
 
 XSMatrix Camera::getProjectionPerspectiveMatrix() const {
-    xscore::XSMatrix matrix;
+    XSMatrix matrix;
     //弧度/π = 角度/180°
     float fov = mFov / 180.0f * PI;
     matrix.makePerspective(fov, mAspectRatio, mNear, mFar);
@@ -42,7 +52,7 @@ void Camera::zoomOut(float deltaAngle) {
 }
 
 const XSVector3 &Camera::getPosition() {
-    return mPos;
+    return cameraPosition;
 }
 
 const float Camera::getZoom() {
@@ -52,16 +62,16 @@ const float Camera::getZoom() {
 void Camera::move(CameraMovement movement, float delta) {
     switch (movement) {
         case CameraMovement::FORWARD:
-            mPos.z -= delta;
+            cameraPosition.z -= delta;
             break;
         case CameraMovement::BACKWARD:
-            mPos.z += delta;
+            cameraPosition.z += delta;
             break;
         case CameraMovement::LEFT:
-            mPos.x -= delta;
+            cameraPosition.x -= delta;
             break;
         case CameraMovement::RIGHT:
-            mPos.x += delta;
+            cameraPosition.x += delta;
             break;
         case CameraMovement::ROTATE_LEFT: {
 //                yaw -= delta;

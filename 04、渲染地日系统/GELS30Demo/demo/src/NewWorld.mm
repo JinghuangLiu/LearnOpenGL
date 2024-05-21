@@ -99,9 +99,9 @@ void NewWorld::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
     temp.x += 0.2f;
     this->moonObj->setRotation(temp);
 
-    //this->cubeObj->setRotation(this->cycleAccumulator * 360.0f, XSVector3(0.0f, 1.0f, 0.0f));
+//    this->cubeObj->setRotation(XSVector3(0.0f, 1.0f, 0.0f));
 
-    Object3D::Loop(proj, cam, parent);
+    Object3D::RecursiveLoop(proj, cam, parent);
 
 }
 

@@ -11,7 +11,7 @@ Object3D::Object3D() : mScale(1.0f, 1.0f, 1.0f) {
 
 }
 
-void Object3D::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+void Object3D::RecursiveLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     //先缩放（Scale），再旋转（Rotate），最后位移（Translate）
     //M = T * R * S
@@ -21,14 +21,15 @@ void Object3D::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
     this->mObjMatrix.applyRotateZLeft(mRotation.z);
     this->mObjMatrix.applyTranslateLeft(mPosition.x, mPosition.y, mPosition.z);
 
-    XSMatrix childParent;
-    XSMatrix::multiply(childParent, parent, mObjMatrix);
+    XSMatrix combination;
+    XSMatrix::multiply(combination, parent, mObjMatrix);
 
-    OnLoop(proj, cam, childParent);
+    OnLoopOnce(proj, cam, combination);
 
+    //所有子对象，更新变换矩阵
     for (shared_ptr<Object3D>& child: mChildren)
     {
-        child->Loop(proj, cam, childParent);
+        child->RecursiveLoop(proj, cam, combination);
     }
 }
 
