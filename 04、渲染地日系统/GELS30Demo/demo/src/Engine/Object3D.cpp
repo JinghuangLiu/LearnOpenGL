@@ -24,7 +24,7 @@ void Object3D::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
     XSMatrix childParent;
     XSMatrix::multiply(childParent, parent, mObjMatrix);
 
-    OnLoopOnce(proj, cam, childParent);
+    OnLoop(proj, cam, childParent);
 
     for (shared_ptr<Object3D>& child: mChildren)
     {

@@ -28,7 +28,7 @@ public:
     Cube(float edge, shared_ptr<Material> &material);
 
     void Begin() override;
-    virtual void OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent) override;
+    virtual void OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent) override;
     void End() override;
     
 private:
@@ -37,9 +37,9 @@ private:
     //材质
     shared_ptr<Material> mMaterial;
 
-    //    顶点数组对象：Vertex Array Object，VAO
-    //    顶点缓冲对象：Vertex Buffer Object，VBO
-    //    元素缓冲对象：Element Buffer Object，EBO 或 索引缓冲对象 Index Buffer Object，IBO
+    //顶点数组对象：Vertex Array Object，VAO
+    //顶点缓冲对象：Vertex Buffer Object，VBO
+    //元素缓冲对象：Element Buffer Object，EBO 或 索引缓冲对象 Index Buffer Object，IBO
     GLuint VAO, VBO;
     
 public:

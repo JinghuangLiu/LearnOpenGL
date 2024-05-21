@@ -7,25 +7,21 @@
 
 #include "Camera.h"
 
-Camera::Camera(XSVector3 position, float fov, float aspectRatio, float near,
-               float far) : mAspectRatio(
-        aspectRatio), mFov(fov), mNear(near), mFar(far) {
+Camera::Camera(XSVector3 position, float fov, float aspectRatio, float near, float far) : mAspectRatio(aspectRatio), mFov(fov), mNear(near), mFar(far) {
     mPos.set(position.x, position.y, position.z);
     mFront.set(0.0f, 0.0f, -1.0f);
     mUp.set(0.0f, 1.0f, 0.0f);
 }
 
 XSMatrix Camera::getViewMatrix() {
-//        mObjMatrix.makeLookAt(mPos, mTo,
-//                              mUp);
     mObjMatrix.makeLookAt(mPos, mPos + mFront,mUp);
     return mObjMatrix;
 }
 
 XSMatrix Camera::getProjectionPerspectiveMatrix() const {
     xscore::XSMatrix matrix;
-    //    用的是弧度。  弧度/π = 角度/180°
-    float fov = mFov / 180.0f * PI; // 视场角
+    //弧度/π = 角度/180°
+    float fov = mFov / 180.0f * PI;
     matrix.makePerspective(fov, mAspectRatio, mNear, mFar);
     return matrix;
 }

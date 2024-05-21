@@ -2,7 +2,7 @@
 precision mediump float;
 
 out vec4 FragColor;
-in  vec4 vertexColor;
+in vec4 vertexColor;
 in vec2 TexCoord;
 
 uniform sampler2D ourTexture;

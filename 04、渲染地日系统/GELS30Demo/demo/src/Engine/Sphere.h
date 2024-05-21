@@ -26,17 +26,17 @@ public:
     Sphere(float radius, shared_ptr<Material> &material);
 
     void Begin() override;
-    virtual void OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent) override;
+    virtual void OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent) override;
     void End() override;
 
-//private:
+private:
     GLuint VAO, VBO, EBO;
     
     //顶点数据
     vector<VertexData> mVertex;
 
     //索引数据
-    vector<unsigned int> mVertices;
+    vector<unsigned int> mVertexIndices;
 
     //材质
     shared_ptr<Material> mMaterial;

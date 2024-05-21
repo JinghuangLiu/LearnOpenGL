@@ -51,14 +51,14 @@ Sphere::Sphere(float radius, shared_ptr<Material> &mMaterial) {
     for (int i = 0; i < stacks - 1; ++i) {
         for (int j = 0; j < slices; ++j) {
             // 第一个三角形
-            mVertices.push_back(i * (slices + 1) + j);
-            mVertices.push_back((i + 1) * (slices + 1) + j);
-            mVertices.push_back(i * (slices + 1) + j + 1);
+            mVertexIndices.push_back(i * (slices + 1) + j);
+            mVertexIndices.push_back((i + 1) * (slices + 1) + j);
+            mVertexIndices.push_back(i * (slices + 1) + j + 1);
 
             // 第二个三角形
-            mVertices.push_back((i + 1) * (slices + 1) + j);
-            mVertices.push_back((i + 1) * (slices + 1) + j + 1);
-            mVertices.push_back(i * (slices + 1) + j + 1);
+            mVertexIndices.push_back((i + 1) * (slices + 1) + j);
+            mVertexIndices.push_back((i + 1) * (slices + 1) + j + 1);
+            mVertexIndices.push_back(i * (slices + 1) + j + 1);
         }
     }
 //    for (int i = 0; i < mVertex.size(); ++i) {
@@ -70,31 +70,23 @@ Sphere::Sphere(float radius, shared_ptr<Material> &mMaterial) {
 }
 void Sphere::Begin() {
 
-    // 创建VAO和VBO
+    //1、创建VAO和VBO
     glGenVertexArrays(1, &VAO);
+    //第一个参数：要生成多少个缓冲对象。
     glGenBuffers(1, &VBO);
     glGenBuffers(1, &EBO); // 如果使用索引绘制，则需要EBO
 
-// 绑定VAO和VBO，并上传顶点数据
+    //2、绑定VAO和VBO
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    // 填充mVertex...
-    GLsizeiptr dataSize = mVertex.size() * sizeof(VertexData); // 计算数据总大小（字节）
-
-    glBufferData(GL_ARRAY_BUFFER, dataSize, this->mVertex.data(), GL_STATIC_DRAW);
-//    glBufferData(GL_ARRAY_BUFFER,  sizeof(cubeVertices) , cubeVertices, GL_STATIC_DRAW);
-
-// 如果使用索引绘制，则上传索引数据
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->mVertices.size(), this->mVertices.data(), GL_STATIC_DRAW);
-//    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices) , indices, GL_STATIC_DRAW);
-//    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
-//                          (void *) (0 * sizeof(float)));
-//    glEnableVertexAttribArray(0);
-//    glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float),
-//                          (void *) (3 * sizeof(float)));
-//    glEnableVertexAttribArray(2);
     
+    //3、把顶点数组复制到缓冲中供OpenGL使用
+    GLsizeiptr dataSize = mVertex.size() * sizeof(VertexData); // 计算数据总大小（字节）
+    glBufferData(GL_ARRAY_BUFFER, dataSize, this->mVertex.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->mVertexIndices.size(), this->mVertexIndices.data(), GL_STATIC_DRAW);
+    
+    //4、设置顶点属性指针
     //第一个参数指定要配置的顶点属性
     //第二个参数指定顶点属性的大小
     //第三个参数指定数据的类型
@@ -106,7 +98,7 @@ void Sphere::Begin() {
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(VertexData),(void *) (3 * sizeof(float)));
     glEnableVertexAttribArray(2);
 
-
+    //5、解绑
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
@@ -114,11 +106,12 @@ void Sphere::Begin() {
     Object3D::Begin();
 }
 
-void Sphere::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+void Sphere::OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     if (!this->getMaterial()) {
         return;
     }
+    
     int shaderProgram = this->getMaterial()->use();
     GLuint modelMatrixLoc = glGetUniformLocation(shaderProgram, "u_model");
     GLuint viewMatrixLoc = glGetUniformLocation(shaderProgram, "u_view");
@@ -130,13 +123,13 @@ void Sphere::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
     glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, cam.m);
     glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, proj.m);
 
-    glBindVertexArray(VAO);
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, this->getMaterial()->getTextureId());
+    
+    glBindVertexArray(VAO);
+    glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glDrawElements(GL_TRIANGLES, this->mVertices.size(), GL_UNSIGNED_INT, nullptr);
-//    glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, this->mVertexIndices.size(), GL_UNSIGNED_INT, nullptr);
 
     glBindVertexArray(0);
     glBindBuffer(GL_ARRAY_BUFFER, 0);

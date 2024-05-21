@@ -67,19 +67,20 @@ void Cube::Begin() {
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
-    //    创建、绑定顶点缓冲对象：
+    //创建、绑定顶点缓冲对象：
     glGenBuffers(1, &VBO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     //把cubeVertices写入到这个缓冲对象里
     glBufferData(GL_ARRAY_BUFFER, sizeof(mVertices), mVertices, GL_STATIC_DRAW);
-
+    
+    //解绑
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
     Object3D::Begin();
 }
 
-void Cube::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
+void Cube::OnLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     if (!this->getMaterial()) {
         return;
@@ -111,7 +112,7 @@ void Cube::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
         glDrawArrays(GL_TRIANGLES, 0, 2 * 3);
     }
 
-    //最后做一个解绑
+    //解绑
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 }
