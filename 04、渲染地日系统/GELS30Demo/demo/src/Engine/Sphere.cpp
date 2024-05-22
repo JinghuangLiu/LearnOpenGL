@@ -82,7 +82,7 @@ void Sphere::Begin() {
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(unsigned int) * this->mVertexIndices.size(), this->mVertexIndices.data(), GL_STATIC_DRAW);
     
     //4、设置顶点属性指针
-    //第一个参数指定要配置的顶点属性
+    //第一个参数指定要配置的顶点属性，在顶点着色器中使用layout(location = 0)定义了position顶点属性的位置值
     //第二个参数指定顶点属性的大小
     //第三个参数指定数据的类型
     //第四个参数指定是否数据被标准化

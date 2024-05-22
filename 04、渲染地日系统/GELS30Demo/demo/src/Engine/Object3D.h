@@ -36,12 +36,12 @@ public:
     virtual void OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent){};
     virtual void End();
     
-    //子对象
-    void addChild(shared_ptr<Object3D> childObject3D);
+    //添加组件
+    void addComponent(shared_ptr<Object3D> components);
     const vector<shared_ptr<Object3D>> &getChildren() const;
 
     //矩阵变换
-    //获取总的变换矩阵
+    //获取对象的变换矩阵
     const XSMatrix &getMatrix() const;
     
     //设置
@@ -55,8 +55,8 @@ public:
     const XSVector3& getScale() { return mScale;}
     
 protected:
-    //子节点数组
-    vector<shared_ptr<Object3D>> mChildren;
+    //组件数组
+    vector<shared_ptr<Object3D>> components;
     
     //返回当前这一级模型的变换矩阵。
     XSMatrix mObjMatrix;

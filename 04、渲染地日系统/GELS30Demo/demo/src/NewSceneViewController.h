@@ -1,5 +1,5 @@
 //
-//  NewWorldViewController.h
+//  NewSceneViewController.h
 //  demo
 //
 //  Created by 刘靖煌 on 2024/5/15.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface NewWorldViewController : UIViewController 
+@interface NewSceneViewController : UIViewController 
 
 @end
 

@@ -28,9 +28,9 @@ void Object3D::RecursiveLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
     OnLoopOnce(proj, cam, combination);
 
     //所有子对象，更新变换矩阵
-    for (shared_ptr<Object3D>& child: mChildren)
+    for (shared_ptr<Object3D>& component: components)
     {
-        child->RecursiveLoop(proj, cam, combination);
+        component->RecursiveLoop(proj, cam, combination);
     }
 }
 
@@ -38,8 +38,8 @@ const XSMatrix &Object3D::getMatrix() const {
     return mObjMatrix;
 }
 
-void Object3D::addChild(shared_ptr<Object3D> childObject3D) {
-    this->mChildren.push_back(childObject3D);
+void Object3D::addComponent(shared_ptr<Object3D> component) {
+    this->components.push_back(component);
 }
 
 void Object3D::setPosition(const XSVector3 &mPosition) {
@@ -57,21 +57,21 @@ void Object3D::setScale(const XSVector3 &mScale) {
 }
 
 const vector<shared_ptr<Object3D>> &Object3D::getChildren() const {
-    return mChildren;
+    return components;
 }
 
 void Object3D::Begin() {
-    if (mChildren.size() > 0) {
-        for (std::shared_ptr<Object3D> &child: mChildren) {
-            child->Begin();
+    if (components.size() > 0) {
+        for (std::shared_ptr<Object3D> &component: components) {
+            component->Begin();
         }
     }
 }
 
 void Object3D::End() {
-    if (mChildren.size() > 0) {
-        for (shared_ptr<Object3D> &child: mChildren) {
-            child->End();
+    if (components.size() > 0) {
+        for (shared_ptr<Object3D> &component: components) {
+            component->End();
         }
     }
 }

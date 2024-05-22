@@ -11,7 +11,7 @@
 
 #include "Engine/Engine.h"
 #include "Engine/OpenGLES.h"
-#include "NewWorld.h"
+#include "NewScene.h"
 
 #include <GLKit/GLKit.h>
 
@@ -24,6 +24,6 @@ public:
     void destroy();
     shared_ptr<Camera> camera;
 private:
-    shared_ptr<NewWorld> worldObj;
+    shared_ptr<NewScene> worldObj;
 };
 

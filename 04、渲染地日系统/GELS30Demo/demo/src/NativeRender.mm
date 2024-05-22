@@ -13,7 +13,7 @@ void NativeRender::create(int width, int height) {
     this->camera = make_shared<Camera>(XSVector3(0.0f, 0.0f, 10.0f),45.0f,aspectRatio, 0.1f, 100.0f);
 
     //创建世界物体对象
-    this->worldObj = make_shared<NewWorld>();
+    this->worldObj = make_shared<NewScene>();
     //begin阶段
     this->worldObj->Begin();
 }
@@ -36,6 +36,7 @@ void NativeRender::drawFrame()
 
     auto proj = this->camera->getProjectionPerspectiveMatrix();
     auto view = this->camera->getViewMatrix();
+    
     //world的parent矩阵是原点
     XSMatrix parent;
     this->worldObj->Loop(proj, view, parent);

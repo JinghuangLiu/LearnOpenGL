@@ -1,11 +1,11 @@
 //
-//  NewWorldViewController.m
+//  NewSceneViewController.m
 //  demo
 //
 //  Created by 刘靖煌 on 2024/5/15.
 //
 
-#import "NewWorldViewController.h"
+#import "NewSceneViewController.h"
 #import "LongPressButton.h"
 #import <GLKit/GLKit.h>
 #import <OpenGLES/ES2/gl.h>
@@ -26,7 +26,7 @@ enum ButtonType {
     BUTTON_ROTATERILEFT = 7
 };
 
-@interface NewWorldViewController() {
+@interface NewSceneViewController() {
     GLKView *renderView;
     NSTimer *myTimer;
     NativeRender mNativeRender;
@@ -37,7 +37,7 @@ enum ButtonType {
 
 @end
 
-@implementation NewWorldViewController
+@implementation NewSceneViewController
 
 
 - (void)viewDidLoad {
@@ -75,6 +75,8 @@ enum ButtonType {
     mNativeRender = NativeRender();
     CGFloat scale = [[UIScreen mainScreen] scale];
     mNativeRender.create(self.view.frame.size.width*scale, self.view.frame.size.height*scale);
+    
+    //添加长按手势按钮
     [self addButtons];
 }
 
@@ -250,7 +252,6 @@ enum ButtonType {
         default:
             break;
     }
-    
 }
 
 

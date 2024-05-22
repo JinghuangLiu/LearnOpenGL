@@ -8,7 +8,7 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 #import "GLESDemoController.h"
-#import "NewWorldViewController.h"
+#import "NewSceneViewController.h"
 
 @interface AppDelegate ()
 
@@ -24,7 +24,7 @@
     self.window = [[UIWindow alloc] initWithFrame: screenBounds]; //window的大小始终是垂直方向。
     
 //    GLESDemoController* rootPage = [[GLESDemoController alloc] init];
-    NewWorldViewController* rootPage = [[NewWorldViewController alloc] init];
+    NewSceneViewController* rootPage = [[NewSceneViewController alloc] init];
     UINavigationController* navigator = [[UINavigationController alloc] initWithRootViewController:rootPage];
     [navigator setNavigationBarHidden:true];
     
