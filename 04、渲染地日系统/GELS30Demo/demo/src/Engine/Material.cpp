@@ -48,10 +48,6 @@ int Material::use() const {
     return programId;
 }
 
-//void Material::setVec3(const string &name, XSVector3 &value) const {
-//    glUniform3fv(glGetUniformLocation(this->programId, name.c_str()), 1, &value[0]);
-//}
-
 unsigned int Material::getTextureId() const {
     return textureId;
 }

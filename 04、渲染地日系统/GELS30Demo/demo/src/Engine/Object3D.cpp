@@ -7,8 +7,8 @@
 
 #include "Object3D.h"
 
-Object3D::Object3D() : mScale(1.0f, 1.0f, 1.0f) {
-
+Object3D::Object3D() {
+    mScale = XSVector3(1.0f, 1.0f, 1.0f);
 }
 
 void Object3D::RecursiveLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
@@ -23,7 +23,8 @@ void Object3D::RecursiveLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 
     XSMatrix combination;
     XSMatrix::multiply(combination, parent, mObjMatrix);
-
+    
+    //当前对象的矩阵变化
     OnLoopOnce(proj, cam, combination);
 
     //所有子对象，更新变换矩阵

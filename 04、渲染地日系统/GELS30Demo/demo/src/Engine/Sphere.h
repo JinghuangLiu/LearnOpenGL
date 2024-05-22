@@ -23,6 +23,11 @@ using namespace xscore;
 class Sphere : public Object3D {
     
 public:
+    
+    /// 创建一个球体
+    /// - Parameters:
+    ///   - radius: 半径
+    ///   - material: 纹理
     Sphere(float radius, shared_ptr<Material> &material);
 
     void Begin() override;

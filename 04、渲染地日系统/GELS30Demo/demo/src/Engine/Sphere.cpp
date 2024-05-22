@@ -107,20 +107,18 @@ void Sphere::OnLoopOnce(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
         return;
     }
     
+    //数据传递给着色器的Uniform变量
     int shaderProgram = this->getMaterial()->use();
-    GLuint modelMatrixLoc = glGetUniformLocation(shaderProgram, "u_model");
-    GLuint viewMatrixLoc = glGetUniformLocation(shaderProgram, "u_view");
-    GLuint projectionMatrixLoc = glGetUniformLocation(shaderProgram, "u_projection");
-    GLuint ourTextureLoc = glGetUniformLocation(shaderProgram, "ourTexture");
+    glUniform1i(glGetUniformLocation(shaderProgram, "ourTexture"), 0);
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "u_model"), 1, GL_FALSE, parent.m);
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "u_view"), 1, GL_FALSE, cam.m);
+    glUniformMatrix4fv(glGetUniformLocation(shaderProgram, "u_projection"), 1, GL_FALSE, proj.m);
 
-    glUniform1i(ourTextureLoc, 0);
-    glUniformMatrix4fv(modelMatrixLoc, 1, GL_FALSE, parent.m);
-    glUniformMatrix4fv(viewMatrixLoc, 1, GL_FALSE, cam.m);
-    glUniformMatrix4fv(projectionMatrixLoc, 1, GL_FALSE, proj.m);
-
+    //绘制前激活纹理单元，并绑定到特定纹理对象
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, this->getMaterial()->getTextureId());
     
+    //绑定和渲染
     glBindVertexArray(VAO);
     glBindBuffer(GL_ARRAY_BUFFER, VBO);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);

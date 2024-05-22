@@ -33,18 +33,15 @@ GLubyte* NewWorld::loadImage(NSString *fileName) {
 
 void NewWorld::Begin() {
     
-//    int width = this->width;
-//    int height = this->height;
-    
     string engineV = [[[NSBundle mainBundle] pathForResource:@"engine.vsh" ofType:nil] UTF8String];
     
     string engineF = [[[NSBundle mainBundle] pathForResource:@"engine.fsh" ofType:nil] UTF8String];
     
-    //创建一个地球纹理材质
-    auto earthMaterial = std::make_shared<Material>(engineV,engineF,loadImage(@"Earth512x256.jpg"),width,height);
-    
     //创建一个太阳纹理材质
     auto sunMaterial = std::make_shared<Material>(engineV,engineF,loadImage(@"sun.jpg"),width,height);
+    
+    //创建一个地球纹理材质
+    auto earthMaterial = std::make_shared<Material>(engineV,engineF,loadImage(@"Earth512x256.jpg"),width,height);
 
     //创建一个月球纹理材质
     auto moonMaterial = std::make_shared<Material>(engineV,engineF,loadImage(@"moon.jpg"),width,height);

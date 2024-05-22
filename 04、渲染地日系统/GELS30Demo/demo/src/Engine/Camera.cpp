@@ -24,7 +24,7 @@ XSMatrix Camera::getViewMatrix() {
     //参考：https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/#_2
     //view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
     
-    mObjMatrix.makeLookAt(cameraPosition, cameraPosition + cameraFront,cameraUp);
+    mObjMatrix.makeLookAt(cameraPosition, cameraPosition + cameraFront, cameraUp);
     return mObjMatrix;
 }
 
@@ -88,38 +88,4 @@ void Camera::move(CameraMovement movement, float delta) {
         default:
             break;
     }
-}
-
-void Camera::receiveKeyCommand(char key) {
-    switch (key) {
-        case 'w':
-            move(CameraMovement::UP, 0.1f);
-            break;
-        case 's':
-            move(CameraMovement::DOWN, 0.1f);
-            break;
-        case 'a':
-            move(CameraMovement::LEFT, 0.1f);
-            break;
-        case 'd':
-            move(CameraMovement::RIGHT, 0.1f);
-            break;
-        case 'q':
-            move(CameraMovement::FORWARD, 0.3f);
-            break;
-        case 'e':
-            move(CameraMovement::BACKWARD, 0.3f);
-            break;
-        case '+':
-            zoomIn();
-            break;
-        case '-':
-            zoomOut();
-            break;
-        default:
-            break;
-    }
-    auto pos = getPosition();
-    printf("camera position : (%f,%f,%f), fov : %f", pos.x, pos.y, pos.z,
-                getZoom());
 }

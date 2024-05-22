@@ -6,6 +6,7 @@
 //
 
 #import "NewWorldViewController.h"
+#import "LongPressButton.h"
 #import <GLKit/GLKit.h>
 #import <OpenGLES/ES2/gl.h>
 #import <OpenGLES/ES2/glext.h>
@@ -78,61 +79,95 @@ enum ButtonType {
 }
 
 - (void)addButtons {
-    UIButton *leftBtn = [[UIButton alloc] init];
-    leftBtn.tag = BUTTON_LEFT;
-    [leftBtn setTitle:@"左" forState:UIControlStateNormal];
-    [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [leftBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchDown];
     
-    UIButton *rightBtn = [[UIButton alloc] init];
-    rightBtn.tag = BUTTON_RIGHT;
-    [rightBtn setTitle:@"右" forState:UIControlStateNormal];
-    [rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [rightBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(self) weakSelf = self;
     
-    UIButton *topBtn = [[UIButton alloc] init];
+    LongPressButton *topBtn = [[LongPressButton alloc] init];
     topBtn.tag = BUTTON_UP;
     [topBtn setTitle:@"上" forState:UIControlStateNormal];
     [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [topBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(topBtn) weakTopBtn = topBtn;
+    topBtn.longPressAction = ^{
+        [weakSelf changeCamer:weakTopBtn];
+    };
     
-    UIButton *bottomBtn = [[UIButton alloc] init];
+    LongPressButton *bottomBtn = [[LongPressButton alloc] init];
     bottomBtn.tag = BUTTON_DOWN;
     [bottomBtn setTitle:@"下" forState:UIControlStateNormal];
     [bottomBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(bottomBtn) weakBottomBtn = bottomBtn;
+    bottomBtn.longPressAction = ^{
+        [weakSelf changeCamer:weakBottomBtn];
+    };
     
-    UIButton *fontBtn = [[UIButton alloc] init];
-    fontBtn.tag = BUTTON_FORWARD;
-    [fontBtn setTitle:@"前" forState:UIControlStateNormal];
-    [fontBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [fontBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    LongPressButton *leftBtn = [[LongPressButton alloc] init];
+    leftBtn.tag = BUTTON_LEFT;
+    [leftBtn setTitle:@"左" forState:UIControlStateNormal];
+    [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [leftBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchDown];
+    __weak typeof(leftBtn) weakLeftBtn = leftBtn;
+    leftBtn.longPressAction = ^{
+        [weakSelf changeCamer:weakLeftBtn];
+    };
     
-    UIButton *backBtn = [[UIButton alloc] init];
+    LongPressButton *rightBtn = [[LongPressButton alloc] init];
+    rightBtn.tag = BUTTON_RIGHT;
+    [rightBtn setTitle:@"右" forState:UIControlStateNormal];
+    [rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [rightBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(rightBtn) weakRightBtn = rightBtn;
+    rightBtn.longPressAction = ^{
+        [weakSelf changeCamer:weakRightBtn];
+    };
+    
+    LongPressButton *frontBtn = [[LongPressButton alloc] init];
+    frontBtn.tag = BUTTON_FORWARD;
+    [frontBtn setTitle:@"前" forState:UIControlStateNormal];
+    [frontBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [frontBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(frontBtn) weakFrontBtn = frontBtn;
+    frontBtn.longPressAction = ^{
+        [weakSelf changeCamer:weakFrontBtn];
+    };
+    
+    LongPressButton *backBtn = [[LongPressButton alloc] init];
     backBtn.tag = BUTTON_BACK;
     [backBtn setTitle:@"后" forState:UIControlStateNormal];
     [backBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(backBtn) weakBackBtn = backBtn;
+    backBtn.longPressAction = ^{
+        [weakSelf changeCamer:weakBackBtn];
+    };
     
-    UIButton *rightRotateBtn = [[UIButton alloc] init];
+    LongPressButton *rightRotateBtn = [[LongPressButton alloc] init];
     rightRotateBtn.tag = BUTTON_ROTATERIGHT;
     [rightRotateBtn setTitle:@"旋转" forState:UIControlStateNormal];
     [rightRotateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [rightRotateBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    __weak typeof(rightRotateBtn) weakRightRotateBtn = rightRotateBtn;
+    rightRotateBtn.longPressAction = ^{
+        [weakSelf changeCamer:weakRightRotateBtn];
+    };
     
     
-    UIButton *leftRotateBtn = [[UIButton alloc] init];
+    LongPressButton *leftRotateBtn = [[LongPressButton alloc] init];
     leftRotateBtn.tag = BUTTON_ROTATERILEFT;
     [leftRotateBtn setTitle:@"旋转" forState:UIControlStateNormal];
     [leftRotateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [leftRotateBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
-    
+    __weak typeof(leftRotateBtn) weakLeftRotateBtn = leftRotateBtn;
+    leftRotateBtn.longPressAction = ^{
+        [weakSelf changeCamer:weakLeftRotateBtn];
+    };
     
     [self.view addSubview:leftBtn];
     [self.view addSubview:rightBtn];
     [self.view addSubview:topBtn];
     [self.view addSubview:bottomBtn];
-    [self.view addSubview:fontBtn];
+    [self.view addSubview:frontBtn];
     [self.view addSubview:backBtn];
     [self.view addSubview:rightRotateBtn];
     [self.view addSubview:leftRotateBtn];
@@ -141,7 +176,7 @@ enum ButtonType {
     rightBtn.translatesAutoresizingMaskIntoConstraints = NO;
     topBtn.translatesAutoresizingMaskIntoConstraints = NO;
     bottomBtn.translatesAutoresizingMaskIntoConstraints = NO;
-    fontBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    frontBtn.translatesAutoresizingMaskIntoConstraints = NO;
     backBtn.translatesAutoresizingMaskIntoConstraints = NO;
     rightRotateBtn.translatesAutoresizingMaskIntoConstraints = NO;
     leftRotateBtn.translatesAutoresizingMaskIntoConstraints = NO;
@@ -170,10 +205,10 @@ enum ButtonType {
     [[rightBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
     
     
-    [[fontBtn.bottomAnchor constraintEqualToAnchor:topBtn.topAnchor constant:-10] setActive:YES];
-    [[fontBtn.leftAnchor constraintEqualToAnchor:topBtn.leftAnchor] setActive:YES];
-    [[fontBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
-    [[fontBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
+    [[frontBtn.bottomAnchor constraintEqualToAnchor:topBtn.topAnchor constant:-10] setActive:YES];
+    [[frontBtn.leftAnchor constraintEqualToAnchor:topBtn.leftAnchor] setActive:YES];
+    [[frontBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
+    [[frontBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
     
     [[backBtn.topAnchor constraintEqualToAnchor:bottomBtn.bottomAnchor constant:10] setActive:YES];
     [[backBtn.leftAnchor constraintEqualToAnchor:bottomBtn.leftAnchor] setActive:YES];
@@ -191,7 +226,7 @@ enum ButtonType {
     [[leftRotateBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
 }
 
-- (void) changeCamer:(UIButton *)sender {
+- (void) changeCamer:(LongPressButton *)sender {
     
     switch (sender.tag) {
         case BUTTON_UP:

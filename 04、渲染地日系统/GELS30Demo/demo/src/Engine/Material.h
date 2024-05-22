@@ -27,18 +27,11 @@ public:
              int textureW,
              int textureH);
 
-//    Material(unsigned int programId, unsigned int textureId) {
-//        this->programId = programId;
-//        this->textureId = textureId;
-//    }
-    
     unsigned int getTextureId() const;
 
     unsigned int getProgramId() const;
 
     int use() const;
-
-//    void setVec3(const std::string &name, XSVector3 &value) const;
 
 private:
     unsigned int programId, textureId;

@@ -9,18 +9,14 @@
 /* Begin PBXBuildFile section */
 		480C63C82BF5E86E005223DC /* engine.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 480C63C62BF5E86E005223DC /* engine.vsh */; };
 		480C63C92BF5E86E005223DC /* engine.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 480C63C72BF5E86E005223DC /* engine.fsh */; };
-		4837EF6B2BC54A980070DAA1 /* texture02.png in Resources */ = {isa = PBXBuildFile; fileRef = 4837EF6A2BC54A980070DAA1 /* texture02.png */; };
-		4837EF6E2BC54B000070DAA1 /* texture03.png in Resources */ = {isa = PBXBuildFile; fileRef = 4837EF6C2BC54B000070DAA1 /* texture03.png */; };
-		4837EF6F2BC54B000070DAA1 /* texture04.png in Resources */ = {isa = PBXBuildFile; fileRef = 4837EF6D2BC54B000070DAA1 /* texture04.png */; };
-		4837EF712BC54B7F0070DAA1 /* texture05.png in Resources */ = {isa = PBXBuildFile; fileRef = 4837EF702BC54B7F0070DAA1 /* texture05.png */; };
 		483C4BD12BC4D613008A6C47 /* shaderv.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 483C4BCF2BC4D613008A6C47 /* shaderv.vsh */; };
 		483C4BD22BC4D613008A6C47 /* shaderf.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 483C4BD02BC4D613008A6C47 /* shaderf.fsh */; };
 		4846FD932BF489FF00184471 /* ShaderTools.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4846FD912BF489FF00184471 /* ShaderTools.cpp */; };
 		4846FD962BF4906900184471 /* ShaderUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 4846FD952BF4906900184471 /* ShaderUtils.m */; };
 		4868E0EF2BFAFD8B00290336 /* Cube.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4868E0ED2BFAFD8B00290336 /* Cube.cpp */; };
+		48713FD72BFDC9B6006A8C1B /* LongPressButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 48713FD62BFDC9B6006A8C1B /* LongPressButton.m */; };
 		487D428B2BEF215200E55574 /* moon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 487D428A2BEF215200E55574 /* moon.jpg */; };
 		489130D12BE0BFB800012736 /* Earth512x256.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 489130CF2BE0BFB700012736 /* Earth512x256.jpg */; };
-		489130D22BE0BFB800012736 /* Moon256x128.png in Resources */ = {isa = PBXBuildFile; fileRef = 489130D02BE0BFB800012736 /* Moon256x128.png */; };
 		489CD30C2BF3664A00B24226 /* Object3D.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489CD30A2BF3664A00B24226 /* Object3D.cpp */; };
 		489CD30F2BF366FC00B24226 /* Sphere.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489CD30D2BF366FC00B24226 /* Sphere.cpp */; };
 		489CD3122BF3685F00B24226 /* Material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 489CD3102BF3685F00B24226 /* Material.cpp */; };
@@ -33,8 +29,6 @@
 		48A1AC762BEF6B93003D4E1F /* GLESMath.c in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC6F2BEF6B93003D4E1F /* GLESMath.c */; };
 		48A1AC772BEF6B93003D4E1F /* GLESUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 48A1AC722BEF6B93003D4E1F /* GLESUtils.m */; };
 		48B7C9362BEE22C300B3E21E /* sun.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 48B7C9352BEE22C300B3E21E /* sun.jpg */; };
-		48E6EE622BBBB5AF001DBE3A /* texture00.png in Resources */ = {isa = PBXBuildFile; fileRef = 48E6EE602BBBB5AF001DBE3A /* texture00.png */; };
-		48E6EE632BBBB5AF001DBE3A /* texture01.png in Resources */ = {isa = PBXBuildFile; fileRef = 48E6EE612BBBB5AF001DBE3A /* texture01.png */; };
 		48FF9C4B2BF4BBA6002F35D2 /* NewWorldViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48FF9C4A2BF4BBA6002F35D2 /* NewWorldViewController.mm */; };
 		48FF9C4E2BF4BEC9002F35D2 /* IOSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 48FF9C4D2BF4BEC9002F35D2 /* IOSUtils.m */; };
 		48FF9C522BF4C415002F35D2 /* NewWorld.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48FF9C512BF4C415002F35D2 /* NewWorld.mm */; };
@@ -70,10 +64,6 @@
 /* Begin PBXFileReference section */
 		480C63C62BF5E86E005223DC /* engine.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = engine.vsh; sourceTree = "<group>"; };
 		480C63C72BF5E86E005223DC /* engine.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = engine.fsh; sourceTree = "<group>"; };
-		4837EF6A2BC54A980070DAA1 /* texture02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture02.png; sourceTree = "<group>"; };
-		4837EF6C2BC54B000070DAA1 /* texture03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture03.png; sourceTree = "<group>"; };
-		4837EF6D2BC54B000070DAA1 /* texture04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture04.png; sourceTree = "<group>"; };
-		4837EF702BC54B7F0070DAA1 /* texture05.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture05.png; sourceTree = "<group>"; };
 		483C4BCF2BC4D613008A6C47 /* shaderv.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderv.vsh; sourceTree = "<group>"; };
 		483C4BD02BC4D613008A6C47 /* shaderf.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; path = shaderf.fsh; sourceTree = "<group>"; };
 		4846FD882BF481C800184471 /* OpenGLES.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenGLES.h; sourceTree = "<group>"; };
@@ -83,10 +73,11 @@
 		4846FD952BF4906900184471 /* ShaderUtils.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ShaderUtils.m; sourceTree = "<group>"; };
 		4868E0ED2BFAFD8B00290336 /* Cube.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Cube.cpp; sourceTree = "<group>"; };
 		4868E0EE2BFAFD8B00290336 /* Cube.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Cube.h; sourceTree = "<group>"; };
+		48713FD52BFDC9B6006A8C1B /* LongPressButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LongPressButton.h; sourceTree = "<group>"; };
+		48713FD62BFDC9B6006A8C1B /* LongPressButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LongPressButton.m; sourceTree = "<group>"; };
 		487D428A2BEF215200E55574 /* moon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = moon.jpg; sourceTree = "<group>"; };
 		489130CE2BE0BE0600012736 /* sphere.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sphere.h; sourceTree = "<group>"; };
 		489130CF2BE0BFB700012736 /* Earth512x256.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Earth512x256.jpg; sourceTree = "<group>"; };
-		489130D02BE0BFB800012736 /* Moon256x128.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Moon256x128.png; sourceTree = "<group>"; };
 		489CD30A2BF3664A00B24226 /* Object3D.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Object3D.cpp; sourceTree = "<group>"; };
 		489CD30B2BF3664A00B24226 /* Object3D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Object3D.h; sourceTree = "<group>"; };
 		489CD30D2BF366FC00B24226 /* Sphere.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Sphere.cpp; sourceTree = "<group>"; };
@@ -112,8 +103,6 @@
 		48A1AC732BEF6B93003D4E1F /* Quaternion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Quaternion.h; sourceTree = "<group>"; };
 		48A1AC742BEF6B93003D4E1F /* Vector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Vector.h; sourceTree = "<group>"; };
 		48B7C9352BEE22C300B3E21E /* sun.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = sun.jpg; sourceTree = "<group>"; };
-		48E6EE602BBBB5AF001DBE3A /* texture00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture00.png; sourceTree = "<group>"; };
-		48E6EE612BBBB5AF001DBE3A /* texture01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = texture01.png; sourceTree = "<group>"; };
 		48FF9C492BF4BBA6002F35D2 /* NewWorldViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewWorldViewController.h; sourceTree = "<group>"; };
 		48FF9C4A2BF4BBA6002F35D2 /* NewWorldViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NewWorldViewController.mm; sourceTree = "<group>"; };
 		48FF9C4C2BF4BEC9002F35D2 /* IOSUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IOSUtils.h; sourceTree = "<group>"; };
@@ -177,8 +166,8 @@
 		488659B32BBAAB83005741CF /* Shader */ = {
 			isa = PBXGroup;
 			children = (
-				480C63C72BF5E86E005223DC /* engine.fsh */,
 				480C63C62BF5E86E005223DC /* engine.vsh */,
+				480C63C72BF5E86E005223DC /* engine.fsh */,
 				483C4BCF2BC4D613008A6C47 /* shaderv.vsh */,
 				483C4BD02BC4D613008A6C47 /* shaderf.fsh */,
 			);
@@ -191,7 +180,6 @@
 				487D428A2BEF215200E55574 /* moon.jpg */,
 				48B7C9352BEE22C300B3E21E /* sun.jpg */,
 				489130CF2BE0BFB700012736 /* Earth512x256.jpg */,
-				489130D02BE0BFB800012736 /* Moon256x128.png */,
 			);
 			path = Textures;
 			sourceTree = "<group>";
@@ -243,19 +231,6 @@
 				48A1AC742BEF6B93003D4E1F /* Vector.h */,
 			);
 			path = Math;
-			sourceTree = "<group>";
-		};
-		48E6EE5F2BBBB592001DBE3A /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				4837EF702BC54B7F0070DAA1 /* texture05.png */,
-				4837EF6D2BC54B000070DAA1 /* texture04.png */,
-				4837EF6C2BC54B000070DAA1 /* texture03.png */,
-				4837EF6A2BC54A980070DAA1 /* texture02.png */,
-				48E6EE612BBBB5AF001DBE3A /* texture01.png */,
-				48E6EE602BBBB5AF001DBE3A /* texture00.png */,
-			);
-			path = Images;
 			sourceTree = "<group>";
 		};
 		BAAB563028B84DE700AE50B5 = {
@@ -312,7 +287,6 @@
 				489CD3092BF35E1F00B24226 /* Engine */,
 				489130CE2BE0BE0600012736 /* sphere.h */,
 				489130CD2BE0BDA700012736 /* Textures */,
-				48E6EE5F2BBBB592001DBE3A /* Images */,
 				488659B32BBAAB83005741CF /* Shader */,
 				BAE685742BBA9C6100A42F42 /* utility */,
 				BAE685182BBA97EA00A42F42 /* Capturer */,
@@ -358,6 +332,8 @@
 				BAE685782BBA9C6100A42F42 /* NXThread.m */,
 				BAE685792BBA9C6100A42F42 /* NXTimer.h */,
 				BAE685772BBA9C6100A42F42 /* NXTimer.m */,
+				48713FD52BFDC9B6006A8C1B /* LongPressButton.h */,
+				48713FD62BFDC9B6006A8C1B /* LongPressButton.m */,
 			);
 			path = utility;
 			sourceTree = "<group>";
@@ -421,20 +397,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				483C4BD12BC4D613008A6C47 /* shaderv.vsh in Resources */,
-				4837EF6B2BC54A980070DAA1 /* texture02.png in Resources */,
 				487D428B2BEF215200E55574 /* moon.jpg in Resources */,
 				489130D12BE0BFB800012736 /* Earth512x256.jpg in Resources */,
-				4837EF712BC54B7F0070DAA1 /* texture05.png in Resources */,
 				BAE685512BBA97EB00A42F42 /* Assets.xcassets in Resources */,
-				48E6EE632BBBB5AF001DBE3A /* texture01.png in Resources */,
-				4837EF6E2BC54B000070DAA1 /* texture03.png in Resources */,
-				489130D22BE0BFB800012736 /* Moon256x128.png in Resources */,
 				48B7C9362BEE22C300B3E21E /* sun.jpg in Resources */,
 				483C4BD22BC4D613008A6C47 /* shaderf.fsh in Resources */,
 				480C63C82BF5E86E005223DC /* engine.vsh in Resources */,
 				BAE685522BBA97EB00A42F42 /* LaunchScreen.storyboard in Resources */,
-				48E6EE622BBBB5AF001DBE3A /* texture00.png in Resources */,
-				4837EF6F2BC54B000070DAA1 /* texture04.png in Resources */,
 				480C63C92BF5E86E005223DC /* engine.fsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,6 +427,7 @@
 				48FF9C4B2BF4BBA6002F35D2 /* NewWorldViewController.mm in Sources */,
 				48A1AC6B2BEF6AF7003D4E1F /* XSQuaternion.cpp in Sources */,
 				BAE685802BBA9C6100A42F42 /* NXSignal.m in Sources */,
+				48713FD72BFDC9B6006A8C1B /* LongPressButton.m in Sources */,
 				BAE685592BBA97EB00A42F42 /* AppDelegate.m in Sources */,
 				489CD3122BF3685F00B24226 /* Material.cpp in Sources */,
 				48A1AC6D2BEF6AF7003D4E1F /* XSVector3.cpp in Sources */,
