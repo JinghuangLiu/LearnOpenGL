@@ -43,6 +43,7 @@ enum ButtonType {
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.view.backgroundColor = [UIColor greenColor];
     
     //初始化上下文和视图
     [self setupContextAndRenderView];
