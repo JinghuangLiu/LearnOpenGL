@@ -61,23 +61,28 @@ const float Camera::getZoom() {
 
 void Camera::move(CameraMovement movement, float delta) {
     switch (movement) {
-        case CameraMovement::FORWARD:
-            cameraPosition.z -= delta;
-            break;
-        case CameraMovement::BACKWARD:
-            cameraPosition.z += delta;
-            break;
-        case CameraMovement::LEFT:
-            cameraPosition.x -= delta;
-            break;
-        case CameraMovement::RIGHT:
-            cameraPosition.x += delta;
-            break;
-        case CameraMovement::ROTATE_LEFT: {
-//                yaw -= delta;
+        case CameraMovement::UP: {
+            cameraPosition.y -= delta;
         }
             break;
-        case CameraMovement::ROTATE_RIGHT: {
+        case CameraMovement::DOWN: {
+            cameraPosition.y += delta;
+        }
+            break;
+        case CameraMovement::LEFT:{
+            cameraPosition.x += delta;
+        }
+            break;
+        case CameraMovement::RIGHT: {
+            cameraPosition.x -= delta;
+        }
+            break;
+        case CameraMovement::FORWARD: {
+            cameraPosition.z -= delta;
+        }
+            break;
+        case CameraMovement::BACKWARD: {
+            cameraPosition.z += delta;
         }
             break;
         default:
@@ -88,10 +93,10 @@ void Camera::move(CameraMovement movement, float delta) {
 void Camera::receiveKeyCommand(char key) {
     switch (key) {
         case 'w':
-            move(CameraMovement::FORWARD, 0.1f);
+            move(CameraMovement::UP, 0.1f);
             break;
         case 's':
-            move(CameraMovement::BACKWARD, 0.1f);
+            move(CameraMovement::DOWN, 0.1f);
             break;
         case 'a':
             move(CameraMovement::LEFT, 0.1f);
@@ -100,10 +105,10 @@ void Camera::receiveKeyCommand(char key) {
             move(CameraMovement::RIGHT, 0.1f);
             break;
         case 'q':
-            move(CameraMovement::ROTATE_LEFT, 0.1f);
+            move(CameraMovement::FORWARD, 0.3f);
             break;
         case 'e':
-            move(CameraMovement::ROTATE_RIGHT, 0.1f);
+            move(CameraMovement::BACKWARD, 0.3f);
             break;
         case '+':
             zoomIn();

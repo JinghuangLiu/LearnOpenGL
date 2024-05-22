@@ -15,12 +15,12 @@ using namespace std;
 using namespace xscore;
 
 enum CameraMovement {
-    FORWARD,
-    BACKWARD,
+    UP,
+    DOWN,
     LEFT,
     RIGHT,
-    ROTATE_LEFT,
-    ROTATE_RIGHT
+    FORWARD,
+    BACKWARD,
 };
 
 //参考：https://learnopengl-cn.github.io/01%20Getting%20started/09%20Camera/

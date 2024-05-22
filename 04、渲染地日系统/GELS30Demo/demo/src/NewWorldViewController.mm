@@ -16,9 +16,9 @@
 
 enum ButtonType {
     BUTTON_UP = 0,
-    BUTTON_DOWN = 3,
-    BUTTON_LEFT = 1,
-    BUTTON_RIGHT = 2,
+    BUTTON_DOWN = 1,
+    BUTTON_LEFT = 2,
+    BUTTON_RIGHT = 3,
     BUTTON_FORWARD = 4,
     BUTTON_BACK = 5,
     BUTTON_ROTATERIGHT = 6,
@@ -82,29 +82,32 @@ enum ButtonType {
     leftBtn.tag = 1;
     [leftBtn setTitle:@"左" forState:UIControlStateNormal];
     [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [leftBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    [leftBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchDown];
+    
     UIButton *rightBtn = [[UIButton alloc] init];
     rightBtn.tag = 2;
     [rightBtn setTitle:@"右" forState:UIControlStateNormal];
     [rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    
     UIButton *topBtn = [[UIButton alloc] init];
     topBtn.tag = 0;
     [topBtn setTitle:@"上" forState:UIControlStateNormal];
     [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [topBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    
     UIButton *bottomBtn = [[UIButton alloc] init];
     bottomBtn.tag = 3;
     [bottomBtn setTitle:@"下" forState:UIControlStateNormal];
     [bottomBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
     
-    
     UIButton *fontBtn = [[UIButton alloc] init];
     fontBtn.tag = 4;
     [fontBtn setTitle:@"前" forState:UIControlStateNormal];
     [fontBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [fontBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    
     UIButton *backBtn = [[UIButton alloc] init];
     backBtn.tag = 5;
     [backBtn setTitle:@"后" forState:UIControlStateNormal];
@@ -189,22 +192,28 @@ enum ButtonType {
 }
 
 - (void) changeCamer:(UIButton *)sender {
-    if (sender.tag == BUTTON_FORWARD) {
-        mNativeRender.camera->zoomOut();
-    }else if (sender.tag == BUTTON_BACK) {
-        mNativeRender.camera->zoomIn();
-    }else if (sender.tag == BUTTON_LEFT) {
-        mNativeRender.camera->move(LEFT, 0.1);
-    }else if (sender.tag == BUTTON_RIGHT) {
-        mNativeRender.camera->move(RIGHT, 0.1);
-    }else if (sender.tag == BUTTON_UP) {
-        mNativeRender.camera->move(FORWARD, 1);
-    }else if ( sender.tag == BUTTON_DOWN) {
-        mNativeRender.camera->move(BACKWARD, 1);
-    }else if (sender.tag == BUTTON_ROTATERIGHT) {
-        mNativeRender.camera->move(ROTATE_LEFT, 0.1);
-    }else if (sender.tag == BUTTON_ROTATERILEFT) {
-        mNativeRender.camera->move(ROTATE_RIGHT, 0.1);
+    
+    switch (sender.tag) {
+        case BUTTON_UP:
+            mNativeRender.camera->move(UP, 0.1);
+            break;
+        case BUTTON_DOWN:
+            mNativeRender.camera->move(DOWN, 0.1);
+            break;
+        case BUTTON_LEFT:
+            mNativeRender.camera->move(LEFT, 0.1);
+            break;
+        case BUTTON_RIGHT:
+            mNativeRender.camera->move(RIGHT, 0.1);
+            break;
+        case BUTTON_FORWARD:
+            mNativeRender.camera->move(FORWARD, 0.1);
+            break;
+        case BUTTON_BACK:
+            mNativeRender.camera->move(BACKWARD, 0.1);
+            break;
+        default:
+            break;
     }
     
 }
