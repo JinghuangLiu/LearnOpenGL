@@ -79,50 +79,50 @@ enum ButtonType {
 
 - (void)addButtons {
     UIButton *leftBtn = [[UIButton alloc] init];
-    leftBtn.tag = 1;
+    leftBtn.tag = BUTTON_LEFT;
     [leftBtn setTitle:@"左" forState:UIControlStateNormal];
     [leftBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [leftBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchDown];
     
     UIButton *rightBtn = [[UIButton alloc] init];
-    rightBtn.tag = 2;
+    rightBtn.tag = BUTTON_RIGHT;
     [rightBtn setTitle:@"右" forState:UIControlStateNormal];
     [rightBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [rightBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *topBtn = [[UIButton alloc] init];
-    topBtn.tag = 0;
+    topBtn.tag = BUTTON_UP;
     [topBtn setTitle:@"上" forState:UIControlStateNormal];
     [topBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [topBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *bottomBtn = [[UIButton alloc] init];
-    bottomBtn.tag = 3;
+    bottomBtn.tag = BUTTON_DOWN;
     [bottomBtn setTitle:@"下" forState:UIControlStateNormal];
     [bottomBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *fontBtn = [[UIButton alloc] init];
-    fontBtn.tag = 4;
+    fontBtn.tag = BUTTON_FORWARD;
     [fontBtn setTitle:@"前" forState:UIControlStateNormal];
     [fontBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [fontBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *backBtn = [[UIButton alloc] init];
-    backBtn.tag = 5;
+    backBtn.tag = BUTTON_BACK;
     [backBtn setTitle:@"后" forState:UIControlStateNormal];
     [backBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [backBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *rightRotateBtn = [[UIButton alloc] init];
-    rightRotateBtn.tag = 6;
+    rightRotateBtn.tag = BUTTON_ROTATERIGHT;
     [rightRotateBtn setTitle:@"旋转" forState:UIControlStateNormal];
     [rightRotateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [rightRotateBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
     
     
     UIButton *leftRotateBtn = [[UIButton alloc] init];
-    leftRotateBtn.tag = 7;
+    leftRotateBtn.tag = BUTTON_ROTATERILEFT;
     [leftRotateBtn setTitle:@"旋转" forState:UIControlStateNormal];
     [leftRotateBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [leftRotateBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
