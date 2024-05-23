@@ -23,7 +23,6 @@ using namespace xscore;
 class Sphere : public Object3D {
     
 public:
-    
     /// 创建一个球体
     /// - Parameters:
     ///   - radius: 半径
@@ -35,6 +34,10 @@ public:
     void End() override;
 
 private:
+    
+    //顶点数组对象：Vertex Array Object，VAO
+    //顶点缓冲对象：Vertex Buffer Object，VBO
+    //元素缓冲对象：Element Buffer Object，EBO 或 索引缓冲对象 Index Buffer Object，IBO
     GLuint VAO, VBO, EBO;
     
     //顶点数据
@@ -46,8 +49,8 @@ private:
     //材质
     shared_ptr<Material> mMaterial;
 public:
+    //获取和设置材质
     const shared_ptr<Material> &getMaterial() const;
-
     void setMaterial(const shared_ptr<Material> &material);
 };
 

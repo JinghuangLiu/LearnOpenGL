@@ -10,18 +10,23 @@
 
 #include <stdio.h>
 #include <vector>
+#import <Foundation/Foundation.h>
 #include "Animation.h"
 
 using namespace std;
 
-class AnimationManager
-{
-public:
-    void addAnimaton(shared_ptr<Animation>& anim);
-    void loopOnce(float deltaTime); //动画总的驱动入口
-private:
+@interface AnimationManager : NSObject {
     vector<shared_ptr<Animation>> animations;
-};
+}
+    
+    
+- (void)addAnimaton:(shared_ptr<Animation>&)anim;
+    
+- (void)loopOnce:(float)deltaTime; //动画总的驱动入口
 
+    
+
+
+@end
 
 #endif /* AnimationManager_hpp */
