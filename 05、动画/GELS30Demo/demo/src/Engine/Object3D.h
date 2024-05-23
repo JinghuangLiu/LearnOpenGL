@@ -8,12 +8,13 @@
 #ifndef Object3D_hpp
 #define Object3D_hpp
 
-#include <stdio.h>
-#include <iostream>
-#include "XSMatrix.h"
-
 #include <vector>
 #include <memory>
+#include <stdio.h>
+#include <iostream>
+
+#include "XSMatrix.h"
+#include "Target.h"
 
 using namespace std;
 using namespace xscore;
@@ -25,7 +26,7 @@ struct VertexData {
 
 #define PI  3.14159265358979323846f
 
-class Object3D
+class Object3D : ITarget
 {
 public:
     Object3D();
