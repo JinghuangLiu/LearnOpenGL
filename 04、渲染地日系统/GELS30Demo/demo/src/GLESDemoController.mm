@@ -26,6 +26,8 @@
 using namespace xscore;
 
 #import "sphere.h"
+//#import "KSCamera.hpp"
+#import "KXCamera.hpp"
 
 @interface GLESDemoController()<NXTimerDelegate, GLKViewDelegate> {
     GLKView *renderView;
@@ -59,6 +61,20 @@ using namespace xscore;
     GLuint sunTexture;
     GLuint earthTexture;
     GLuint moonTexture;
+    
+    float cameraPos[3];
+    float cameraUp[3];
+    KXCamera *camera;
+
+    float g;
+    float jumpSpeed;
+    float currentSpeed;
+//    bool jumping = false;
+    float lastFrameTS;
+    bool firstCursor;
+    float lastCursorX;
+    float lastCursorY;
+//    float fov = 45.f;
 }
 
 //地球倾斜角度
@@ -74,6 +90,22 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    g = 0.05;
+    jumpSpeed = 30;
+    currentSpeed = jumpSpeed;
+    firstCursor = YES;
+    lastCursorX = 0;
+    lastCursorY = 0;
+    cameraPos[0] = 0;
+    cameraPos[1] = 0.0;
+    cameraPos[2] = 3.0;
+    
+    cameraUp [0] = 0.0;
+    cameraUp [1] = 1.0;
+    cameraUp [2] = 0;
+    camera = new KXCamera(cameraPos, cameraUp, 0, 0.0f);
+    
+    
     
     [self metaData];
     
@@ -118,17 +150,42 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     [bottomBtn setTitle:@"下" forState:UIControlStateNormal];
     [bottomBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
     [bottomBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    
+    
+    UIButton *fontBtn = [[UIButton alloc] init];
+    fontBtn.tag = 4;
+    [fontBtn setTitle:@"前" forState:UIControlStateNormal];
+    [fontBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [fontBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *backBtn = [[UIButton alloc] init];
+    backBtn.tag = 5;
+    [backBtn setTitle:@"后" forState:UIControlStateNormal];
+    [backBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [backBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    
+    UIButton *circelBtn = [[UIButton alloc] init];
+    circelBtn.tag = 6;
+    [circelBtn setTitle:@"旋转" forState:UIControlStateNormal];
+    [circelBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [circelBtn addTarget:self action:@selector(changeCamer:) forControlEvents:UIControlEventTouchUpInside];
+    
     [self.view addSubview:leftBtn];
     [self.view addSubview:rightBtn];
     [self.view addSubview:topBtn];
     [self.view addSubview:bottomBtn];
+    [self.view addSubview:fontBtn];
+    [self.view addSubview:backBtn];
+    [self.view addSubview:circelBtn];
     
     leftBtn.translatesAutoresizingMaskIntoConstraints = NO;
     rightBtn.translatesAutoresizingMaskIntoConstraints = NO;
     topBtn.translatesAutoresizingMaskIntoConstraints = NO;
     bottomBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    fontBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    backBtn.translatesAutoresizingMaskIntoConstraints = NO;
+    circelBtn.translatesAutoresizingMaskIntoConstraints = NO;
     
-    [[bottomBtn.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-60] setActive:YES];
+    [[bottomBtn.bottomAnchor constraintEqualToAnchor:self.view.bottomAnchor constant:-80] setActive:YES];
     [[bottomBtn.centerXAnchor constraintEqualToAnchor:self.view.centerXAnchor] setActive:YES];
     [[bottomBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
     [[bottomBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
@@ -152,17 +209,119 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     [[rightBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
     
     
+    [[fontBtn.bottomAnchor constraintEqualToAnchor:topBtn.topAnchor constant:-10] setActive:YES];
+    [[fontBtn.leftAnchor constraintEqualToAnchor:topBtn.leftAnchor] setActive:YES];
+    [[fontBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
+    [[fontBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
+    
+    [[backBtn.topAnchor constraintEqualToAnchor:bottomBtn.bottomAnchor constant:10] setActive:YES];
+    [[backBtn.leftAnchor constraintEqualToAnchor:bottomBtn.leftAnchor] setActive:YES];
+    [[backBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
+    [[backBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
+    
+    [[circelBtn.topAnchor constraintEqualToAnchor:rightBtn.topAnchor] setActive:YES];
+    [[circelBtn.leftAnchor constraintEqualToAnchor:rightBtn.rightAnchor constant:10] setActive:YES];
+    [[circelBtn.heightAnchor constraintEqualToConstant:45] setActive:YES];
+    [[circelBtn.widthAnchor constraintEqualToConstant:60] setActive:YES];
+    
+    
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panAction:)];
+    [renderView addGestureRecognizer:pan];
+    
+}
+
+- (void) panAction:(UIPanGestureRecognizer *)gesture {
+    
+    if (gesture.state == UIGestureRecognizerStateChanged) {
+        CGPoint point = [gesture translationInView:self.view];
+        float xpos = point.x;
+        float ypos = point.y;
+//        if (firstCursor) {
+//             lastCursorX = xpos;
+//             lastCursorY = ypos;
+//             firstCursor = false;
+//             return;
+//         }
+         
+         float xoffset = xpos - lastCursorX;
+         float yoffset = lastCursorY - ypos;
+         lastCursorX = xpos;
+         lastCursorY = ypos;
+         
+         float sensitivity = 0.1f;
+         xoffset *= sensitivity;
+         yoffset *= sensitivity;
+         
+         float yaw = camera->Yaw;
+         float pitch = camera->Pitch;
+         yaw += xoffset;
+         pitch += yoffset;
+         
+         if (pitch > 89.0f) {
+             pitch = 89.0f;
+         } else if (pitch < -89.0f) {
+             pitch = -89.0f;
+         }
+         camera->setPitch(pitch);
+         camera->setYaw(yaw);
+         camera->updateCameraVectors();
+    }
 }
 
 - (void) changeCamer:(UIButton *)sender {
     if (sender.tag == 0) { 
-        _camerYDegrees += 1;
+        _camerYDegrees += 0.1;
+        camera->move(KX_UPWARD, 0.1);
+//        camera->ProcessKeyboard(KS_UP, 1);
+//        camera->ProcessMovement(5, 5);
     }else if (sender.tag == 1) {
-        _camerDegrees += 1;
+        _camerYDegrees += 1;
+//        camera->ProcessKeyboard(KS_LEFT, 0.1);
+//        camera->ProcessMovement(0.5, 0);
+//        camera->setPitch(_camerYDegrees);
+//        camera->updateCameraVectors();
+        camera->move(KX_LEFT, 0.1);
     }else if (sender.tag == 2) {
-        _camerDegrees -= 1;
-    }else if (sender.tag == 3) {
         _camerYDegrees -= 1;
+//        camera->ProcessKeyboard(KS_RIGHT, 0.1);
+//        camera->ProcessMovement(-0.5, 0);
+//        camera->move(KX_RIGHT, 0.1);
+        
+//        camera->setYaw(_camerDegrees);
+//        camera->setPitch(_camerYDegrees);
+//        camera->updateCameraVectors();
+        
+        camera->move(KX_RIGHT, 0.1);
+        
+        
+    }else if (sender.tag == 3) {
+        _camerYDegrees -= 0.1;
+        camera->move(KX_DOWNWARD, 0.1);
+//        camera->ProcessKeyboard(KS_DOWN, 1);
+//        camera->ProcessMovement(-5, -5);
+    }else if (sender.tag == 4) {
+        camera->move(KX_FORWARD, 0.1);
+    }else if ( sender.tag == 5) {
+        camera->move(KX_BACKWARD, 0.1);
+    }else if (sender.tag == 6) {
+        _camerYDegrees += 10;
+        float radius = 3;
+//        float camX = -sin(_camerYDegrees) * radius;
+//        float camZ = cos(_camerYDegrees) * radius;
+//        
+////        camera->Position[0] = camX + camera->DefaultOrigin[0];
+////        camera->Position[1] = camera->DefaultOrigin[1];
+////        camera->Position[2] = camZ + camera->DefaultOrigin[2];
+//
+//        camera->Position[0] = camX;
+//        camera->Position[1] = 0;
+//        camera->Position[2] = camZ;
+//        
+//        camera->Front[0] = -camX;
+//        camera->Front[1] = 0;
+//        camera->Front[2] = -camZ;
+        camera->setYaw(_camerYDegrees);
+        camera->updateCameraVectors();
     }
     
 }
@@ -328,7 +487,7 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     ksMatrixLoadIdentity(&_projectionMatrix);
     
     //1.2、透视变换，视角30°
-    ksPerspective(&_projectionMatrix, 30, aspect, 1.0f, 120.0f);
+    ksPerspective(&_projectionMatrix, 60, aspect, 1, 100.0f);
     //1.3、传递给着色器程序
     glUniformMatrix4fv(projectionMatrixSlot, 1, GL_FALSE, (GLfloat*)&_projectionMatrix.m[0][0]);
     
@@ -353,18 +512,43 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
 //    //换个视角看
 //    ksRotate(&_viewMatrix, _camerYDegrees, 0.0, 1.0, 0.0);
     
+//    float radius = 10.0f;
+//    float camX = sin(glfwGetTime()) * radius;
+//    float camZ = cos(glfwGetTime()) * radius;
     
-    float eyeX = sin(_camerYDegrees), eyeY = 0.0, eyeZ = -cos(_camerYDegrees) + 1;
+    
+    float eyeX = sin(_camerYDegrees) * 10, eyeY = 0.0, eyeZ = cos(_camerYDegrees) * 10;
     float centerX = 0.0f, centerY = 0, centerZ = 0.0f;
     float upX = 0.0f, upY = 1.0, upZ = 0.0f;
-
-    KSMatrix4 _viewMatrix;
-    ksMatrixLoadIdentity(&_viewMatrix);
-//    ksTranslate(&_viewMatrix, 0.0, 0.0, -10);
+    
+//    for (int i = 0; i < 3; i++) {
+//        camera->Position[i] = camera->WorldUp[i] * currentSpeed * 0.01;
+//    }
+//    currentSpeed -= g;
+//    if (currentSpeed <= -jumpSpeed) {
+//        currentSpeed = 0;
+//        camera->Position[1] -= camera->Position[1];
+//    }
+    
+    
+//    camera.Position += camera.WorldUp * (float)(currentSpeed * 0.01);
+//    currentSpeed -= g;
+//    if (currentSpeed <= -jumpSpeed) {
+//        currentSpeed = 0;
+//        jumping = false;
+//        camera.Position -= glm::vec3(0.f,camera.Position.y,0.f);
+//    }
+   
+    
+    
+    KSMatrix4 _viewMatrix = camera->getViewMatrix();
+//    KSMatrix4 _viewMatrix;
+//    ksMatrixLoadIdentity(&_viewMatrix);
+//    ksTranslate(&_viewMatrix, 0.0, 0.0, -5);
     //换个视角看
 //    ksRotate(&_viewMatrix, 90, 0.0, 1.0, 0.0);
 
-    ksLookAt(&_viewMatrix, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
+//    ksLookAt(&_viewMatrix, eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
     glUniformMatrix4fv(viewMatrixSlot, 1, GL_FALSE, (GLfloat*)&_viewMatrix.m[0][0]);
     
     //2.视图矩阵
@@ -400,9 +584,9 @@ static const GLfloat  SceneMoonDistanceFromEarth = 2.0;
     //公转
 //    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
     ksTranslate(&_earthMatrix, 0, 0, -2.0);
-//    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
+    ksScale(&_earthMatrix, 0.5, 0.5, 0.5);
     //自转
-    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
+//    ksRotate(&_earthMatrix, self.earthRotationAngleDegrees, 1.0, 0.0, 0.0);
     glUniformMatrix4fv(modelMatrixSlot, 1, GL_FALSE, (GLfloat*)&_earthMatrix.m[0][0]);
     glBindTexture(GL_TEXTURE_2D, earthTexture);
     glDrawArrays(GL_TRIANGLES, 0, sphereNumVerts);

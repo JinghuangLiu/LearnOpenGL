@@ -213,57 +213,85 @@ void ksOrtho(KSMatrix4 *result, float left, float right, float bottom, float top
 }
 
 
-void ksLookAt(KSMatrix4 *result, float eyeX, float eyeY, float eyeZ,
+KSMatrix4 ksLookAt(float eyeX, float eyeY, float eyeZ,
               float centerX, float centerY, float centerZ,
-              float upX, float upY, float upZ) {
-    float fx, fy, fz, rlf, sx, sy, sz, rls, ux, uy, uz;
-    fx = centerX - eyeX;
-    fy = centerY - eyeY;
-    fz = centerZ - eyeZ;
+         float upX, float upY, float upZ) {
+    KSMatrix4 result;
+    ksMatrixLoadIdentity(&result);
+    GLfloat f[3], s[3], u[3];
+    f[0] = centerX - eyeX;
+    f[1] = centerY - eyeY;
+    f[2] = centerZ - eyeZ;
+    normalize(f);
+    GLfloat tempUp[3];
+    tempUp[0] = upX;
+    tempUp[1] = upY;
+    tempUp[2] = upZ;
+    cross(f, tempUp, s);
+    normalize(s);
+    cross(s, f, u);
+    
+    GLfloat tempEye[3];
+    tempEye[0] = eyeX;
+    tempEye[1] = eyeY;
+    tempEye[2] = eyeZ;
+    
+    result.m[0][0] = s[0];
+    result.m[0][1] = u[0];
+    result.m[0][2] = -f[0];
+    result.m[1][0] = s[1];
+    result.m[1][1] = u[1];
+    result.m[1][2] = -f[1];
+    result.m[2][0] = s[2];
+    result.m[2][1] = u[2];
+    result.m[2][2] = -f[2];
+    result.m[3][0] = -dot(s, tempEye);
+    result.m[3][1] = -dot(u, tempEye);
+    result.m[3][2] = dot(f, tempEye);
+    return result;
+    
+}
 
-    rlf = 1.0f / sqrtf(fx * fx + fy * fy + fz * fz);
-    fx *= rlf;
-    fy *= rlf;
-    fz *= rlf;
+//KSMatrix4 lookAt(const float* eye, const float* center, const float* up) {
+//    KSMatrix4 result;
+//    float f[3], s[3], u[3];
+//    for (int i = 0; i < 3; i++) {
+//        f[i] = center[i] - eye[i];
+//    }
+//    normalize(f);
+//    cross(f, up, s);
+//    normalize(s);
+//    cross(s, f, u);
+//    
+//    result.m[0] = s[0];
+//    result.m[1] = u[0];
+//    result.m[2] = -f[0];
+//    result.m[4] = s[1];
+//    result.m[5] = u[1];
+//    result.m[6] = -f[1];
+//    result.m[8] = s[2];
+//    result.m[9] = u[2];
+//    result.m[10] = -f[2];
+//    result.m[12] = -dot(s, eye);
+//    result.m[13] = -dot(u, eye);
+//    result.m[14] = dot(f, eye);
+//    
+//    return result;
+//}
 
-    sx = fy * upZ - fz * upY;
-    sy = fz * upX - fx * upZ;
-    sz = fx * upY - fy * upX;
+void normalize(float* v) {
+    float length = sqrt(v[0] * v[0] + v[1] * v[1] + v[2] * v[2]);
+    v[0] /= length;
+    v[1] /= length;
+    v[2] /= length;
+}
 
-    rls = 1.0f / sqrtf(sx * sx + sy * sy + sz * sz);
-    sx *= rls;
-    sy *= rls;
-    sz *= rls;
+void cross(const float* a, const float* b, float* result) {
+    result[0] = a[1] * b[2] - a[2] * b[1];
+    result[1] = a[2] * b[0] - a[0] * b[2];
+    result[2] = a[0] * b[1] - a[1] * b[0];
+}
 
-    ux = sy * fz - sz * fy;
-    uy = sz * fx - sx * fz;
-    uz = sx * fy - sy * fx;
-
-    result->m[0][0] = sx;
-    result->m[0][1] = ux;
-    result->m[0][2] = -fx;
-    result->m[0][3] = 0.0f;
-
-    result->m[1][0] = sy;
-    result->m[1][1] = uy;
-    result->m[1][2] = -fy;
-    result->m[1][3] = 0.0f;
-
-    result->m[2][0] = sz;
-    result->m[2][1] = uz;
-    result->m[2][2] = -fz;
-    result->m[2][3] = 0.0f;
-
-    result->m[3][0] = 0.0f;
-    result->m[3][1] = 0.0f;
-    result->m[3][2] = 0.0f;
-    result->m[3][3] = 1.0f;
-
-    KSMatrix4 translation;
-    ksMatrixLoadIdentity(&translation);
-    translation.m[3][0] = -eyeX;
-    translation.m[3][1] = -eyeY;
-    translation.m[3][2] = -eyeZ;
-
-    ksMatrixMultiply(result, result, &translation);
+float dot(const float* a, const float* b) {
+    return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
 }

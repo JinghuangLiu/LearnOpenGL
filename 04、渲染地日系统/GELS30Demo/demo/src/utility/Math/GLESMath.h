@@ -19,9 +19,9 @@
 #define RAD2DEG( a ) (((a) * 180.f) / M_PI)
 
 // angle indexes
-#define	PITCH				0		// up / down
-#define	YAW					1		// left / right
-#define	ROLL				2		// fall over
+//#define	PITCH				0		// up / down
+//#define	YAW					1		// left / right
+//#define	ROLL				2		// fall over
 
 typedef unsigned char 		byte;
 
@@ -128,9 +128,14 @@ void ksOrtho(KSMatrix4 *result, float left, float right, float bottom, float top
 //
 void ksFrustum(KSMatrix4 *result, float left, float right, float bottom, float top, float nearZ, float farZ);
 
-void ksLookAt(KSMatrix4 *result, float eyeX, float eyeY, float eyeZ,
+KSMatrix4 ksLookAt(float eyeX, float eyeY, float eyeZ,
               float centerX, float centerY, float centerZ,
               float upX, float upY, float upZ);
+
+
+void normalize(float* v);
+void cross(const float* a, const float* b, float* result);
+float dot(const float* a, const float* b);
 
 #ifdef __cplusplus
 }

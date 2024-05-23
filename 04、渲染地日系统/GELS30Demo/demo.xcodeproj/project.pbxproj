@@ -32,6 +32,9 @@
 		48FF9C4B2BF4BBA6002F35D2 /* NewSceneViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48FF9C4A2BF4BBA6002F35D2 /* NewSceneViewController.mm */; };
 		48FF9C4E2BF4BEC9002F35D2 /* IOSUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 48FF9C4D2BF4BEC9002F35D2 /* IOSUtils.m */; };
 		48FF9C522BF4C415002F35D2 /* NewScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 48FF9C512BF4C415002F35D2 /* NewScene.mm */; };
+
+		B1815A882BF746DF00957A52 /* KXCamera.hpp in Sources */ = {isa = PBXBuildFile; fileRef = B1815A872BF746DF00957A52 /* KXCamera.hpp */; };
+
 		BAAB56C528B84EE200AE50B5 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BAAB56C428B84EE200AE50B5 /* GLKit.framework */; };
 		BAE685512BBA97EB00A42F42 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAE685132BBA97EA00A42F42 /* Assets.xcassets */; };
 		BAE685522BBA97EB00A42F42 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BAE685142BBA97EA00A42F42 /* LaunchScreen.storyboard */; };
@@ -110,6 +113,8 @@
 		48FF9C4F2BF4C245002F35D2 /* Engine.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		48FF9C502BF4C415002F35D2 /* NewScene.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewScene.h; sourceTree = "<group>"; };
 		48FF9C512BF4C415002F35D2 /* NewScene.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = NewScene.mm; sourceTree = "<group>"; };
+        
+		B1815A872BF746DF00957A52 /* KXCamera.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = KXCamera.hpp; sourceTree = "<group>"; };
 		BAAB563928B84DE700AE50B5 /* demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BAAB56C428B84EE200AE50B5 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		BAB0751229972FFC00E4BA6C /* effectcore-core.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "effectcore-core.framework"; path = "../build/ecore-effect/Debug/effectcore-core.framework"; sourceTree = "<group>"; };
@@ -301,10 +306,14 @@
 				BAE685822BBA9DDE00A42F42 /* NativeRender.mm */,
 				BAE685812BBA9DDE00A42F42 /* NativeRender.h */,
 				BAE685212BBA97EA00A42F42 /* main.m */,
+
 				48FF9C502BF4C415002F35D2 /* NewScene.h */,
 				48FF9C512BF4C415002F35D2 /* NewScene.mm */,
 				48FF9C492BF4BBA6002F35D2 /* NewSceneViewController.h */,
 				48FF9C4A2BF4BBA6002F35D2 /* NewSceneViewController.mm */,
+
+				B1815A872BF746DF00957A52 /* KXCamera.hpp */,
+
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -416,6 +425,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4846FD962BF4906900184471 /* ShaderUtils.m in Sources */,
+				B1815A882BF746DF00957A52 /* KXCamera.hpp in Sources */,
 				4846FD932BF489FF00184471 /* ShaderTools.cpp in Sources */,
 				48A1AC6E2BEF6AF7003D4E1F /* XSVector4.cpp in Sources */,
 				48FF9C522BF4C415002F35D2 /* NewScene.mm in Sources */,
