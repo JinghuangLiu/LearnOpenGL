@@ -11,50 +11,102 @@ Cube::Cube(float edge, shared_ptr<Material> &material) {
     this->setMaterial(material);
     float halfEdge = edge / 2;
     //前面三个为顶点位置、后面2个为贴图
+//    float cubeVertices[] = {
+//        //正背面
+//        -halfEdge, -halfEdge, -halfEdge, 0.0f, 0.0f,
+//        halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
+//        halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+//        halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+//        -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
+//        -halfEdge, -halfEdge, -halfEdge, 0.0f, 0.0f,
+//        //正面
+//        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+//        halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
+//        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+//        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+//        -halfEdge, halfEdge, halfEdge, 0.0f, 1.0f,
+//        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+//        //左面
+//        -halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+//        -halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+//        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+//        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+//        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+//        -halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+//        //右面
+//        halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+//        halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+//        halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+//        halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+//        halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+//        halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+//        //下面
+//        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+//        halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
+//        halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
+//        halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
+//        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+//        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+//        //上面
+//        -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
+//        halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+//        halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+//        halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+//        -halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
+//        -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f
+//    };
+    
     float cubeVertices[] = {
+        -halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
+        -halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
+        halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
+        -halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
+        halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
+        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+
         //正背面
-        -halfEdge, -halfEdge, -halfEdge, 0.0f, 0.0f,
-        halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
+        -halfEdge, halfEdge, -halfEdge, 0.0f, 0.0f,
+        halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
+        -halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
+        -halfEdge, halfEdge, -halfEdge, 0.0f, 0.0f,
         halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
-        halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
-        -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
-        -halfEdge, -halfEdge, -halfEdge, 0.0f, 0.0f,
-        //正面
-        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
-        halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
-        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
-        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
-        -halfEdge, halfEdge, halfEdge, 0.0f, 1.0f,
-        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+        halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
+        
         //左面
-        -halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
-        -halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
-        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
-        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
-        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
-        -halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+        -halfEdge, halfEdge, -halfEdge, 1.0f, 0.0f,
+        -halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
+        -halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
+        -halfEdge, halfEdge, -halfEdge, 1.0f, 0.0f,
+        -halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
+        -halfEdge, halfEdge, halfEdge, 0.0f, 1.0f,
+        
         //右面
         halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
-        halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+        halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
         halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
-        halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
-        halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
         halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
-        //下面
-        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
-        halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
-        halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
-        halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
-        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
-        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+        halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+        halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
+        
         //上面
         -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
-        halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+        -halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
         halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+        -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
         halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
-        -halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
-        -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f
+        halfEdge, halfEdge, -halfEdge, 1.0f, 0.0f,
+        
+        
+        //下面
+        -halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
+        -halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
+        halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
+        -halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
+        halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
+        halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
     };
+
+    
     for (int i = 0; i < VERTICE_SIZE * VERTICE_LENGTH; ++i) {
         this->mVertices[i] = cubeVertices[i];
     }
