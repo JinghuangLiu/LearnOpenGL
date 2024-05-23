@@ -1,0 +1,63 @@
+课程三：掌握3D引擎中几个重要的模块开发——调度器，动画控制器。
+
+什么是调度器？
+在我给的demo里，有一个叫XSTimer的类，它就是一个调度器。
+
+对于3D引擎的调度器，它必须实现的基本功能如下：
+具备按设置的fps循环执行某个函数的能力。（例如OnTimerLooping）
+具备从其他线程异步dispatch执行代码的能力。（例如XSTimer.sendRunnable）
+对于3D渲染引擎来说，通常它的渲染都是在一个独立的线程里完成的，这样可以避免很多同步锁的问题，因为统一在渲染线程里操作GPU资源，可以确保先后性和同步锁的问题。
+
+试着自己实现调度器，了解它的工作原理，这个和操作系统有很强关联。一般会用到定时器或者信号量之类的。不同平台依赖的底层库不一样。
+
+
+动画控制器？
+就是3D引擎负责动画的模块，为了简单，我们就只需要实现最简单的刚体动画即可（刚体动画就是物体的外形不会发生变化，只有缩放，旋转和位移的动画，与之对应的就是骨骼动画）
+
+之前已经定义了Object3D 对象
+class Object3D
+{
+void setPosition(Vector3f& pos);
+void setRotation(Vector3f& rot);
+void setScale(Vector3f& scale);
+}
+
+现在我们定义一个动画接口，包含关键帧，Target，以及动画对象。
+struct KeyFrame
+{
+      float keyTime;
+      Vector3f  keyPosition;
+      Vector3f  keyRotation;
+      Vector3f  keyScale;
+}
+
+interface Target
+{
+virtual void setPosition(Vector3f& pos) = 0;
+virtual void setRotation(Vector3f& rot) = 0;
+virtual void setScale(Vector3f& scale) = 0;
+}
+可以看到，Object3D默认就刚好实现了这个接口。
+
+class Animation
+{
+    std::vector<KeyFrame>  keyFrames;
+    std::weak_ptr<Target>   animTarget;
+    bool  isLoopMode;
+}
+
+AnimationManager
+{
+    void addAnimaton(std::shared_ptr<Animation>& anim);
+    void loopOnce(float deltaTime); //动画总的驱动入口
+}
+
+工作原理：
+AnimationManager的loopOnce，在Timer的OnLooping里每一帧调用，并且传入一个deltaTime。
+manager内部，循环当前所有的Animation，根据关键帧列表，计算当前的插值帧。
+然后把插值得到的帧的position、scale等属性，设置的到Target。而Target的实现就是具体的3D模型，比如太阳、地球、月球。
+
+
+最终交付物工程：
+
+使用动画控制器控制各个球体的转动。
