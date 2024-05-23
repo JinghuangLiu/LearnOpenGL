@@ -64,13 +64,13 @@ void NewScene::Begin() {
     moonObj->setPosition(XSVector3(0.5f, 0.0f, 0.0f));
 
     //测试加多个立方体
-//    cubeObj = make_shared<Cube>(1.0f, sunMaterial);
-//    cubeObj->setPosition(XSVector3(0.0f, 3.0f, 0.0f));
-//    addComponent(cubeObj);
-//    
-//    shared_ptr<Object3D> cubeSubObj = make_shared<Cube>(0.5f, earthMaterial);
-//    cubeSubObj->setPosition(XSVector3(1.0f, 0.0f, 0.0f));
-//    cubeObj->addComponent(cubeSubObj);
+    cubeObj = make_shared<Cube>(1.0f, sunMaterial);
+    cubeObj->setPosition(XSVector3(0.0f, 3.0f, 0.0f));
+    addComponent(cubeObj);
+    
+    shared_ptr<Object3D> cubeSubObj = make_shared<Cube>(0.5f, earthMaterial);
+    cubeSubObj->setPosition(XSVector3(1.0f, 0.0f, 0.0f));
+    cubeObj->addComponent(cubeSubObj);
 
     Object3D::Begin();
 }
