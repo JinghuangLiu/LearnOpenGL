@@ -141,7 +141,7 @@ void NewScene::addSunAnimate() {
     keyFrame1->keyTime = 20;
     keyFrame1->keyPosition = XSVector3(0.0f, 0.0f, 0.0f);
     animate->setKeyFrame(keyFrame1);
-    
+    animate->isLoopMode = true;
     animationManagerImpl->addAnimaton(animate);
 }
 

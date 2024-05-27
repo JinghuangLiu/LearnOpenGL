@@ -11,6 +11,7 @@ Animation::Animation(const std::shared_ptr<Object3D> &animTarget) {
     currentTime = 0;
     index = 0;
     excuteIndex = 0;
+    isLoopMode = false;
     originScale = animTarget->getScale();
     originPosition = animTarget->getPosition();
     this->animTarget = animTarget;
@@ -24,6 +25,14 @@ void Animation::startAnimation() {
     float time =  1.0 / 30.0;
     currentTime += time;
     index += 1;
+    
+    if (this->isLoopMode) {
+        if (currentTime > keyFrames[keyFrames.size() - 1].keyTime) {
+            currentTime = 0;
+            excuteIndex = 0;
+        }
+    }
+    
     if (keyFrames.size() > 0 && excuteIndex < keyFrames.size()) {
         this->excuteAnimatio();
     }
