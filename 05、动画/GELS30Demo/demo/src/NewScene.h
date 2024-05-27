@@ -15,6 +15,7 @@
 #include <vector>
 #include <memory>
 
+
 NS_ASSUME_NONNULL_BEGIN
 
 class NewScene : Object3D {
@@ -33,12 +34,15 @@ private:
     int height;
     
     GLubyte* loadImage(NSString *fileName);
-    
+    class AnimationManagerImpl;
+    AnimationManagerImpl *animationManagerImpl;
 public:
-    
+    NewScene();
     void Begin();
     void Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent);
     void End();
+    void addSunAnimate();
+    void startAnimate();
 };
 
 

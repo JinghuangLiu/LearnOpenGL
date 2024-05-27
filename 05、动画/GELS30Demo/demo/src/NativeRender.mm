@@ -16,6 +16,9 @@ void NativeRender::create(int width, int height) {
     this->worldObj = make_shared<NewScene>();
     //begin阶段
     this->worldObj->Begin();
+    
+    this->worldObj->addSunAnimate();
+
 }
 
 void NativeRender::resize(int width, int height) {
@@ -39,6 +42,9 @@ void NativeRender::drawFrame()
     
     //world的parent矩阵是原点
     XSMatrix parent;
+    
+    this->worldObj->startAnimate();
+    
     this->worldObj->Loop(proj, view, parent);
 
     //强制将所有在之前调用的OpenGL命令都发送到GPU进行处理

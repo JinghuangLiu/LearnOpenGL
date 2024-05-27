@@ -13,13 +13,24 @@
 
 #include "KeyFrame.h"
 #include "Target.h"
-
+#include "Object3D.h"
 class Animation
 {
+public:
+    Animation(const std::shared_ptr<Object3D> &animTarget);
     std::vector<KeyFrame>  keyFrames;
-    std::weak_ptr<ITarget>   animTarget;
+    std::weak_ptr<Object3D>   animTarget;
     bool  isLoopMode;
+    void setKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame);
+    void startAnimation();
     
+private:
+    XSVector3 originScale;
+    XSVector3 originPosition;
+    float currentTime;
+    int excuteIndex;
+    int index;
+    void excuteAnimatio();
 };
 
 #endif /* Animation_hpp */

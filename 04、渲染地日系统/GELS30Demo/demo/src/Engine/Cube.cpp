@@ -63,6 +63,13 @@ Cube::Cube(float edge, shared_ptr<Material> &material) {
         -halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
         halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
         halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+        
+        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+        halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
+        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+        -halfEdge, halfEdge, halfEdge, 0.0f, 1.0f,
+        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
 
         //正背面
         -halfEdge, halfEdge, -halfEdge, 0.0f, 0.0f,

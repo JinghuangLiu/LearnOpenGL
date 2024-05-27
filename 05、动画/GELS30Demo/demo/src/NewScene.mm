@@ -7,6 +7,29 @@
 
 #import "NewScene.h"
 #import <UIKit/UIKit.h>
+#include "AnimationManager.h"
+
+// Objective-C++实现
+class NewScene::AnimationManagerImpl {
+public:
+    AnimationManagerImpl() : objcObject([[AnimationManager alloc] init]) {}
+    ~AnimationManagerImpl() {  }
+    
+    void addAnimaton(shared_ptr<Animation> &animate) {
+        [objcObject addAnimaton:animate];
+    }
+    
+    void startAnimation(float deltaTime) {
+        [objcObject loopOnce:deltaTime];
+    }
+
+private:
+    AnimationManager *objcObject;
+};
+
+NewScene::NewScene() : animationManagerImpl(new AnimationManagerImpl()) {
+    
+}
 
 GLubyte* NewScene::loadImage(NSString *fileName) {
     
@@ -104,3 +127,24 @@ void NewScene::End() {
 }
 
 
+void NewScene::addSunAnimate() {
+    shared_ptr<Animation> animate = make_shared<Animation>(sunObj);
+    shared_ptr<KeyFrame> keyFrame = make_shared<KeyFrame>();
+    keyFrame->keyScale = XSVector3(5.0f, 5.0f, 5.0f);
+    keyFrame->keyTime = 10;
+    keyFrame->keyPosition = XSVector3(2.0f, 2.0f, 2.0f);
+    animate->setKeyFrame(keyFrame);
+    
+    
+    shared_ptr<KeyFrame> keyFrame1 = make_shared<KeyFrame>();
+    keyFrame1->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
+    keyFrame1->keyTime = 20;
+    keyFrame1->keyPosition = XSVector3(0.0f, 0.0f, 0.0f);
+    animate->setKeyFrame(keyFrame1);
+    
+    animationManagerImpl->addAnimaton(animate);
+}
+
+void NewScene::startAnimate() {
+    animationManagerImpl->startAnimation(1/30.0);
+}

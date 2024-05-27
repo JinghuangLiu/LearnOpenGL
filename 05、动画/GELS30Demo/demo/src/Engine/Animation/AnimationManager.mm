@@ -10,7 +10,7 @@
 
 
 @interface AnimationManager()<NXTimerDelegate>
-
+@property (nonatomic,strong) NXTimer* timer;
 @end
 
 @implementation AnimationManager
@@ -20,13 +20,19 @@
 }
     
 - (void)loopOnce:(float)deltaTime {
-    NXTimer *timer = [NXTimer new];
-    [timer startLoopingWithInterval:deltaTime];
-    timer.delegate = self;
+    if (_timer) { return;}
+    _timer = [NXTimer new];
+    _timer.delegate = self;
+    [_timer startTimer];
+    [_timer startLoopingWithInterval:deltaTime];
+    
 }
 
 - (void) onTimerLooping:(NXTimer*)timer {
-    
+    for (std::shared_ptr<Animation> &animation : self->animations) {
+        animation->startAnimation();
+    }
+
 }
 
 - (void)onTimerStart:(NXTimer *)timer { 
