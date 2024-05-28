@@ -31,7 +31,7 @@ private:
     float currentTime;
     int excuteIndex;
     int index;
-    void excuteAnimation();
+    void executeAnimation();
 };
 
 #endif /* Animation_hpp */

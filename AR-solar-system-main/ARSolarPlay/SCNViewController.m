@@ -95,11 +95,6 @@
     [self.arSession runWithConfiguration:self.arSessionConfiguration];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (void)initWithLeftNode:(SCNView *) scnView {
     
     _sunNodeL = [SCNNode new];
@@ -729,7 +724,8 @@
     float duration = totalDuration/360;  //每隔duration秒去执行一次
     
     
-    SCNAction *customAction = [SCNAction customActionWithDuration:duration actionBlock:^(SCNNode * _Nonnull node, CGFloat elapsedTime){
+    SCNAction *customAction = [SCNAction customActionWithDuration:duration 
+                                                      actionBlock:^(SCNNode * _Nonnull node, CGFloat elapsedTime){
         
         
         if(elapsedTime == duration){
