@@ -104,19 +104,19 @@ void NewScene::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 
     //太阳自转 在原点绕着Y轴旋转  速度设置慢一点
     XSVector3 temp = this->sunObj->getRotation();
-    temp.y += 0.05f;
-    this->sunObj->setRotation(temp);
+//    temp.y += 0.05f;
+//    this->sunObj->setRotation(temp);
 
     //地球自转 在原点绕着Y轴旋转 速度
     //如果不设置，由于地球也继承了太阳的矩阵，自身又有偏移量。地球在原点旋转，地球也会做旋转（绕地球）
     temp = this->earthObj->getRotation();
-    temp.y += 0.1f;
-    this->earthObj->setRotation(temp);
+//    temp.y += 0.1f;
+//    this->earthObj->setRotation(temp);
 
     //月亮自转 在原点绕着Y轴旋转 速度
     temp = this->moonObj->getRotation();
-    temp.x += 0.2f;
-    this->moonObj->setRotation(temp);
+//    temp.x += 0.2f;
+//    this->moonObj->setRotation(temp);
 
     Object3D::RecursiveLoop(proj, cam, parent);
 
@@ -135,16 +135,15 @@ void NewScene::addSunAnimate() {
     //开始关键帧
     shared_ptr<KeyFrame> beginKF = make_shared<KeyFrame>();
     beginKF->keyScale = XSVector3(5.0f, 5.0f, 5.0f);
-    beginKF->keyTime = 10;
-    beginKF->keyPosition = XSVector3(0.0f, 0.0f, 2.0f);
+    beginKF->keyTime = 120;
+    beginKF->keyRotation = XSVector3(0.0f, 360.0f, 0.0f);
     animate->addKeyFrame(beginKF);
     
     //结束关键帧
     shared_ptr<KeyFrame> endKF = make_shared<KeyFrame>();
     endKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
-    endKF->keyTime = 20;
-    endKF->keyPosition = XSVector3(0.0f, 0.0f, 0.0f);
-    
+    endKF->keyTime = 120;
+    endKF->keyRotation = XSVector3(0.0f, 0.0f, 0.0f);
     animate->addKeyFrame(endKF);
     animate->isLoopMode = true;
     

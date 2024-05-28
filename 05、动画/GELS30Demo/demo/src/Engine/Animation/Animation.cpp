@@ -13,6 +13,7 @@ Animation::Animation(const std::shared_ptr<Object3D> &animTarget) {
     isLoopMode = false;
     originScale = animTarget->getScale();
     originPosition = animTarget->getPosition();
+    originRotation = animTarget->getRotation();
     this->animTarget = animTarget;
 }
 
@@ -48,10 +49,14 @@ void Animation::executeAnimation() {
     XSVector3 preKeyScale = keyFrame.keyScale * 0.8;
     /// 前一个关键帧位置
     XSVector3 preKeyPosition = keyFrame.keyPosition;
+    
+    XSVector3 preKeyRotation = keyFrame.keyRotation;
+    
     if (executeIndex > 0) {
         keyTime = (keyFrame.keyTime - this->keyFrames[executeIndex - 1].keyTime) * time;
         preKeyScale = this->keyFrames[executeIndex - 1].keyScale - keyFrame.keyScale;
         preKeyPosition = this->keyFrames[executeIndex - 1].keyPosition - keyFrame.keyPosition;
+        preKeyRotation = this->keyFrames[executeIndex - 1].keyRotation - keyFrame.keyRotation;
     }
     
     /// 每毫秒帧缩放值
@@ -92,6 +97,21 @@ void Animation::executeAnimation() {
             currentPosition = currentPosition - keyFramePosition;
         }
         target->setPosition(currentPosition);
+    }
+    
+    XSVector3 keyFrameRotation =  preKeyRotation / keyTime;
+    XSVector3 currentRotation = target->getRotation();
+    if (currentTime <= keyFrame.keyTime * time) {
+        XSVector3 preRotation = originRotation;
+        if (executeIndex > 0) {
+            preRotation = keyFrames[executeIndex - 1].keyRotation;
+        }
+        if (keyFrame.keyRotation.y > preRotation.y) {
+            currentRotation.y = currentRotation.y + keyFrameRotation.y;
+        }else {
+            currentRotation.y = currentRotation.y - keyFrameRotation.y;
+        }
+        target->setRotation(currentRotation);
     }
     
     /// 时间大于关键帧时间则下标+1

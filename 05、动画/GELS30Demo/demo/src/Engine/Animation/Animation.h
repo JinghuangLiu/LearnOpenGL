@@ -39,6 +39,8 @@ private:
     XSVector3 originScale;
     //初始位置
     XSVector3 originPosition;
+    ///初始位置
+    XSVector3 originRotation;
     /// 当前时长毫秒
     float currentTime;
     /// 当前执行关键帧下标
