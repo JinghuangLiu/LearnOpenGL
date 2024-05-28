@@ -18,18 +18,30 @@ class Animation
 {
 public:
     Animation(const std::shared_ptr<Object3D> &animTarget);
-    std::vector<KeyFrame>  keyFrames;
-    std::weak_ptr<Object3D>   animTarget;
+    
+    //关键帧
+    std::vector<KeyFrame> keyFrames;
+    
+    //作用对象
+    std::weak_ptr<Object3D> animTarget;
+    
     //是否循环
     bool  isLoopMode;
-    void setKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame);
+    
+    //设置关键帧
+    void addKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame);
+    
+    //添加关键帧
     void startAnimation();
     
 private:
+    //初始比例
     XSVector3 originScale;
+    //初始位置
     XSVector3 originPosition;
+    
     float currentTime;
-    int excuteIndex;
+    int executeIndex;
     int index;
     void executeAnimation();
 };

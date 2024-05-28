@@ -137,7 +137,7 @@ void NewScene::addSunAnimate() {
     beginKF->keyScale = XSVector3(5.0f, 5.0f, 5.0f);
     beginKF->keyTime = 10;
     beginKF->keyPosition = XSVector3(0.0f, 0.0f, 2.0f);
-    animate->setKeyFrame(beginKF);
+    animate->addKeyFrame(beginKF);
     
     //结束关键帧
     shared_ptr<KeyFrame> endKF = make_shared<KeyFrame>();
@@ -145,7 +145,7 @@ void NewScene::addSunAnimate() {
     endKF->keyTime = 20;
     endKF->keyPosition = XSVector3(0.0f, 0.0f, 0.0f);
     
-    animate->setKeyFrame(endKF);
+    animate->addKeyFrame(endKF);
     animate->isLoopMode = true;
     
     //添加动画
