@@ -58,52 +58,52 @@ Cube::Cube(float edge, shared_ptr<Material> &material) {
     
     float cubeVertices[] = {
         -halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
-        -halfEdge, -halfEdge, halfEdge, 1.0f, 0.0f,
-        halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
-        -halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
-        halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
-        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+        -halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
+        halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+        -halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+        halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+        halfEdge, halfEdge, halfEdge, 0.0f, 1.0f,
 
         //正背面
         -halfEdge, halfEdge, -halfEdge, 0.0f, 0.0f,
         halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
-        -halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
-        -halfEdge, halfEdge, -halfEdge, 0.0f, 0.0f,
-        halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
-        halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
+        -halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+        -halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+        halfEdge, halfEdge, -halfEdge, 0.0f, 0.0f,
+        halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
         
         //左面
-        -halfEdge, halfEdge, -halfEdge, 1.0f, 0.0f,
+        -halfEdge, halfEdge, -halfEdge, 0.0f, 0.0f,
         -halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
         -halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
-        -halfEdge, halfEdge, -halfEdge, 1.0f, 0.0f,
-        -halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
+        -halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
         -halfEdge, halfEdge, halfEdge, 0.0f, 1.0f,
         
         //右面
-        halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
+        halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
         halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
         halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
-        halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
-        halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+        halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
+        halfEdge, -halfEdge, -halfEdge, 0.0f, 0.0f,
         halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
         
         //上面
-        -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
+        -halfEdge, halfEdge, -halfEdge, 0.0f, 0.0f,
         -halfEdge, halfEdge, halfEdge, 1.0f, 1.0f,
-        halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
-        -halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
-        halfEdge, halfEdge, halfEdge, 1.0f, 0.0f,
-        halfEdge, halfEdge, -halfEdge, 1.0f, 0.0f,
+        halfEdge, halfEdge, halfEdge, 0.0f, 1.0f,
+        -halfEdge, halfEdge, -halfEdge, 1.0f, 1.0f,
+        halfEdge, halfEdge, halfEdge, 0.0f, 0.0f,
+        halfEdge, halfEdge, -halfEdge, 0.0f, 1.0f,
         
         
         //下面
-        -halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
-        -halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
-        halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
-        -halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
-        halfEdge, -halfEdge, -halfEdge, 1.0f, 0.0f,
-        halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
+        -halfEdge, -halfEdge, halfEdge, 0.0f, 0.0f,
+        -halfEdge, -halfEdge, -halfEdge, 1.0f, 1.0f,
+        halfEdge, -halfEdge, -halfEdge, 0.0f, 1.0f,
+        -halfEdge, -halfEdge, halfEdge, 1.0f, 1.0f,
+        halfEdge, -halfEdge, -halfEdge, 0.0f, 0.0f,
+        halfEdge, -halfEdge, halfEdge, 0.0f, 1.0f,
     };
 
     

@@ -154,5 +154,5 @@ void NewScene::addSunAnimate() {
 
 void NewScene::startAnimate() {
     //开始动画
-    animationManagerImpl->startAnimation(1/30.0);
+    animationManagerImpl->startAnimation(1/1000.0);
 }

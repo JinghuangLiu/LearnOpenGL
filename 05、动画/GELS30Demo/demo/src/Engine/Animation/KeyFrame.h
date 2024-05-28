@@ -15,6 +15,7 @@ using namespace xscore;
 
 struct KeyFrame
 {
+    /// 关键帧时间秒
     float keyTime;
     XSVector3  keyPosition;
     XSVector3  keyRotation;

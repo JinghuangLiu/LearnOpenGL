@@ -9,7 +9,6 @@
 
 Animation::Animation(const std::shared_ptr<Object3D> &animTarget) {
     currentTime = 0;
-    index = 0;
     executeIndex = 0;
     isLoopMode = false;
     originScale = animTarget->getScale();
@@ -22,12 +21,12 @@ void Animation::addKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame) {
 }
 
 void Animation::startAnimation() {
-    float time =  1.0 / 30.0;
-    currentTime += time;
-    index += 1;
-    
+    currentTime += 1;
     if (this->isLoopMode) {
-        if (currentTime > keyFrames[keyFrames.size() - 1].keyTime) {
+        if (currentTime > keyFrames[keyFrames.size() - 1].keyTime * 1000) {
+            auto target =  this->animTarget.lock();
+            target->setScale(originScale);
+            target->setPosition(originPosition);
             currentTime = 0;
             executeIndex = 0;
         }
@@ -40,25 +39,32 @@ void Animation::startAnimation() {
 
 void Animation::executeAnimation() {
     auto target =  this->animTarget.lock();
-    float time =  1.0  / 30.0;
+    float time = 1000.0;
+    // 获取当前关键帧
     KeyFrame keyFrame = this->keyFrames[executeIndex];
-    float keyTime = keyFrame.keyTime;
+    /// 转化关键帧时间为毫秒
+    float keyTime = keyFrame.keyTime * time;
+    /// 前一个关键帧缩放增量，默认当前关键帧
     XSVector3 preKeyScale = keyFrame.keyScale * 0.8;
+    /// 前一个关键帧位置
     XSVector3 preKeyPosition = keyFrame.keyPosition;
     if (executeIndex > 0) {
-        keyTime = keyFrame.keyTime - this->keyFrames[executeIndex - 1].keyTime;
+        keyTime = (keyFrame.keyTime - this->keyFrames[executeIndex - 1].keyTime) * time;
         preKeyScale = this->keyFrames[executeIndex - 1].keyScale - keyFrame.keyScale;
         preKeyPosition = this->keyFrames[executeIndex - 1].keyPosition - keyFrame.keyPosition;
     }
-    float zhe = keyTime / time;
-    if (zhe == 0) { return; }
-    XSVector3 keyFrameScale = preKeyScale / zhe;
+    
+    /// 每毫秒帧缩放值
+    XSVector3 keyFrameScale = preKeyScale / keyTime;
+    /// 物体当前缩放
     XSVector3 currentScale = target->getScale();
-    if (currentTime <= keyFrame.keyTime) {
+    /// 判断是否在当前关键帧内
+    if (currentTime <= keyFrame.keyTime * time) {
         XSVector3 preScale = originScale;
         if (executeIndex > 0) {
             preScale = keyFrames[executeIndex - 1].keyScale;
         }
+        /// 当前关键帧大于上一个关键帧则是放大，否值是缩小
         if (keyFrame.keyScale.x > preScale.x) {
             currentScale = currentScale + keyFrameScale;
             if (currentScale.x >= keyFrame.keyScale.x) {
@@ -73,9 +79,9 @@ void Animation::executeAnimation() {
         target->setScale(currentScale);
     }
     
-    XSVector3 keyFramePosition =  preKeyPosition / zhe;
+    XSVector3 keyFramePosition =  preKeyPosition / keyTime;
     XSVector3 currentPosition = target->getPosition();
-    if (currentTime <= keyFrame.keyTime) {
+    if (currentTime <= keyFrame.keyTime * time) {
         XSVector3 prePosition = originPosition;
         if (executeIndex > 0) {
             prePosition = keyFrames[executeIndex - 1].keyPosition;
@@ -88,7 +94,8 @@ void Animation::executeAnimation() {
         target->setPosition(currentPosition);
     }
     
-    if (currentTime >= keyFrame.keyTime) {
+    /// 时间大于关键帧时间则下标+1
+    if (currentTime >= keyFrame.keyTime * time) {
         executeIndex += 1;
     }
 }
