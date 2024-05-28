@@ -20,6 +20,7 @@ public:
     Animation(const std::shared_ptr<Object3D> &animTarget);
     std::vector<KeyFrame>  keyFrames;
     std::weak_ptr<Object3D>   animTarget;
+    //是否循环
     bool  isLoopMode;
     void setKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame);
     void startAnimation();
@@ -30,7 +31,7 @@ private:
     float currentTime;
     int excuteIndex;
     int index;
-    void excuteAnimatio();
+    void excuteAnimation();
 };
 
 #endif /* Animation_hpp */

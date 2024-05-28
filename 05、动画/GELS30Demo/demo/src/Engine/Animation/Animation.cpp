@@ -34,11 +34,11 @@ void Animation::startAnimation() {
     }
     
     if (keyFrames.size() > 0 && excuteIndex < keyFrames.size()) {
-        this->excuteAnimatio();
+        this->excuteAnimation();
     }
 }
 
-void Animation::excuteAnimatio() {
+void Animation::excuteAnimation() {
     auto target =  this->animTarget.lock();
     float time =  1.0  / 30.0;
     KeyFrame keyFrame = this->keyFrames[excuteIndex];

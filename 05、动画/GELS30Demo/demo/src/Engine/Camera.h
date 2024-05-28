@@ -50,13 +50,13 @@ public:
     // 获取缩放系数
     const float getZoom();
 
-    // 相机位置
+    // 获取相机位置
     const XSVector3 &getPosition();
     
-    // 视角矩阵
+    // 获取视角矩阵
     XSMatrix getViewMatrix();
 
-    // 透视投影矩阵
+    // 获取透视投影矩阵
     XSMatrix getProjectionPerspectiveMatrix() const;
 
 private:

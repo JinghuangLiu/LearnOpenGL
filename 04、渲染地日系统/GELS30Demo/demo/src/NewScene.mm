@@ -51,17 +51,21 @@ void NewScene::Begin() {
     
     //将太阳加入场景中
     addComponent(sunObj);
-    //将地球加入到太阳的层级里
-    sunObj->addComponent(earthObj);
-    //将月亮加入到地球的层级
-    earthObj->addComponent(moonObj);
-
     //太阳设置在原点
     sunObj->setPosition(XSVector3(0.0f, 0.0f, 0.0f));
+
+    
+    //将地球加入到太阳的层级里
+    sunObj->addComponent(earthObj);
     //地球相对太阳在X轴的偏移量
     earthObj->setPosition(XSVector3(1.5f, 0.0f, 0.0f));
+    
+    
+    //将月亮加入到地球的层级
+    earthObj->addComponent(moonObj);
     //设置月球相对地球在X轴的偏移量
     moonObj->setPosition(XSVector3(0.5f, 0.0f, 0.0f));
+    
 
     //测试加多个立方体
     cubeObj = make_shared<Cube>(1.0f, sunMaterial);
@@ -79,20 +83,20 @@ void NewScene::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     this->cycleAccumulator += 0.01f;
 
-    //太阳自转 在原点绕着Y轴旋转  速度设置慢一点
+    //太阳自转，在原点绕着Y轴旋转
     XSVector3 temp = this->sunObj->getRotation();
-    temp.y += 0.05f;
+    temp.y += 0.005f;
     this->sunObj->setRotation(temp);
 
-    //地球自转 在原点绕着Y轴旋转 速度
+    //地球自转，在原点绕着Y轴旋转
     //如果不设置，由于地球也继承了太阳的矩阵，自身又有偏移量。地球在原点旋转，地球也会做旋转（绕地球）
     temp = this->earthObj->getRotation();
-    temp.y += 0.1f;
+    temp.y += 0.01f;
     this->earthObj->setRotation(temp);
 
-    //月亮自转 在原点绕着Y轴旋转 速度
+    //月亮自转，在原点绕着Y轴旋转
     temp = this->moonObj->getRotation();
-    temp.x += 0.2f;
+    temp.x += 0.02f;
     this->moonObj->setRotation(temp);
 
     Object3D::RecursiveLoop(proj, cam, parent);

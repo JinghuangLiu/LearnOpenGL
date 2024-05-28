@@ -128,23 +128,31 @@ void NewScene::End() {
 
 
 void NewScene::addSunAnimate() {
+    
+    //创建动画
     shared_ptr<Animation> animate = make_shared<Animation>(sunObj);
-    shared_ptr<KeyFrame> keyFrame = make_shared<KeyFrame>();
-    keyFrame->keyScale = XSVector3(5.0f, 5.0f, 5.0f);
-    keyFrame->keyTime = 10;
-    keyFrame->keyPosition = XSVector3(2.0f, 2.0f, 2.0f);
-    animate->setKeyFrame(keyFrame);
     
+    //开始关键帧
+    shared_ptr<KeyFrame> beginKF = make_shared<KeyFrame>();
+    beginKF->keyScale = XSVector3(5.0f, 5.0f, 5.0f);
+    beginKF->keyTime = 10;
+    beginKF->keyPosition = XSVector3(0.0f, 0.0f, 2.0f);
+    animate->setKeyFrame(beginKF);
     
-    shared_ptr<KeyFrame> keyFrame1 = make_shared<KeyFrame>();
-    keyFrame1->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
-    keyFrame1->keyTime = 20;
-    keyFrame1->keyPosition = XSVector3(0.0f, 0.0f, 0.0f);
-    animate->setKeyFrame(keyFrame1);
+    //结束关键帧
+    shared_ptr<KeyFrame> endKF = make_shared<KeyFrame>();
+    endKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
+    endKF->keyTime = 20;
+    endKF->keyPosition = XSVector3(0.0f, 0.0f, 0.0f);
+    
+    animate->setKeyFrame(endKF);
     animate->isLoopMode = true;
+    
+    //添加动画
     animationManagerImpl->addAnimaton(animate);
 }
 
 void NewScene::startAnimate() {
+    //开始动画
     animationManagerImpl->startAnimation(1/30.0);
 }
