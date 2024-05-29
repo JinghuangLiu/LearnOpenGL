@@ -135,6 +135,7 @@ void NewScene::addSunAnimate() {
     //开始关键帧
     shared_ptr<KeyFrame> beginKF = make_shared<KeyFrame>();
     beginKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
+    beginKF->keyPosition = sunObj->getPosition();
     beginKF->keyTime = 5;
     beginKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
     animate->addKeyFrame(beginKF);
@@ -144,20 +145,33 @@ void NewScene::addSunAnimate() {
     endKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
     endKF->keyTime = 10;
     endKF->keyRotation = XSVector3(0.0f, 0, 0.0f);
+    endKF->keyPosition = sunObj->getPosition();
     animate->addKeyFrame(endKF);
     animate->isLoopMode = true;
     
     //添加动画
     animationManagerImpl->addAnimaton(animate);
     
-//    shared_ptr<Animation> animate1 = make_shared<Animation>(earthObj);
-//    shared_ptr<KeyFrame> beginKF1 = make_shared<KeyFrame>();
-//    beginKF1->keyScale = XSVector3(2.0f, 2.0f, 2.0f);
-//    beginKF1->keyTime = 5;
-//    beginKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
-//    animate1->addKeyFrame(beginKF1);
-//    animate1->isLoopMode = true;
-//    animationManagerImpl->addAnimaton(animate1);
+    shared_ptr<Animation> earthAnimate = make_shared<Animation>(earthObj);
+    shared_ptr<KeyFrame> earthKeyFrame = make_shared<KeyFrame>();
+    earthKeyFrame->keyScale = XSVector3(2.0f, 2.0f, 2.0f);
+    earthKeyFrame->keyTime = 5;
+    earthKeyFrame->keyPosition = earthObj->getPosition();
+    earthKeyFrame->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
+    earthAnimate->addKeyFrame(earthKeyFrame);
+    earthAnimate->isLoopMode = true;
+    animationManagerImpl->addAnimaton(earthAnimate);
+    
+    
+    shared_ptr<Animation> moonAnimate = make_shared<Animation>(moonObj);
+    shared_ptr<KeyFrame> moonkeyFrame = make_shared<KeyFrame>();
+    moonkeyFrame->keyScale = XSVector3(2.0f, 2.0f, 2.0f);
+    moonkeyFrame->keyTime = 5;
+    moonkeyFrame->keyPosition = moonObj->getPosition();
+    moonkeyFrame->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
+    moonAnimate->addKeyFrame(moonkeyFrame);
+    moonAnimate->isLoopMode = true;
+    animationManagerImpl->addAnimaton(moonAnimate);
 }
 
 void NewScene::startAnimate() {
