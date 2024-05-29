@@ -30,7 +30,7 @@ void Animation::startAnimation() {
             auto target =  this->animTarget.lock();
             target->setScale(originScale);
             target->setPosition(originPosition);
-            target->setPosition(originRotation);
+            target->setRotation(originRotation);
             currentTime = 0;
             executeIndex = 0;
         }
