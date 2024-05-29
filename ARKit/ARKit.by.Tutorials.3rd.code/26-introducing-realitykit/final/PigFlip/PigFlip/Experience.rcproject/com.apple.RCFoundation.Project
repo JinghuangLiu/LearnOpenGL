@@ -1,0 +1,400 @@
+{
+  "__content" : [
+    {
+      "scenes" : [
+        {
+          "__content" : [
+            {
+              "arAnchorSpecification" : {
+                "alignment" : "horizontal",
+                "name" : "surface"
+              },
+              "behaviors" : [
+
+              ],
+              "gravity" : [
+                0,
+                -9.8000001907348633,
+                0
+              ],
+              "hasGroundPlane" : true,
+              "identifier" : "F9610871-0955-494F-A5C3-51D1A281BAB3",
+              "material" : "concrete",
+              "overrides" : {
+                "children" : {
+                  "4A213441-135C-450E-8EF8-1A4EAB267C1D" : {
+                    "overrides" : {
+                      "arguments" : [
+                        [
+                          "material",
+                          {
+                            "typeName" : "String",
+                            "value" : "steel"
+                          }
+                        ],
+                        [
+                          "type",
+                          {
+                            "typeName" : "String",
+                            "value" : "box"
+                          }
+                        ]
+                      ],
+                      "factory" : {
+                        "identifier" : "com.apple.rc.af.CoreAssetFactories.PrimitiveShapeAssetFactory",
+                        "version" : "1.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "3788A5B5-0388-488A-8304-7B90FEBA6FAC"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "Steel Box"
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0.05000000074505806,
+                        0,
+                        1
+                      ]
+                    }
+                  },
+                  "7F5F1ADC-E5E4-4EF5-A5B5-FC43B071FFA5" : null,
+                  "632E476F-1E55-4E30-9723-1C51DD2E8B89" : null,
+                  "B91C7CA3-4AB1-4253-9A84-07383168A8A8" : null,
+                  "CEF5793B-C313-4092-91EC-737A4193F6C3" : null
+                },
+                "factory" : null
+              },
+              "title" : "Box",
+              "viewTransform" : {
+                "cameraTransform" : [
+                  0.99999994039535522,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.80754858255386353,
+                  -0.58980095386505127,
+                  0,
+                  0,
+                  0.58980095386505127,
+                  0.80754858255386353,
+                  0,
+                  0.019920945167541504,
+                  1.1508636474609375,
+                  1.543843150138855,
+                  1
+                ],
+                "sceneTransform" : [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.99999994039535522,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.99999994039535522,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              }
+            }
+          ],
+          "__version" : 4
+        },
+        {
+          "__content" : [
+            {
+              "arAnchorSpecification" : {
+                "alignment" : "horizontal",
+                "name" : "surface"
+              },
+              "behaviors" : [
+                {
+                  "__content" : [
+                    {
+                      "actionGroups" : [
+                        {
+                          "__content" : [
+                            {
+                              "configurations" : [
+                                {
+                                  "__content" : [
+                                    {
+                                      "configurationBox" : {
+                                        "configuration" : {
+                                          "animationStyle" : "basic",
+                                          "duration" : 1.0299999713897705,
+                                          "emphasisAnimationType" : "flip",
+                                          "iterations" : 1,
+                                          "target" : [
+                                            "82E7919F-D0EF-42F1-A1F3-2A15C473FF3A"
+                                          ]
+                                        },
+                                        "name" : {
+                                          "type" : "emphasis"
+                                        }
+                                      },
+                                      "identifier" : "D21A88A9-F00A-4F47-83E0-7A3891125056",
+                                      "isEnabled" : true
+                                    }
+                                  ],
+                                  "__version" : 1
+                                }
+                              ],
+                              "identifier" : "F517C03E-78BB-4D59-97F5-A7BA54C69C5F",
+                              "isEnabled" : true
+                            }
+                          ],
+                          "__version" : 1
+                        }
+                      ],
+                      "color" : [
+                        0.364705890417099,
+                        0.74117648601531982,
+                        0.69019609689712524,
+                        1
+                      ],
+                      "identifier" : "04C558B6-6D4E-4511-8120-428CABA9512C",
+                      "isEnabled" : true,
+                      "isLooping" : false,
+                      "isModal" : false,
+                      "name" : "Behaviour",
+                      "triggers" : [
+                        {
+                          "__content" : [
+                            {
+                              "configurationBox" : {
+                                "configuration" : {
+                                  "target" : [
+                                    "82E7919F-D0EF-42F1-A1F3-2A15C473FF3A"
+                                  ]
+                                },
+                                "name" : "tapTarget"
+                              },
+                              "identifier" : "FD734EEC-32C0-41EC-AAA9-D34AE4A00913",
+                              "isEnabled" : true
+                            }
+                          ],
+                          "__version" : 1
+                        }
+                      ]
+                    }
+                  ],
+                  "__version" : 2
+                }
+              ],
+              "gravity" : [
+                0,
+                -9.8000001907348633,
+                0
+              ],
+              "hasGroundPlane" : true,
+              "identifier" : "B4852E62-9BC7-455B-9605-F1061FD20C16",
+              "material" : "concrete",
+              "overrides" : {
+                "children" : {
+                  "D240F140-89E1-4AD9-BFD9-A932F3BF3FB9" : {
+                    "overrides" : {
+                      "children" : {
+                        "USDScene" : {
+                          "overrides" : {
+                            "arguments" : [
+                              [
+                                "includeSceneScaling",
+                                {
+                                  "typeName" : "Bool",
+                                  "value" : false
+                                }
+                              ],
+                              [
+                                "subpath",
+                                {
+                                  "typeName" : "String",
+                                  "value" : ""
+                                }
+                              ],
+                              [
+                                "url",
+                                {
+                                  "typeName" : "String",
+                                  "value" : "model:84b00e1ce6bbec2d0c00765fc83e4577\/Pig.usdz"
+                                }
+                              ],
+                              [
+                                "withDescendants",
+                                {
+                                  "typeName" : "Bool",
+                                  "value" : true
+                                }
+                              ]
+                            ],
+                            "factory" : {
+                              "identifier" : "com.apple.af.FileImportAssetFactory",
+                              "version" : "0.0"
+                            },
+                            "runtimeAttributes" : [
+                              [
+                                "RuntimeIdentifier",
+                                {
+                                  "typeName" : "UUID",
+                                  "value" : "9F844340-D707-41DB-A71B-1EEB02EEB269"
+                                }
+                              ]
+                            ]
+                          },
+                          "transform" : {
+                            "matrix" : [
+                              0.0099999997764825821,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0.0099999997764825821,
+                              0,
+                              0,
+                              0,
+                              0,
+                              0.0099999997764825821,
+                              0,
+                              0,
+                              0,
+                              0,
+                              1
+                            ]
+                          }
+                        }
+                      },
+                      "factory" : {
+                        "identifier" : "com.apple.af.Group",
+                        "version" : "0.0"
+                      },
+                      "runtimeAttributes" : [
+                        [
+                          "RuntimeIdentifier",
+                          {
+                            "typeName" : "UUID",
+                            "value" : "82E7919F-D0EF-42F1-A1F3-2A15C473FF3A"
+                          }
+                        ],
+                        [
+                          "entityName",
+                          {
+                            "typeName" : "String",
+                            "value" : "Pig"
+                          }
+                        ]
+                      ]
+                    },
+                    "transform" : {
+                      "matrix" : [
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1,
+                        0,
+                        0,
+                        0,
+                        0,
+                        1
+                      ]
+                    }
+                  }
+                },
+                "factory" : null
+              },
+              "title" : "Pig",
+              "viewTransform" : {
+                "cameraTransform" : [
+                  0.99999994039535522,
+                  0,
+                  -0,
+                  0,
+                  -0,
+                  0.8899117112159729,
+                  -0.45613270998001099,
+                  0,
+                  0,
+                  0.45613270998001099,
+                  0.8899117112159729,
+                  0,
+                  0.1885886937379837,
+                  0.8642393946647644,
+                  1.4849863052368164,
+                  1
+                ],
+                "sceneTransform" : [
+                  1,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.99999994039535522,
+                  0,
+                  0,
+                  0,
+                  0,
+                  0.99999994039535522,
+                  0,
+                  0,
+                  0,
+                  0,
+                  1
+                ]
+              }
+            }
+          ],
+          "__version" : 4
+        }
+      ],
+      "tags" : {
+        "__content" : [
+          {
+            "tagsStore" : {
+
+            }
+          }
+        ],
+        "__version" : 1
+      }
+    }
+  ],
+  "__version" : 1
+}
