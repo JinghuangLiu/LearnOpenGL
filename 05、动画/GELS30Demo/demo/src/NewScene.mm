@@ -103,18 +103,18 @@ void NewScene::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
     this->cycleAccumulator += 0.01f;
 
     //太阳自转 在原点绕着Y轴旋转  速度设置慢一点
-    XSVector3 temp = this->sunObj->getRotation();
+//    XSVector3 temp = this->sunObj->getRotation();
 //    temp.y += 0.05f;
 //    this->sunObj->setRotation(temp);
 
     //地球自转 在原点绕着Y轴旋转 速度
     //如果不设置，由于地球也继承了太阳的矩阵，自身又有偏移量。地球在原点旋转，地球也会做旋转（绕地球）
-    temp = this->earthObj->getRotation();
+//    temp = this->earthObj->getRotation();
 //    temp.y += 0.1f;
 //    this->earthObj->setRotation(temp);
 
     //月亮自转 在原点绕着Y轴旋转 速度
-    temp = this->moonObj->getRotation();
+//    temp = this->moonObj->getRotation();
 //    temp.x += 0.2f;
 //    this->moonObj->setRotation(temp);
 

@@ -18,13 +18,11 @@ using namespace std;
 @interface AnimationManager : NSObject {
     vector<shared_ptr<Animation>> animations;
 }
-    
-    
-- (void)addAnimaton:(shared_ptr<Animation>&)anim;
-    
-- (void)loopOnce:(float)deltaTime; //动画总的驱动入口
 
-    
+- (void)addAnimaton:(shared_ptr<Animation>&)anim;
+
+//动画总的驱动入口
+- (void)loopOnce:(float)deltaTime;
 
 
 @end

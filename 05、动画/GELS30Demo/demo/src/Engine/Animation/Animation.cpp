@@ -8,6 +8,7 @@
 #include "Animation.h"
 
 Animation::Animation(const std::shared_ptr<Object3D> &animTarget) {
+    //初始值
     currentTime = 0;
     executeIndex = 0;
     isLoopMode = false;

@@ -32,7 +32,6 @@
     for (std::shared_ptr<Animation> &animation : self->animations) {
         animation->startAnimation();
     }
-
 }
 
 - (void)onTimerStart:(NXTimer *)timer { 
