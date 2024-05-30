@@ -102,18 +102,18 @@ void NewScene::Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
 {
     this->cycleAccumulator += 0.01f;
 
-    //太阳自转 在原点绕着Y轴旋转  速度设置慢一点
+    //太阳自转，在原点绕着Y轴旋转
 //    XSVector3 temp = this->sunObj->getRotation();
 //    temp.y += 0.05f;
 //    this->sunObj->setRotation(temp);
 
-    //地球自转 在原点绕着Y轴旋转 速度
+    //地球自转，在原点绕着Y轴旋转
     //如果不设置，由于地球也继承了太阳的矩阵，自身又有偏移量。地球在原点旋转，地球也会做旋转（绕地球）
 //    temp = this->earthObj->getRotation();
 //    temp.y += 0.1f;
 //    this->earthObj->setRotation(temp);
 
-    //月亮自转 在原点绕着Y轴旋转 速度
+    //月亮自转，在原点绕着Y轴旋转
 //    temp = this->moonObj->getRotation();
 //    temp.x += 0.2f;
 //    this->moonObj->setRotation(temp);
@@ -129,49 +129,49 @@ void NewScene::End() {
 
 void NewScene::addSunAnimate() {
     
-    //创建动画
-    shared_ptr<Animation> animate = make_shared<Animation>(sunObj);
-    
-    //开始关键帧
-    shared_ptr<KeyFrame> beginKF = make_shared<KeyFrame>();
-    beginKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
-    beginKF->keyPosition = sunObj->getPosition();
-    beginKF->keyTime = 5;
-    beginKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
-    animate->addKeyFrame(beginKF);
-    
-    //结束关键帧
-    shared_ptr<KeyFrame> endKF = make_shared<KeyFrame>();
-    endKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
-    endKF->keyTime = 10;
-    endKF->keyRotation = XSVector3(0.0f, 0, 0.0f);
-    endKF->keyPosition = sunObj->getPosition();
-    animate->addKeyFrame(endKF);
-    animate->isLoopMode = true;
-    
+    //1、🌞创建太阳的动画
+    shared_ptr<Animation> sunAnimation = make_shared<Animation>(sunObj);
+    sunAnimation->isLoopMode = true;
+    //添加关键帧
+    shared_ptr<KeyFrame> sunKF = make_shared<KeyFrame>();
+    sunKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
+    sunKF->keyPosition = sunObj->getPosition();
+    sunKF->keyTime = 5;
+    sunKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
+    sunAnimation->addKeyFrame(sunKF);
+//    //添加关键帧
+//    shared_ptr<KeyFrame> sunSecondKF = make_shared<KeyFrame>();
+//    sunSecondKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
+//    sunSecondKF->keyTime = 10;
+//    sunSecondKF->keyRotation = XSVector3(0.0f, 0, 0.0f);
+//    sunSecondKF->keyPosition = sunObj->getPosition();
+//    sunAnimation->addKeyFrame(sunSecondKF);
     //添加动画
-    animationManagerImpl->addAnimaton(animate);
+    animationManagerImpl->addAnimaton(sunAnimation);
     
-    shared_ptr<Animation> earthAnimate = make_shared<Animation>(earthObj);
-    shared_ptr<KeyFrame> earthKeyFrame = make_shared<KeyFrame>();
-    earthKeyFrame->keyScale = XSVector3(2.0f, 2.0f, 2.0f);
-    earthKeyFrame->keyTime = 5;
-    earthKeyFrame->keyPosition = earthObj->getPosition();
-    earthKeyFrame->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
-    earthAnimate->addKeyFrame(earthKeyFrame);
-    earthAnimate->isLoopMode = true;
-    animationManagerImpl->addAnimaton(earthAnimate);
+    //2、🌍创建地球的动画
+    shared_ptr<Animation> earthAnimation = make_shared<Animation>(earthObj);
+    earthAnimation->isLoopMode = true;
+    //添加关键帧
+    shared_ptr<KeyFrame> earthKF = make_shared<KeyFrame>();
+    earthKF->keyScale = XSVector3(2.0f, 2.0f, 2.0f);
+    earthKF->keyTime = 5;
+    earthKF->keyPosition = earthObj->getPosition();
+    earthKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
+    earthAnimation->addKeyFrame(earthKF);
+    animationManagerImpl->addAnimaton(earthAnimation);
     
-    
-    shared_ptr<Animation> moonAnimate = make_shared<Animation>(moonObj);
-    shared_ptr<KeyFrame> moonkeyFrame = make_shared<KeyFrame>();
-    moonkeyFrame->keyScale = XSVector3(2.0f, 2.0f, 2.0f);
-    moonkeyFrame->keyTime = 5;
-    moonkeyFrame->keyPosition = moonObj->getPosition();
-    moonkeyFrame->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
-    moonAnimate->addKeyFrame(moonkeyFrame);
-    moonAnimate->isLoopMode = true;
-    animationManagerImpl->addAnimaton(moonAnimate);
+    //3、🌕创建月球的动画
+    shared_ptr<Animation> moonAnimation = make_shared<Animation>(moonObj);
+    moonAnimation->isLoopMode = true;
+    //添加关键帧
+    shared_ptr<KeyFrame> moonKF = make_shared<KeyFrame>();
+    moonKF->keyScale = XSVector3(2.0f, 2.0f, 2.0f);
+    moonKF->keyTime = 5;
+    moonKF->keyPosition = moonObj->getPosition();
+    moonKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
+    moonAnimation->addKeyFrame(moonKF);
+    animationManagerImpl->addAnimaton(moonAnimation);
 }
 
 void NewScene::startAnimate() {
