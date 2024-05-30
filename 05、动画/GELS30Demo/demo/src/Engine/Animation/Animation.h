@@ -19,33 +19,32 @@ class Animation
 public:
     Animation(const std::shared_ptr<Object3D> &animTarget);
     
-    //关键帧
+    //关键帧数组
     std::vector<KeyFrame> keyFrames;
-    
+
     //作用对象
     std::weak_ptr<Object3D> animTarget;
     
     //是否循环
-    bool  isLoopMode;
-    
-    //设置关键帧
-    void addKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame);
+    bool isLoopMode;
     
     //添加关键帧
+    void addKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame);
+    
+    //开始执行动画
     void startAnimation();
     
 private:
-    //初始比例
+    //初始比例、位置、旋转值
     XSVector3 originScale;
-    //初始位置
     XSVector3 originPosition;
-    ///初始位置
     XSVector3 originRotation;
-    /// 当前时长毫秒
+    
+    //当前时长（毫秒）
     float currentTime;
-    /// 当前执行关键帧下标
+    //当前执行关键帧下标
     int executeIndex;
-    /// 执行动画
+    //执行动画
     void executeAnimation();
 };
 

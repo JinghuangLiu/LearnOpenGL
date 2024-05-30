@@ -26,7 +26,7 @@ void Animation::startAnimation() {
     currentTime += 1;
     if (this->isLoopMode) {
         //如果当前时间大于最后一个关键帧时间则恢复初始值
-        if (currentTime > keyFrames[keyFrames.size() - 1].keyTime * 1000) {
+        if (currentTime > keyFrames[keyFrames.size() - 1].keyTime) {
             auto target =  this->animTarget.lock();
             target->setScale(originScale);
             target->setPosition(originPosition);
