@@ -139,13 +139,6 @@ void NewScene::addAnimation() {
     sunKF->keyTime = 10000;
     sunKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
     sunAnimation->addKeyFrame(sunKF);
-    //添加关键帧
-//    shared_ptr<KeyFrame> sunSecondKF = make_shared<KeyFrame>();
-//    sunSecondKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
-//    sunSecondKF->keyTime = 10;
-//    sunSecondKF->keyRotation = XSVector3(0.0f, 0, 0.0f);
-//    sunSecondKF->keyPosition = sunObj->getPosition();
-//    sunAnimation->addKeyFrame(sunSecondKF);
     //添加动画
     animationManagerImpl->addAnimaton(sunAnimation);
     
