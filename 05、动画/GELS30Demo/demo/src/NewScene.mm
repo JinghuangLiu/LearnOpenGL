@@ -136,7 +136,7 @@ void NewScene::addAnimation() {
     shared_ptr<KeyFrame> sunKF = make_shared<KeyFrame>();
     sunKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
     sunKF->keyPosition = sunObj->getPosition();
-    sunKF->keyTime = 5000;
+    sunKF->keyTime = 10000;
     sunKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
     sunAnimation->addKeyFrame(sunKF);
     //添加关键帧
@@ -155,7 +155,7 @@ void NewScene::addAnimation() {
     //添加关键帧
     shared_ptr<KeyFrame> earthKF = make_shared<KeyFrame>();
     earthKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
-    earthKF->keyTime = 5000;
+    earthKF->keyTime = 10000;
     earthKF->keyPosition = earthObj->getPosition();
     earthKF->keyRotation = XSVector3(0.0f, 5*360.0 * M_PI / 180.0, 0.0f);
     earthAnimation->addKeyFrame(earthKF);
@@ -167,7 +167,7 @@ void NewScene::addAnimation() {
     //添加关键帧
     shared_ptr<KeyFrame> moonKF = make_shared<KeyFrame>();
     moonKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
-    moonKF->keyTime = 5000;
+    moonKF->keyTime = 10000;
     moonKF->keyPosition = moonObj->getPosition();
     moonKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
     moonAnimation->addKeyFrame(moonKF);
