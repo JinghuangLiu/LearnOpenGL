@@ -47,8 +47,9 @@ void Animation::startAnimation() {
     
     currentTime += 1;
     if (this->isLoopMode) {
-        //如果当前时间大于最后一个关键帧时间则恢复初始值
+        //如果当前时间大于最后一个关键帧时间，则恢复初始值
         if (currentTime > keyFrames[keyFrames.size() - 1].keyTime) {
+            std::cout << "当前时间大于最后一个关键帧时间，恢复初始值" << std::endl;
             std::shared_ptr<Object3D> target = this->animTarget.lock();
             target->setScale(originScale);
             target->setPosition(originPosition);
