@@ -27,7 +27,7 @@ void Animation::startAnimation() {
     if (this->isLoopMode) {
         //如果当前时间大于最后一个关键帧时间则恢复初始值
         if (currentTime > keyFrames[keyFrames.size() - 1].keyTime) {
-            auto target =  this->animTarget.lock();
+            std::shared_ptr<Object3D> target = this->animTarget.lock();
             target->setScale(originScale);
             target->setPosition(originPosition);
             target->setRotation(originRotation);
@@ -44,18 +44,21 @@ void Animation::startAnimation() {
 
 void Animation::executeAnimation() {
     
-    auto target =  this->animTarget.lock();
+    auto target = this->animTarget.lock();
     
     //1、获取当前关键帧
     KeyFrame keyFrame = this->keyFrames[executeIndex];
     float keyTime = keyFrame.keyTime;
+    if (keyTime <= 0) {
+        return;
+    }
     
     //2、计算关键帧缩放、位置、旋转值增量
     XSVector3 additionKeyScale;
     XSVector3 additionKeyPosition;
     XSVector3 additionKeyRotation;
     if (executeIndex > 0) {
-        //不是第一个关键帧：当前关键帧减去上一个关键帧，除于关键帧间隔时间，计算出时间差值
+        //不是第一个关键帧：当前关键帧减去上一个关键帧，计算两关键帧之间的增量
         keyTime = (keyFrame.keyTime - this->keyFrames[executeIndex - 1].keyTime);
         additionKeyScale = keyFrame.keyScale - this->keyFrames[executeIndex - 1].keyScale;
         additionKeyPosition = keyFrame.keyPosition - this->keyFrames[executeIndex - 1].keyPosition;
@@ -67,16 +70,8 @@ void Animation::executeAnimation() {
         additionKeyRotation = keyFrame.keyRotation - originRotation;
     }
     
-    //角度往同一个方向旋转
-    if (additionKeyRotation.y < 0) {
-        additionKeyRotation.y = -additionKeyRotation.y;
-    }
-    //关键帧时间小于0 则返回
-    if (keyTime <= 0) {
-        return;
-    }
-    
-    //3、把缩放、位置、旋转值新增的数值，赋给接口
+    //3、把缩放、位置、旋转的原始值加上增值，赋给接口
+    //3.1、缩放
     //每毫秒的缩放增值
     XSVector3 keyFrameScale = additionKeyScale / keyTime;
     //物体当前缩放
@@ -85,26 +80,31 @@ void Animation::executeAnimation() {
     if (currentTime <= keyFrame.keyTime) {
         //当前的量=原来的量+增量
         currentScale = currentScale + keyFrameScale;
+        //设置给接口
         target->setScale(currentScale);
     }
     
+    //3.2、旋转
     //每毫秒的旋转增值
     XSVector3 keyFrameRotation =  additionKeyRotation / keyTime;
     XSVector3 currentRotation = target->getRotation();
     if (currentTime <= keyFrame.keyTime) {
         currentRotation.y = currentRotation.y + keyFrameRotation.y;
+        //设置给接口
         target->setRotation(currentRotation);
     }
     
+    //3.3、位置
     //每毫秒的位置增值
     XSVector3 keyFramePosition =  additionKeyPosition / keyTime;
     XSVector3 currentPosition = target->getPosition();
     if (currentTime <= keyFrame.keyTime) {
         currentPosition = currentPosition + keyFramePosition;
+        //设置给接口
         target->setPosition(currentPosition);
     }
     
-    //当时间大于关键帧时间，则下标+1，进入下一个关键帧（如果还有的话）
+    //当时间大于关键帧时间，则下标+1，进入下一个关键帧
     if (currentTime >= keyFrame.keyTime) {
         executeIndex += 1;
     }
