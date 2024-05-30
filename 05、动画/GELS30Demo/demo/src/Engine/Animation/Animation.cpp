@@ -36,7 +36,7 @@ void Animation::startAnimation() {
         }
     }
     
-    //有关键帧则执行动画
+    //有关键帧且还在关键帧数组范围内，则执行动画
     if (keyFrames.size() > 0 && executeIndex < keyFrames.size()) {
         this->executeAnimation();
     }
@@ -48,8 +48,7 @@ void Animation::executeAnimation() {
     
     //1、获取当前关键帧
     KeyFrame keyFrame = this->keyFrames[executeIndex];
-    float time = 1000.0;
-    float keyTime = keyFrame.keyTime * time;
+    float keyTime = keyFrame.keyTime;
     
     //2、计算关键帧缩放、位置、旋转值增量
     XSVector3 additionKeyScale;
@@ -57,7 +56,7 @@ void Animation::executeAnimation() {
     XSVector3 additionKeyRotation;
     if (executeIndex > 0) {
         //不是第一个关键帧：当前关键帧减去上一个关键帧，除于关键帧间隔时间，计算出时间差值
-        keyTime = (keyFrame.keyTime - this->keyFrames[executeIndex - 1].keyTime) * time;
+        keyTime = (keyFrame.keyTime - this->keyFrames[executeIndex - 1].keyTime);
         additionKeyScale = keyFrame.keyScale - this->keyFrames[executeIndex - 1].keyScale;
         additionKeyPosition = keyFrame.keyPosition - this->keyFrames[executeIndex - 1].keyPosition;
         additionKeyRotation = keyFrame.keyRotation - this->keyFrames[executeIndex - 1].keyRotation;
@@ -83,7 +82,7 @@ void Animation::executeAnimation() {
     //物体当前缩放
     XSVector3 currentScale = target->getScale();
     //判断是否在当前关键帧内
-    if (currentTime <= keyFrame.keyTime * time) {
+    if (currentTime <= keyFrame.keyTime) {
         //当前的量=原来的量+增量
         currentScale = currentScale + keyFrameScale;
         target->setScale(currentScale);
@@ -92,7 +91,7 @@ void Animation::executeAnimation() {
     //每毫秒的旋转增值
     XSVector3 keyFrameRotation =  additionKeyRotation / keyTime;
     XSVector3 currentRotation = target->getRotation();
-    if (currentTime <= keyFrame.keyTime * time) {
+    if (currentTime <= keyFrame.keyTime) {
         currentRotation.y = currentRotation.y + keyFrameRotation.y;
         target->setRotation(currentRotation);
     }
@@ -100,13 +99,13 @@ void Animation::executeAnimation() {
     //每毫秒的位置增值
     XSVector3 keyFramePosition =  additionKeyPosition / keyTime;
     XSVector3 currentPosition = target->getPosition();
-    if (currentTime <= keyFrame.keyTime * time) {
+    if (currentTime <= keyFrame.keyTime) {
         currentPosition = currentPosition + keyFramePosition;
         target->setPosition(currentPosition);
     }
     
     //当时间大于关键帧时间，则下标+1，进入下一个关键帧（如果还有的话）
-    if (currentTime >= keyFrame.keyTime * time) {
+    if (currentTime >= keyFrame.keyTime) {
         executeIndex += 1;
     }
 }
