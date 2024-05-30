@@ -6,6 +6,7 @@
 //
 
 #include "Animation.h"
+#include <ctime>
 
 Animation::Animation(const std::shared_ptr<Object3D> &animTarget) {
     //初始值
@@ -22,7 +23,28 @@ void Animation::addKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame) {
     keyFrames.push_back(*keyFrame);
 }
 
+void printTime() {
+    // 获取当前时间点
+    std::time_t now = std::time(nullptr);
+    
+    // 转换为本地时间
+    std::tm* localTime = std::localtime(&now);
+    
+    // 打印本地时间
+    std::cout << "Current local time: "
+              << (localTime->tm_year + 1900) << '-'
+              << (localTime->tm_mon + 1) << '-'
+              << localTime->tm_mday << ' '
+              << localTime->tm_hour << ':'
+              << localTime->tm_min << ':'
+              << localTime->tm_sec
+              << std::endl;
+}
+
 void Animation::startAnimation() {
+    
+    printTime();
+    
     currentTime += 1;
     if (this->isLoopMode) {
         //如果当前时间大于最后一个关键帧时间则恢复初始值

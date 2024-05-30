@@ -127,7 +127,7 @@ void NewScene::End() {
 }
 
 
-void NewScene::addSunAnimate() {
+void NewScene::addAnimation() {
     
     //1、🌞创建太阳的动画
     shared_ptr<Animation> sunAnimation = make_shared<Animation>(sunObj);
@@ -174,7 +174,7 @@ void NewScene::addSunAnimate() {
     animationManagerImpl->addAnimaton(moonAnimation);
 }
 
-void NewScene::startAnimate() {
+void NewScene::startAnimation() {
     //开始动画
     animationManagerImpl->startAnimation(1/1000.0);
 }

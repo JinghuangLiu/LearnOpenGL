@@ -21,16 +21,17 @@ void Object3D::RecursiveLoop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent)
     this->mObjMatrix.applyRotateZLeft(mRotation.z);
     this->mObjMatrix.applyTranslateLeft(mPosition.x, mPosition.y, mPosition.z);
 
-    XSMatrix combination;
-    XSMatrix::multiply(combination, parent, mObjMatrix);
+    //相对子系统
+    XSMatrix subParent;
+    XSMatrix::multiply(subParent, parent, mObjMatrix);
     
     //当前对象的矩阵变化
-    OnLoopOnce(proj, cam, combination);
+    OnLoopOnce(proj, cam, subParent);
 
     //所有子对象，更新变换矩阵
     for (shared_ptr<Object3D>& component: components)
     {
-        component->RecursiveLoop(proj, cam, combination);
+        component->RecursiveLoop(proj, cam, subParent);
     }
 }
 

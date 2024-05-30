@@ -17,7 +17,7 @@ void NativeRender::create(int width, int height) {
     //begin阶段
     this->worldObj->Begin();
     
-    this->worldObj->addSunAnimate();
+    this->worldObj->addAnimation();
 
 }
 
@@ -43,7 +43,7 @@ void NativeRender::drawFrame()
     //world的parent矩阵是原点
     XSMatrix parent;
     
-    this->worldObj->startAnimate();
+    this->worldObj->startAnimation();
     
     this->worldObj->Loop(proj, view, parent);
 

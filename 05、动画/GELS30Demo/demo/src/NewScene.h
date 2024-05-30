@@ -41,8 +41,8 @@ public:
     void Begin();
     void Loop(XSMatrix &proj, XSMatrix &cam, XSMatrix &parent);
     void End();
-    void addSunAnimate();
-    void startAnimate();
+    void addAnimation();
+    void startAnimation();
 };
 
 
