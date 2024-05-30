@@ -23,7 +23,7 @@ void Animation::addKeyFrame(const std::shared_ptr<KeyFrame>& keyFrame) {
     keyFrames.push_back(*keyFrame);
 }
 
-void printTime() {
+void printCurrentDateTime() {
     // 获取当前时间点
     std::time_t now = std::time(nullptr);
     
@@ -43,7 +43,7 @@ void printTime() {
 
 void Animation::startAnimation() {
     
-    printTime();
+//    printCurrentDateTime();
     
     currentTime += 1;
     if (this->isLoopMode) {
