@@ -112,7 +112,7 @@ void Animation::executeAnimation() {
     XSVector3 keyFrameRotation =  additionKeyRotation / keyTime;
     XSVector3 currentRotation = target->getRotation();
     if (currentTime <= keyFrame.keyTime) {
-        currentRotation.y = currentRotation.y + keyFrameRotation.y;
+        currentRotation = currentRotation + keyFrameRotation;
         //设置给接口
         target->setRotation(currentRotation);
     }

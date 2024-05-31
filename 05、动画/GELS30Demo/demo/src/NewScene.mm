@@ -137,7 +137,7 @@ void NewScene::addAnimation() {
     sunKF->keyScale = XSVector3(1.0f, 1.0f, 1.0f);
     sunKF->keyPosition = sunObj->getPosition();
     sunKF->keyTime = 10000;
-    sunKF->keyRotation = XSVector3(0.0f, 360.0 * M_PI / 180.0, 0.0f);
+    sunKF->keyRotation = XSVector3(0.0f, 0, 360.0 * M_PI / 180.0);
     sunAnimation->addKeyFrame(sunKF);
     //添加动画
     animationManagerImpl->addAnimaton(sunAnimation);
